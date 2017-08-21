@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>整体页面</title>
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+
+    <!--放头部的数据-->
+    <link rel="stylesheet" href="../css/public/main2.css"/>
+    <link rel="stylesheet" href="../css/home/header.css"/>
+    <link rel="stylesheet" href="../css/home/footer.css" />
+    <!--放脚步数据-->
+    <script src="../js/public/public_js.js"></script>
+</head>
+<body>
+
+
+<!--放头-->
+<header onload="showtime();">
+    <div class="header_pic">
+
+    </div>
+    <div class="header_user">
+        <div class="floatL header_user_left">
+            <div id="currentTime"></div>
+        </div>
+        <div class="floatR header_user_right">
+            <span>欢迎</span>
+            <i class="glyphicon glyphicon-user"></i>
+            <lable class="username">管理员</lable>
+            <div class="header_alink">
+                <a href="#">修改密码</a>
+                <a href="#">退出系统</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="row">
+    <!--中部-->
+    <div class="html_middle">
+
+        <!--放菜单条
+            先以iframe搭建，再倒入html进行测试
+            后边的不进行测试。主要内容模板都一样。
+
+        -->
+        <!--放菜单-->
+        <div class="col-md-2">
+
+            <!--左边索引模块-->
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                题库管理
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <ul class="list-group">
+                            <!--<li class="list-group-item">
+                                <a href="#addQuestion" aria-controls="profile" role="tab" data-toggle="tab">
+                                    批量添加试题（导入试题）
+                                </a>
+                            </li>-->
+                            <li class="list-group-item">
+                                <a href="#quesionManage" aria-controls="profile" role="tab" data-toggle="tab">
+                                    试题管理
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#quesLibManage" aria-controls="profile" role="tab" data-toggle="tab">
+                                    题库管理
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                               aria-expanded="true" aria-controls="collapseOne">
+                                试卷管理
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                         aria-labelledby="headingOne">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="#createExam" aria-controls="home" role="tab" data-toggle="tab">
+                                    创建试卷
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#examManage" aria-controls="profile" role="tab" data-toggle="tab">
+                                    试卷信息管理(增删改查)
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo2">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo">
+                                培训管理
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo2" class="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby="headingTwo2">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="#studyMainpage" aria-controls="profile" role="tab" data-toggle="tab">
+                                    在线学习
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#trainManage" aria-controls="profile" role="tab" data-toggle="tab">
+                                    培训内容管理
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                外来单位管理
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby="headingThree">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="#outdepartManage" aria-controls="profile" role="tab" data-toggle="tab">
+                                    部门管理
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#outdepartEmpManage" aria-controls="profile" role="tab" data-toggle="tab">
+                                    员工管理
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree2">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#collapseThree2" aria-expanded="false" aria-controls="collapseThree">
+                                成绩管理
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree2" class="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby="headingThree2">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                    成绩导入
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                    成绩基本管理
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                    成绩统计
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree3">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#collapseThree3" aria-expanded="false" aria-controls="collapseThree3">
+                                系统管理
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree3" class="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby="headingThree3">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="#employee" aria-controls="profile" role="tab" data-toggle="tab">
+                                    职工管理
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#innerdepart" aria-controls="profile" role="tab" data-toggle="tab">
+                                    部门管理
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#role" aria-controls="profile" role="tab" data-toggle="tab">
+                                    角色管理
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#authority" aria-controls="profile" role="tab" data-toggle="tab">
+                                    权限管理
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#users" aria-controls="profile" role="tab" data-toggle="tab">
+                                    用户管理
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#dictionary" aria-controls="profile" role="tab" data-toggle="tab">
+                                    字典管理
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--放主界面内容-->
+        <div class="col-md-10">
+
+            <!--右侧事件-->
+            <div class="row">
+
+                <div class="tab-content">
+                    <!--试卷管理-->
+                    <div role="tabpanel" class="tab-pane active" id="createExam">
+                        <iframe src="../examParper/createExamParper.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="examManage">
+                        <iframe src="../examParper/examparperManage.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <!--题库管理-->
+                    <div role="tabpanel" class="tab-pane" id="addQuestion">
+                        <iframe src="../待定页面/insertQuestion.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="quesionManage">
+                        <iframe src="../questionLibrary/questionManage.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="quesLibManage">
+                        <iframe src="../questionLibrary/quesLibManage.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <!--培训管理-->
+                    <div role="tabpanel" class="tab-pane" id="studyMainpage">
+                        <iframe src="../studyMainpage.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="trainManage">
+                        <iframe src="../train/trainManage.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <!--外来单位管理-->
+                    <div role="tabpanel" class="tab-pane" id="outdepartManage">
+                        <iframe src="../outDepart/outdepartManage.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="outdepartEmpManage">
+                        <iframe src="../outDepart/outdepartEmpManage.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <!--成绩管理-->
+                    <div role="tabpanel" class="tab-pane" id="messages1">
+                        <iframe src="../" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="messages2">
+                        <iframe src="../" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="messages3">
+                        <iframe src="../" width="1000" height="700"></iframe>
+                    </div>
+
+                    <!--系统管理-->
+                    <div role="tabpanel" class="tab-pane" id="employee">
+                        <iframe src="../systemManage/employee.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="innerdepart">
+                        <iframe src="../systemManage/innerdepart.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="role">
+                        <iframe src="../systemManage/role.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="authority">
+                        <iframe src="../systemManage/authority.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="users">
+                        <iframe src="../systemManage/users.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="dictionary">
+                        <iframe src="../systemManage/dictionary.html" width="1000" height="700"></iframe>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="profile">
+                        <iframe src="../" width="1000" height="700"></iframe>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--放脚-->
+<div class="row">
+    <footer class="footer">
+        <div class="center">Copyright © 2015-2016 Tencent. All Rights Reserved. 技术支持联系方式：0351-6998011</div>
+        <div class="center">版权所有 备案证号：晋ICP备050024564号</div>
+    </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>头</title>
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+
+    <!--头-->
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #el_header{
+            width:100%;
+            height:70px;
+            background-color:rgb(249,249,249);
+        }
+        #el_headerLeftLogo{
+            float:left;
+            width:250px;
+            height:70px;
+            line-height:70px;
+            margin-left:50px;
+            font-size:25px;
+        }
+        #el_headerRightinfo{
+            float:right;
+            height:70px;
+            position:relative;
+        }
+        #el_systemTime{
+            width:200px;
+            height:25px;
+            font-size:13px;
+            position:absolute;
+            right:15px;
+            top:5px;
+        }
+        #el_opration{
+            width:350px;
+            position:absolute;
+            bottom: 6px;
+            right:0px;
+        }
+        #el_opration ul li{
+            float:left;
+            list-style: none;
+            font-size:14px;
+            margin-left:40px;
+        }
+        #el_indexPage{
+            display:inline-block;
+        }
+    </style>
+    <!--时钟-->
+    <script>
+        /*获得系统当前时间*/
+        $(function(){
+            var d=new Date(),str='';
+            str +=d.getFullYear()+'年'; //获取当前年份
+            str +=d.getMonth()+1+'月'; //获取当前月份（0——11）
+            str +=d.getDate()+'日'+ ' ';
+            str +=d.getHours()+'时';
+            str +=d.getMinutes()+'分';
+            str +=d.getSeconds()+'秒';
+            $("#time").html(str);
+
+            function current(){
+                var d=new Date(),str='';
+                str +=d.getFullYear()+'年'; //获取当前年份
+                str +=d.getMonth()+1+'月'; //获取当前月份（0——11）
+                str +=d.getDate()+'日'+ ' ';
+                str +=d.getHours()+'时';
+                str +=d.getMinutes()+'分';
+                str +=d.getSeconds()+'秒';
+                return str; }
+            setInterval(function(){$("#time").html(current)},1000);
+        });
+    </script>
+
+</head>
+<body>
+<div id="el_header">
+    <div id="el_headerLeftLogo">
+        电厂名称或logo
+    </div>
+    <div id="el_headerRightinfo">
+        <div id="el_systemTime">
+            <P id="time"></P>
+        </div>
+
+        <div id="el_opration">
+            <ul>
+                <li>
+                    <img src="../image/user%20(2).png" width="15" alt="">
+                <span>当前用户：</span>
+                    <span id="el_currentUser">系统管理员</span>
+                </li>
+                <li><a id="el_indexPage" href="">返回首页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

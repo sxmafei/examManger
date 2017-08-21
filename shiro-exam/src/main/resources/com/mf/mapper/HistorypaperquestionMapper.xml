@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.HistorypaperquestionMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Historypaperquestion" >
+    <id column="questionId" property="questionid" jdbcType="VARCHAR" />
+    <result column="paperId" property="paperid" jdbcType="VARCHAR" />
+    <result column="questionContent" property="questioncontent" jdbcType="VARCHAR" />
+    <result column="questionSequence" property="questionsequence" jdbcType="INTEGER" />
+    <result column="knowledgeType" property="knowledgetype" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="analysis" property="analysis" jdbcType="VARCHAR" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="upTime" property="uptime" jdbcType="TIMESTAMP" />
+    <result column="score" property="score" jdbcType="REAL" />
+    <result column="questionSource" property="questionsource" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    questionId, paperId, questionContent, questionSequence, knowledgeType, type, analysis, 
+    employeeId, upTime, score, questionSource
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from historypaperquestion
+    where questionId = #{questionid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from historypaperquestion
+    where questionId = #{questionid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Historypaperquestion" >
+    insert into historypaperquestion (questionId, paperId, questionContent, 
+      questionSequence, knowledgeType, type, 
+      analysis, employeeId, upTime, 
+      score, questionSource)
+    values (#{questionid,jdbcType=VARCHAR}, #{paperid,jdbcType=VARCHAR}, #{questioncontent,jdbcType=VARCHAR}, 
+      #{questionsequence,jdbcType=INTEGER}, #{knowledgetype,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{analysis,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, #{uptime,jdbcType=TIMESTAMP}, 
+      #{score,jdbcType=REAL}, #{questionsource,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Historypaperquestion" >
+    insert into historypaperquestion
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="questionid != null" >
+        questionId,
+      </if>
+      <if test="paperid != null" >
+        paperId,
+      </if>
+      <if test="questioncontent != null" >
+        questionContent,
+      </if>
+      <if test="questionsequence != null" >
+        questionSequence,
+      </if>
+      <if test="knowledgetype != null" >
+        knowledgeType,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="analysis != null" >
+        analysis,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="uptime != null" >
+        upTime,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="questionsource != null" >
+        questionSource,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="questionid != null" >
+        #{questionid,jdbcType=VARCHAR},
+      </if>
+      <if test="paperid != null" >
+        #{paperid,jdbcType=VARCHAR},
+      </if>
+      <if test="questioncontent != null" >
+        #{questioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="questionsequence != null" >
+        #{questionsequence,jdbcType=INTEGER},
+      </if>
+      <if test="knowledgetype != null" >
+        #{knowledgetype,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="analysis != null" >
+        #{analysis,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="uptime != null" >
+        #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=REAL},
+      </if>
+      <if test="questionsource != null" >
+        #{questionsource,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Historypaperquestion" >
+    update historypaperquestion
+    <set >
+      <if test="paperid != null" >
+        paperId = #{paperid,jdbcType=VARCHAR},
+      </if>
+      <if test="questioncontent != null" >
+        questionContent = #{questioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="questionsequence != null" >
+        questionSequence = #{questionsequence,jdbcType=INTEGER},
+      </if>
+      <if test="knowledgetype != null" >
+        knowledgeType = #{knowledgetype,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="analysis != null" >
+        analysis = #{analysis,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="uptime != null" >
+        upTime = #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=REAL},
+      </if>
+      <if test="questionsource != null" >
+        questionSource = #{questionsource,jdbcType=BIT},
+      </if>
+    </set>
+    where questionId = #{questionid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Historypaperquestion" >
+    update historypaperquestion
+    set paperId = #{paperid,jdbcType=VARCHAR},
+      questionContent = #{questioncontent,jdbcType=VARCHAR},
+      questionSequence = #{questionsequence,jdbcType=INTEGER},
+      knowledgeType = #{knowledgetype,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      analysis = #{analysis,jdbcType=VARCHAR},
+      employeeId = #{employeeid,jdbcType=VARCHAR},
+      upTime = #{uptime,jdbcType=TIMESTAMP},
+      score = #{score,jdbcType=REAL},
+      questionSource = #{questionsource,jdbcType=BIT}
+    where questionId = #{questionid,jdbcType=VARCHAR}
+  </update>
+</mapper>

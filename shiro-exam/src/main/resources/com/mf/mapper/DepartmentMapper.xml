@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.DepartmentMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Department" >
+    <id column="departmentId" property="departmentid" jdbcType="VARCHAR" />
+    <result column="departmentName" property="departmentname" jdbcType="VARCHAR" />
+    <result column="upDepartmentId" property="updepartmentid" jdbcType="VARCHAR" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    departmentId, departmentName, upDepartmentId, employeeId, phone, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from department
+    where departmentId = #{departmentid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from department
+    where departmentId = #{departmentid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Department" >
+    insert into department (departmentId, departmentName, upDepartmentId, 
+      employeeId, phone, description
+      )
+    values (#{departmentid,jdbcType=VARCHAR}, #{departmentname,jdbcType=VARCHAR}, #{updepartmentid,jdbcType=VARCHAR}, 
+      #{employeeid,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Department" >
+    insert into department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="departmentid != null" >
+        departmentId,
+      </if>
+      <if test="departmentname != null" >
+        departmentName,
+      </if>
+      <if test="updepartmentid != null" >
+        upDepartmentId,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentname != null" >
+        #{departmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="updepartmentid != null" >
+        #{updepartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Department" >
+    update department
+    <set >
+      <if test="departmentname != null" >
+        departmentName = #{departmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="updepartmentid != null" >
+        upDepartmentId = #{updepartmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where departmentId = #{departmentid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Department" >
+    update department
+    set departmentName = #{departmentname,jdbcType=VARCHAR},
+      upDepartmentId = #{updepartmentid,jdbcType=VARCHAR},
+      employeeId = #{employeeid,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where departmentId = #{departmentid,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据部门id查询部门极其管辖班组 -->
+  <select id="selectAllDepartbyId" parameterType="String" resultType="com.mf.domain.Department">
+	SELECT * from department
+	WHERE departmentId like CONCAT(#{departmentId},'%')
+  </select>
+  
+  <!-- 根据部门id查询部门 -->
+    <select id="selectDepartbyId" parameterType="String" resultType="com.mf.domain.Department">
+	SELECT * from department
+	WHERE departmentId =#{departmentId}
+  </select>
+  
+  <!-- 根据部门id获取部门名字 -->
+  <select id="selectDepartNameByDepartId" parameterType="string" resultType="string">
+  	select departmentName from department where departmentId=#{departmentid}
+  </select>
+</mapper>

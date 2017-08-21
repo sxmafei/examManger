@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.CheckrecordMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Checkrecord" >
+    <id column="checkId" property="checkid" jdbcType="VARCHAR" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="questionId" property="questionid" jdbcType="VARCHAR" />
+    <result column="checkDate" property="checkdate" jdbcType="TIMESTAMP" />
+    <result column="checkStatus" property="checkstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    checkId, employeeId, questionId, checkDate, checkStatus
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from checkrecord
+    where checkId = #{checkid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from checkrecord
+    where checkId = #{checkid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Checkrecord" >
+    insert into checkrecord (checkId, employeeId, questionId, 
+      checkDate, checkStatus)
+    values (#{checkid,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, #{questionid,jdbcType=VARCHAR}, 
+      #{checkdate,jdbcType=TIMESTAMP}, #{checkstatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Checkrecord" >
+    insert into checkrecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="checkid != null" >
+        checkId,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="questionid != null" >
+        questionId,
+      </if>
+      <if test="checkdate != null" >
+        checkDate,
+      </if>
+      <if test="checkstatus != null" >
+        checkStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="checkid != null" >
+        #{checkid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="questionid != null" >
+        #{questionid,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkstatus != null" >
+        #{checkstatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Checkrecord" >
+    update checkrecord
+    <set >
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="questionid != null" >
+        questionId = #{questionid,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        checkDate = #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkstatus != null" >
+        checkStatus = #{checkstatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where checkId = #{checkid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Checkrecord" >
+    update checkrecord
+    set employeeId = #{employeeid,jdbcType=VARCHAR},
+      questionId = #{questionid,jdbcType=VARCHAR},
+      checkDate = #{checkdate,jdbcType=TIMESTAMP},
+      checkStatus = #{checkstatus,jdbcType=VARCHAR}
+    where checkId = #{checkid,jdbcType=VARCHAR}
+  </update>
+</mapper>

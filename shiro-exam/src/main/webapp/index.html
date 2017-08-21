@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>主页</title>
+    <link href="bs/css/bootstrap.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="bs/js/bootstrap.min.js"></script>
+
+    <!--输入验证-->
+    <script src="主页/js/zhuye.js"></script>
+    <script src="controls/validate/jquery.validate.js"></script>
+    <script src="controls/validate/messages_zh.js"></script>
+
+    <!--验证码-->
+    <script src="controls/indentifyingCode/gVerify.js"></script>
+
+    <!--轮播-->
+    <script src="主页/js/lunbo.js"></script>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .el_section {
+            width: 85%;
+            height: 95%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /*顶部导航栏*/
+
+        .el_nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            box-shadow: 0 2px 2px #ccc;
+        }
+
+        .el_logoName {
+            position: absolute;
+            height: 80px;
+            line-height: 80px;
+            font-size: 25px;
+            width: 20%;
+        }
+
+        .el_navUL {
+            left: 20%;
+            position: absolute;
+            width: 60%;
+            height: 80px;
+        }
+
+        .el_navUL ul li {
+            list-style: none;
+            float: left;
+            width: 120px;
+            font-size: 17px;
+            text-decoration: none;
+            color: black;
+            height: 100%;
+            line-height: 80px;
+            text-align: center;
+        }
+
+        .el_navUL li:hover {
+            background-color: orange;
+        }
+
+        .el_navUL li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        /*登录*/
+        .el_navLogin {
+            width: 20%;
+            height: 60px;
+            font-size: 16px;
+            position: absolute;
+            text-align: center;
+            line-height: 60px;
+            right: 0;
+            top: 10px;
+            border-left: 1px solid #eee;
+        }
+
+        .el_navLogin a {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+
+    <!--轮播图-->
+    <style type="text/css" media="screen">
+        li, ul li {
+            list-style: none;
+        }
+
+        .banner {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            margin: 83px auto;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+
+        .banner-inner {
+            width: 100%;
+            height: 350px;
+        }
+
+        .banner img {
+            background-repeat: no-repeat;
+            width: 1360px;
+            text-align: center;
+            height: auto;
+            display: block;
+            float: left;
+        }
+
+        .banner .ctrlbtn a {
+            display: block;
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 24px;
+            margin-top: -50px;
+            color: white;
+            background: rgba(100, 100, 100, .5);
+            text-decoration: none;
+        }
+
+        .prev {
+            right: 0;
+            font-family: "宋体";
+        }
+
+        .next {
+            left: 0;
+            font-family: "宋体";
+        }
+
+        .banner a:hover {
+            background: rgba(255, 255, 255, 0.5)
+        }
+
+        .banner ul {
+            position: absolute;
+            left: 0;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .banner li {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, .5);
+            border-radius: 50%;
+            z-index: 1111;
+            cursor: pointer;
+        }
+
+        .banner .active {
+            background: rgba(255, 255, 255, 1)
+        }
+    </style>
+
+    <!--中间内容-->
+    <style>
+        /*左侧内容*/
+        .el_leftContent {
+            width: 100%;
+            height: 400px;
+            padding: 10px;
+            /*border:1px solid #ccc;*/
+        }
+
+        .el_leftContentLi {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            overflow: auto;
+        }
+
+        .el_leftContentLi ul {
+            width: 100%;
+            padding-left: 0;
+        }
+
+        .el_leftContentLi ul li {
+            list-style: none;
+            width: 100%;
+            height: 25px;
+            margin-top: 10px;
+            padding: 5px 20px;
+            border-bottom: 1px solid #ccc;
+            font-size: 13px;
+        }
+
+        /*小标题*/
+        .el_title {
+            float: left;
+            margin-top: 20px;
+        }
+
+        /*轮播*/
+        .carousel-indicators {
+            position: absolute;
+            bottom: 0;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            top: -25px;
+            right: -100px;
+        }
+
+        /*中间信息*/
+        /*新闻*/
+        .el_news {
+            width: 100%;
+            height: 450px;
+        }
+
+        /*标题*/
+        .el_middleTitle {
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        .el_MiddleContentLi {
+            width: 100%;
+            height: auto;
+            max-height: 330px;
+            overflow: auto;
+        }
+
+        /*中间内容*/
+        .el_newsList {
+            width: 100%;
+            padding: 5px 10px;
+            /*border-top:1px solid #ccc;*/
+            border-bottom: 1px solid #ccc;
+
+        }
+
+        .el_newsTime {
+            float: right;
+        }
+
+        /*右边通知内容*/
+        .el_rightContent {
+            position: relative;
+            border: 1px solid #ccc;
+            height: auto;
+            padding: 0;
+            width: 24%;
+            margin-top: 30px;
+        }
+
+        .el_rightTitle {
+            position: absolute;
+            right: 30px;
+        }
+
+        .el_notifyListUl {
+            margin-top: 50px;
+            padding-left: 0;
+            margin-bottom: 40px;
+            height: auto;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .el_notifyList {
+            margin: 0 auto;
+            width: 90%;
+            list-style: none;
+            padding: 5px 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .el_notifyTime {
+            float: right;
+        }
+    </style>
+
+    <!--底部footer-->
+    <style>
+        .el_footer {
+            box-shadow: 0 -2px 1px rgb(245, 245, 245);
+            text-align: center;
+            width: 100%;
+            height: 100px;
+        }
+
+        .el_footerContent {
+            margin-top: 1px;
+            height: 30px;
+        }
+    </style>
+
+    <!--登录-->
+    <style>
+        .modal-content {
+            width: 550px;
+            height: 500px;
+            text-align: center;
+        }
+
+        .modal-content ul {
+            width: 550px;
+            margin: 0 auto;
+        }
+
+        .modal-content ul li {
+            width: 80%;
+            margin: 15px auto;
+            list-style: none;
+        }
+
+        .modal-content ul li label {
+            display: inline-block;
+            float: left;
+        }
+
+        .modal-content ul li span {
+            height: 25px;
+            border: 1px solid #aaa;
+            padding: 3px 8px;
+            border-radius: 5px;
+            float: right;
+        }
+
+        /*验证码*/
+        .el_validateCode {
+            width:200px;
+            height:50px;
+            float: right;
+        }
+
+        /*记住密码*/
+        .el_TipPassword {
+            margin: 10px;
+            margin-left: 40px;
+            float: left;
+        }
+
+        .el_sub_btn {
+            width: 100%;
+            margin: 0 auto;
+        }
+    </style>
+
+    <!--视频区域-->
+    <style>
+        /*内容*/
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #el_videodiv {
+            width: 100%;
+            margin: 0 auto;
+            padding:10px;
+            background-color: rgb(249, 249, 249)
+        }
+
+        .con {
+            width: 100%;
+            height: 480px;
+            background: #fff;
+            margin: 10px auto;
+            padding-left: 25px;
+        }
+
+        .el_videoulImg {
+            width: 100%;
+        }
+
+        .con ul li {
+            width: 250px;
+            height: 150px;
+            float: left;
+            margin-right: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .con ul li:hover {
+            box-shadow: 3px 3px 3px #000;
+        }
+
+        .txt {
+            width: 250px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.6); /*透明背景色，不透明其文字内容*/
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            color: #fff;
+            font-family: "微软雅黑";
+        }
+
+        .txt h3 {
+            font-size: 20px;
+            font-weight: 100;
+            height: 25px;
+            line-height: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .txt p {
+            font-size: 14px;
+            line-height: 18px;
+            padding-left: 10px;
+            margin-right: 10px;
+            text-align: center;
+        }
+
+        /*浏览量*/
+        .glyphicon {
+            float: right;
+            position: relative;
+            top: 30px;
+            right: 0;
+        }
+
+        /*浏览量*/
+        .el_liulanliang {
+            width: 40px;
+            height: 20px;
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            display: none;
+        }
+
+        .el_liulanliang img {
+            width: 15px;
+        }
+
+        .el_loaddowneyeNums {
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+<body>
+<!--<导航>-->
+<div class="el_nav">
+    <div class="el_section">
+
+        <a href="#">
+            <div class="el_logoName">
+                电厂logo或名字
+            </div>
+        </a>
+        <div class="el_navUL">
+            <ul>
+                <a href="newPage.html">
+                    <li>新闻中心</li>
+                </a>
+                <a href="studyMainpage.html">
+                    <li>培训学习</li>
+                </a>
+                <a href="">
+                    <li>关于我们</li>
+                </a>
+            </ul>
+        </div>
+
+        <!--右侧登录-->
+        <div class="el_navLogin">
+            <button class="btn btn-link btn-lg " data-toggle="modal" data-target="#myModal">
+                <img src=""/>登录
+            </button>
+        </div>
+    </div>
+</div>
+
+<!--轮播-->
+<div class="banner">
+    <div class="banner-inner">
+        <img src="image/img/a1.png" alt="" name="0">
+        <img src="image/img/a2.png" alt="" name="1">
+        <img src="image/img/a3.png" alt="" name="2">
+        <img src="image/img/a4.png" alt="" name="3">
+    </div>
+    <div class="ctrlbtn">
+        <a href="javascript:;" class="prev">></a>
+        <a href="javascript:;" class="next"><</a>
+    </div>
+    <ul class="pageCtrl">
+        <li class="active"></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(".banner").changePic({
+        figureBtnAct: "active",
+        clickNode: $(".pageCtrl li"),
+        loopNode: $(".banner-inner"),
+        loopCircle: "-800px",
+        sameNode: $("img"),
+        attrData: "name",
+        leftBtn: $(".prev"),
+        rightBtn: $(".next")
+    })
+</script>
+
+<!--<新闻消息>-->
+<div class="el_news">
+    <!--新闻，通知-->
+
+    <!--左边新闻-->
+    <div class="col-md-3">
+        <div class="el_leftContent">
+            <!--轮播-->
+            <div>
+                <h4 align="center" class="el_title">小新闻联播</h4>
+                <div class="carousel slide" id="carousel-969651">
+                    <ol class="carousel-indicators">
+                        <li class="active" data-slide-to="0" data-target="#carousel-969651"></li>
+                        <li data-slide-to="1" data-target="#carousel-969651"></li>
+                        <li data-slide-to="2" data-target="#carousel-969651"></li>
+                    </ol>
+                    <!--<h4 align="center">小新闻联播</h4>-->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img alt="" src="image/1.jpg"/>
+                            <div class="carousel-caption">
+                                <h5>
+                                    小新闻轮播
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img alt="" src="image/1.jpg"/>
+                            <div class="carousel-caption">
+                                <h5>
+                                    小新闻轮播
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img alt="" src="image/1.jpg"/>
+                            <div class="carousel-caption">
+                                <h5>
+                                    小新闻轮播
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--内容-->
+            <div class="el_leftContentLi">
+                <ul>
+                    <a href="">
+                        <li>新闻1</li>
+                    </a>
+                    <a href="">
+                        <li>新闻1</li>
+                    </a>
+                    <a href="">
+                        <li>新闻1</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--中间新闻-->
+    <div class="col-md-6">
+        <h4 align="center" class="el_middleTitle">新闻消息</h4>
+
+        <div class="el_MiddleContentLi">
+            <ol>
+                <li class="el_newsList">
+                    <a href="#">
+                        这个新闻超级有趣，欢迎大家点击
+                    </a><span class="el_newsTime">2017.08.01</span>
+                </li>
+                <li class="el_newsList">
+                    <a href="#">
+                        这个新闻超级有趣，欢迎大家点击
+                    </a><span class="el_newsTime">2017.08.01</span>
+                </li>
+                <li class="el_newsList">
+                    <a href="#">
+                        这个新闻超级有趣，欢迎大家点击
+                    </a><span class="el_newsTime">2017.08.01</span>
+                </li>
+                <li class="el_newsList">
+                    <a href="#">
+                        这个新闻超级有趣，欢迎大家点击
+                    </a><span class="el_newsTime">2017.08.01</span>
+                </li>
+                <li class="el_newsList">
+                    <a href="#">
+                        这个新闻超级有趣，欢迎大家点击
+                    </a><span class="el_newsTime">2017.08.01</span>
+                </li>
+                <li class="el_newsList">
+                    <a href="#">
+                        这个新闻超级有趣，欢迎大家点击
+                    </a><span class="el_newsTime">2017.08.01</span>
+                </li>
+
+            </ol>
+        </div>
+    </div>
+
+    <!--通知内容-->
+    <div class="col-md-3 el_rightContent">
+        <h4 align="center" class="el_rightTitle">通知消息</h4>
+
+        <ul class="el_notifyListUl">
+            <li class="el_notifyList">
+                <a href="#">这个新闻超级有趣</a>
+                <span class="el_notifyTime">2017.08.01</span>
+            </li>
+            <li class="el_notifyList">
+                <a href="#">这个新闻超级有趣</a>
+                <span class="el_notifyTime">2017.08.01</span>
+            </li>
+            <li class="el_notifyList">
+                <a href="#">这个新闻超级有趣</a>
+                <span class="el_notifyTime">2017.08.01</span>
+            </li>
+            <li class="el_notifyList">
+                <a href="#">这个新闻超级有趣</a>
+                <span class="el_notifyTime">2017.08.01</span>
+            </li>
+            <li class="el_notifyList">
+                <a href="#">这个新闻超级有趣</a>
+                <span class="el_notifyTime">2017.08.01</span>
+            </li>
+            <li class="el_notifyList">
+                <a href="#">这个新闻超级有趣</a>
+                <span class="el_notifyTime">2017.08.01</span>
+            </li>
+            <li class="el_notifyList">
+                <a href="#">这个新闻超级有趣</a>
+                <span class="el_notifyTime">2017.08.01</span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--视频区域-->
+<div>
+    <div class="row con" id="el_videodiv">
+        <div class="el_section">
+            <h3>培训内容</h3>
+            <ul>
+                <li>
+                    <img class="el_videoulImg" src="image/猫咪.jpg"/>
+                    <div class="txt">
+                        <h3>IT培训</h3>
+                        <p>为您铺就 成为IT 大神的在s adfsadf sdfasdfsadfas dfasdfasdfa sdfasdfas fasfsadfsdafsadfa
+                            sdfasdf线学习之路</p>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">20</span>
+                        <div class="el_liulanliang">
+                            <img src="image/eye2.png"/>
+                            <span class="el_loaddowneyeNums">20</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="el_videoulImg" src="image/猫咪.jpg"/>
+                    <div class="txt">
+                        <h3>IT培训</h3>
+                        <p>为您铺就 成为IT 大神的在s adfsadf sdfasdfsadfas dfasdfasdfa sdfasdfas fasfsadfsdafsadfa
+                            sdfasdf线学习之路</p>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">20</span>
+                        <div class="el_liulanliang">
+                            <img src="image/eye2.png"/>
+                            <span class="el_loaddowneyeNums">20</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="el_videoulImg" src="image/猫咪.jpg"/>
+                    <div class="txt">
+                        <h3>IT培训</h3>
+                        <p>为您铺就 成为IT 大神的在s adfsadf sdfasdfsadfas dfasdfasdfa sdfasdfas fasfsadfsdafsadfa
+                            sdfasdf线学习之路</p>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">20</span>
+                        <div class="el_liulanliang">
+                            <img src="image/eye2.png"/>
+                            <span class="el_loaddowneyeNums">20</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="el_videoulImg" src="image/猫咪.jpg"/>
+                    <div class="txt">
+                        <h3>IT培训</h3>
+                        <p>为您铺就 成为IT 大神的在s adfsadf sdfasdfsadfas dfasdfasdfa sdfasdfas fasfsadfsdafsadfa
+                            sdfasdf线学习之路</p>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">20</span>
+                        <div class="el_liulanliang">
+                            <img src="image/eye2.png"/>
+                            <span class="el_loaddowneyeNums">20</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="el_videoulImg" src="image/猫咪.jpg"/>
+                    <div class="txt">
+                        <h3>IT培训</h3>
+                        <p>为您铺就 成为IT 大神的在s adfsadf sdfasdfsadfas dfasdfasdfa sdfasdfas fasfsadfsdafsadfa
+                            sdfasdf线学习之路</p>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">20</span>
+                        <div class="el_liulanliang">
+                            <img src="image/eye2.png"/>
+                            <span class="el_loaddowneyeNums">20</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="el_videoulImg" src="image/猫咪.jpg"/>
+                    <div class="txt">
+                        <h3>IT培训</h3>
+                        <p>为您铺就 成为IT 大神的在s adfsadf sdfasdfsadfas dfasdfasdfa sdfasdfas fasfsadfsdafsadfa
+                            sdfasdf线学习之路</p>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">20</span>
+                        <div class="el_liulanliang">
+                            <img src="image/eye2.png"/>
+                            <span class="el_loaddowneyeNums">20</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="el_videoulImg" src="image/猫咪.jpg"/>
+                    <div class="txt">
+                        <h3>IT培训</h3>
+                        <p>为您铺就 成为IT 大神的在s adfsadf sdfasdfsadfas dfasdfasdfa sdfasdfas fasfsadfsdafsadfa
+                            sdfasdf线学习之路</p>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">20</span>
+                        <div class="el_liulanliang">
+                            <img src="image/eye2.png"/>
+                            <span class="el_loaddowneyeNums">20</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <img class="el_videoulImg" src="image/猫咪.jpg"/>
+                    <div class="txt">
+                        <h3>IT培训</h3>
+                        <p>为您铺就 成为IT 大神的在s adfsadf sdfasdfsadfas dfasdfasdfa sdfasdfas fasfsadfsdafsadfa
+                            sdfasdf线学习之路</p>
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true">20</span>
+                        <div class="el_liulanliang">
+                            <img src="image/eye2.png"/>
+                            <span class="el_loaddowneyeNums">20</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(".con ul li").hover(function () {
+            $(this).find(".txt").stop().animate({height: "150px"}, 400);
+            $(this).find(".txt h3").stop().animate({paddingTop: "25px"}, 400);
+            $(this).children(".txt").children(".el_liulanliang").show();
+        }, function () {
+            $(this).find(".txt").stop().animate({height: "45px"}, 400);
+            $(this).find(".txt h3").stop().animate({paddingTop: "10px"}, 400);
+            $(this).children(".txt").children(".el_liulanliang").hide();
+        })
+    </script>
+</div>
+
+<!--底部-->
+<div class="el_footer">
+    <div class="el_section">
+        <div class="el_footerContent">Copyright © 2015-2016 Tencent. All Rights Reserved. 技术支持联系方式：0351-6998011</div>
+        <div class="el_footerContent">版权所有 备案证号：晋ICP备050024564号</div>
+    </div>
+</div>
+
+<!-- 模态框 用户登录-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="false" data-keyboard="false">
+
+    <div class="modal-dialog" id="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button><!--关闭符号-->
+                <!--标题-->
+                <h3 class="modal-title" id="myModalLabel">用户登录</h3>
+            </div>
+            <form name="form1" method="post" id="el_form">
+
+                <ul>
+                    <li>
+                        <label>用户名：</label>
+                        <input type="text" class="form-control" name="yourname" placeholder="请输入用户名" onblur="checkna()"
+                               required/>
+                        <span class="tips" id="divname">长度1~12个字符</span>
+                    </li>
+                    <li>
+                        <label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+                        <input type="password" class="form-control" name="yourpass" placeholder="请输入你的密码"
+                               onblur="checkpsd1()" required/>
+                        <span class="tips" id="divpassword1">密码必须由字母和数字组成</span>
+                    </li>
+                    <li>
+                        <label>用户类型：</label>
+                        <select class="form-control" name="el_chooseUser" id="el_userType">
+                            <option value="1">员工</option>
+                            <option value="2">管理员</option>
+                        </select>
+                        <!--<span class="tips" id="divpassword2"></span>-->
+                    </li>
+                    <li>
+                        <label>验证码：</label>
+                        <input type="text" class="form-control" id="code_input" value="" placeholder="请输入验证码"/>
+                        <div class="el_validateCode" id="v_container"></div>
+                    </li>
+                </ul>
+                <!--记住密码-->
+                <div class="el_TipPassword">
+                    <label>&nbsp;</label>
+                    <input type="checkbox" name="isChecked" value="yes"/><span>记住密码</span>
+                </div>
+                <div class="el_sub_btn">
+                    <button type="submit" class="btn btn-lg btn-block" id="my_button">
+                        登录
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<!--验证码-->
+<script>
+    var verifyCode = new GVerify("v_container");
+
+    $("#my_button").click(function () {
+        var res = verifyCode.validate(document.getElementById("code_input").value);
+        if (res) {
+            /*如果正确，判断登录的用户类型
+            * 如果checkText是1，用户是员工
+            * 如果checkText是2，用户是管理员
+            * */
+            var checkText = $("#el_userType").find("option:selected").val();
+            if (checkText == 1) {
+                $("#el_form").prop("action","");
+                $("#el_form").prop("action","lineExam/examInterface.html");
+            } else {
+                $("#el_form").prop("action","");
+                $("#el_form").prop("action","public/homeMain.html");
+                //$("#el_loginA").css("href", "lineExam/examInterface.html")
+            }
+        } else {
+            alert("验证码错误")
+        }
+    })
+</script>
+</html>

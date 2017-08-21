@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.Employee_inMapper" >
+
+  <resultMap id="userWithDepartRole" type="com.mf.domain.Employee_in" >
+    <id column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="employeeNumber" property="employeenumber" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="idCode" property="idcode" jdbcType="CHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="finger" property="finger" jdbcType="VARCHAR" />
+    <result column="trainStatus" property="trainstatus" jdbcType="INTEGER" />
+    <result column="Status" property="trainstatus" jdbcType="BIT" />
+    <association property="department" column="departmentId" javaType="com.mf.domain.Department" 
+    			select="com.mf.mapper.DepartmentMapper.selectDepartbyId"></association>
+    <collection property="role" column="employeeId" javaType="list" ofType="com.mf.domain.Role"
+    			select="com.mf.mapper.RoleMapper.selectRoleByUserId"></collection>
+  </resultMap>
+  
+    <resultMap id="userWithDepartName" type="com.mf.domain.Employee_in" >
+    <id column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="employeeNumber" property="employeenumber" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="idCode" property="idcode" jdbcType="CHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="finger" property="finger" jdbcType="VARCHAR" />
+    <result column="trainStatus" property="trainstatus" jdbcType="INTEGER" />
+    <association property="departmentname" column="departmentId" javaType="String" 
+    			select="com.mf.mapper.DepartmentMapper.selectDepartNameByDepartId"></association>
+  </resultMap>
+  
+  <sql id="userInfo" >
+    employeeId, employeeNumber, name, idCode, sex, birthday, phone, photo, email, address, 
+    duty, departmentId, password, finger, trainStatus
+  </sql>
+  
+		
+  <!-- 验证用户是否存在 -->
+	<select id="selectIsUser" parameterType="Map" resultType="int">
+		select count(*) from employee_in where employeeId=#{employeeid} and password=#{password}
+	</select>
+	
+	<!-- 根据部门Id查询用户, -->
+	<select id="selectAllUserByDepartId" parameterType="map" resultMap="userWithDepartName">
+		SELECT * from employee_in where departmentId LIKE concat(#{departmentid},'%')
+		<if test="pageBegin != null and pageSize != null">LIMIT #{pageBegin},#{pageSize}</if>
+	</select>
+	
+	
+	<!-- 组合查询 用户信息-->	
+	<select id="selectUserByAny" parameterType="map" resultMap="userWithDepartRole">
+		SELECT * FROM employee_in left join userrole using (employeeId)
+		<where>
+			  <if test="employee.employeeid != null and employee.employeeid !='' ">
+			  	 employeeId = #{employee.employeeid,jdbcType=VARCHAR}
+			  </if>
+			  <if test="employee.employeenumber != null and employee.employeenumber !=''" >
+		         AND employeeNumber = #{employee.employeenumber,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.name != null and employee.name !=''" >
+		        AND name = #{employee.name,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.idcode != null and employee.idcode !=''" >
+		        AND idCode = #{employee.idcode,jdbcType=CHAR}
+		      </if>
+		      <if test="employee.sex != null and employee.sex !=''" >
+		        AND sex = #{employee.sex,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.birthday != null and employee.birthday !=''" >
+		        AND birthday = #{employee.birthday,jdbcType=DATE}
+		      </if>
+		      <if test="employee.phone != null and employee.phone !=''" >
+		        AND phone = #{employee.phone,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.email != null and employee.email !=''" >
+		        AND email = #{employee.email,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.address != null and employee.address !=''" >
+		        AND address = #{employee.address,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.duty != null and employee.duty !=''" >
+		        AND duty = #{employee.duty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.departmentid != null and employee.departmentid !=''" >
+		        AND departmentId = #{employee.departmentid,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.trainstatus != null and employee.trainstatus !=''" >
+		        AND trainStatus = #{employee.trainstatus,jdbcType=INTEGER}
+		      </if>
+		      <if test="employee.oneroleid!=null and  employee.oneroleid!=''">
+		      	AND roleId=#{employee.oneroleid,jdbcType=VARCHAR}
+		      </if>
+		      <if test="employee.status!=null and  employee.status!=''">
+		      	AND status=#{employee.status}
+		      </if>
+		      AND departmentId like concat(#{mydepartmentid},'%')  
+		</where>
+		 <if test="pageBegin != null and pageSize != null">LIMIT #{pageBegin},#{pageSize}</if>
+	
+		 
+	</select>
+	
+	<!-- 获得新建员工的员工编号 -->
+	<select id="selectNextUserId" resultType="String">
+		SELECT CONCAT(SUBSTR(MAX(employeeId),1,1),SUBSTR(MAX(employeeId), 2) + 1) FROM employee_in;
+	</select>
+	
+	<!-- 添加用户基本信息 -->
+	<insert id="insertUserInfo" parameterType="com.mf.domain.Employee_in">
+		 insert into employee_in 
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null and employeeid!=''" >
+        employeeId,
+      </if>
+      <if test="employeenumber != null and employeenumber !=''" >
+        employeeNumber,
+      </if>
+      <if test="name != null and name !=''" >
+        name,
+      </if>
+      <if test="idcode != null and idcode !=''" >
+        idCode,
+      </if>
+      <if test="sex != null and sex !=''" >
+        sex,
+      </if>
+      <if test="birthday != null and birthday !=''" >
+        birthday,
+      </if>
+      <if test="phone != null and phone !=''" >
+        phone,
+      </if>
+      <if test="email != null and email !=''" >
+        email,
+      </if>
+      <if test="address != null and address !=''" >
+        address,
+      </if>
+      <if test="duty != null and duty !=''" >
+        duty,
+      </if>
+      <if test="departmentid != null and departmentid  !=''" >
+        departmentId,
+      </if>
+      <if test="pictureid != null and pictureid  !=''" >
+        pictureId,
+      </if>
+      <if test="password != null and password !=''" >
+        password,
+      </if>
+      <if test="finger != null and finger !=''" >
+        finger,
+      </if>
+      <if test="trainstatus != null and trainstatus !=''" >
+        trainStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null and employeeid !=''" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeenumber != null and employeenumber !=''" >
+        #{employeenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null and name !=''" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcode != null and idcode !=''" >
+        #{idcode,jdbcType=CHAR},
+      </if>
+      <if test="sex != null and sex !=''" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null and birthday !=''" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="phone != null and phone !=''" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null and email !=''" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address !=''" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null and duty !=''" >
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null and departmentid !=''" >
+        #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureid != null and pictureid !=''" >
+        #{pictureid,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password !=''" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="finger != null and finger !=''" >
+        #{finger,jdbcType=VARCHAR},
+      </if>
+      <if test="trainstatus != null and trainstatus !=''" >
+        #{trainstatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+	</insert>
+	
+
+	<!-- 修改用户基本信息 -->
+	<update id="updateUserInfo" parameterType="com.mf.domain.Employee_in">
+	update employee_in
+    <set >
+      <if test="employeenumber != null " >
+        employeeNumber = #{employeenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcode != null" >
+        idCode = #{idcode,jdbcType=CHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        departmentId = #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="trainstatus != null" >
+        trainStatus = #{trainstatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where employeeId = #{employeeid,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 修改用户密码 -->
+	<update id="updateUserPassword" parameterType="map">
+		<if test="password!=null and password!=''">
+			UPDATE employee_in SET password=#{password} where employeeId=#{employeeid}
+		</if>
+	</update>
+
+	
+	<!-- 根据用户姓名获取用户Id -->
+	<select id="selectUserIdByName" parameterType="String" resultType="String">
+		select employeeId from employee_in where name=#{name}
+	</select>
+	
+	<!-- 根据部门编号，获取员工的总记录数 -->
+	<select id="getUserCount" parameterType="String" resultType="int">
+		select count(*) from employee_in where departmentId like concat(#{departmentid},'%')
+	</select>
+
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.EmployeeexamMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Employeeexam" >
+    <id column="gradeId" property="gradeid" jdbcType="VARCHAR" />
+    <result column="examId" property="examid" jdbcType="VARCHAR" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="REAL" />
+    <result column="examMethod" property="exammethod" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gradeId, examId, employeeId, grade, examMethod
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from employeeexam
+    where gradeId = #{gradeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from employeeexam
+    where gradeId = #{gradeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Employeeexam" >
+    insert into employeeexam (gradeId, examId, employeeId, 
+      grade, examMethod)
+    values (#{gradeid,jdbcType=VARCHAR}, #{examid,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=REAL}, #{exammethod,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Employeeexam" >
+    insert into employeeexam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gradeid != null" >
+        gradeId,
+      </if>
+      <if test="examid != null" >
+        examId,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="exammethod != null" >
+        examMethod,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gradeid != null" >
+        #{gradeid,jdbcType=VARCHAR},
+      </if>
+      <if test="examid != null" >
+        #{examid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=REAL},
+      </if>
+      <if test="exammethod != null" >
+        #{exammethod,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Employeeexam" >
+    update employeeexam
+    <set >
+      <if test="examid != null" >
+        examId = #{examid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=REAL},
+      </if>
+      <if test="exammethod != null" >
+        examMethod = #{exammethod,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gradeId = #{gradeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Employeeexam" >
+    update employeeexam
+    set examId = #{examid,jdbcType=VARCHAR},
+      employeeId = #{employeeid,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=REAL},
+      examMethod = #{exammethod,jdbcType=VARCHAR}
+    where gradeId = #{gradeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

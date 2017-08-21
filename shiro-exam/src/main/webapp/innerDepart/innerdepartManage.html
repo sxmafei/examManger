@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>外来单位管理</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+
+    <!--用于三级联动-->
+    <script src="../controls/liandong/distpicker.data.js"></script>
+    <script src="../controls/liandong/distpicker.js"></script>
+
+    <style>
+
+        /*索引内容*/
+        .el_queryBox {
+            width: 103%;
+            height: 70px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        /*索搜行*/
+        .el_queryBox {
+            overflow: hidden;
+        }
+
+        .el_queryBox form {
+            margin-top: 10px;
+        }
+
+        .el_queryButton {
+            position: absolute;
+            right: 50px;
+            bottom: 10px;
+        }
+
+        .input-group-addon {
+            font-size: 12px;
+        }
+
+        .form-control {
+            font-size: 12px;
+        }
+
+        /*标题*/
+        .el_mainHead {
+            width: 103%;
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            right: 20px;
+        }
+
+        /*主要部分*/
+        .el_Mainmain {
+            position: relative;
+            top: -10px;
+        }
+
+        .panel-body {
+            border: none;
+        }
+
+        /*按钮操作*/
+        .el_topButton {
+            height: 50px;
+            margin-top: 20px;
+        }
+
+        .el_delButton:hover {
+            cursor: pointer;
+        }
+
+        /*单选按钮*/
+        .el_radioBox {
+            margin-left: 10px;
+        }
+
+        /*主要内容*/
+
+        /*搜索边框*/
+        .el_qlmQuery {
+            min-width: 150px;
+            width: 30%;
+            float: left;
+            margin: 10px;
+        }
+    </style>
+
+    <!--索引与模态-->
+    <style>
+        .form-control {
+            height: 30px;
+            font-size: 12px;
+            border-radius: 3px;
+            width:350px;
+        }
+        /*搜索边框*/
+        .el_qlmQuery {
+            min-width: 150px;
+            width: 30%;
+            float: left;
+            margin: 10px;
+        }
+
+        /*span改变样式后的样子*/
+        .el_spans {
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1;
+            color: #555;
+            text-align: center;
+            border-radius: 4px;
+            width: 1%;
+            white-space: nowrap;
+            vertical-align: middle;
+            display: table-cell;
+        }
+        /*模态框中的内容*/
+        .el_modellist{
+            margin:10px;
+            margin-bottom:15px;
+            width:400px;
+        }
+        .el_modelinput{
+            width:200px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <!--菜单连接标题-->
+        <div class="panel-heading"><span>员工管理</span><span>>用户添加</span></div>
+        <div class="panel-body">
+
+            <div class="row" style="width:100%;min-width:1100px;">
+
+                <!--树indexTree2-->
+                <div class="col-xs-12 col-md-2">
+                    <!--标题类，添加了一个颜色-->
+                    <h4 class="bg-warning">部门</h4>
+                    <ul class="easyui-tree">
+                        <li>
+                            <span>部门</span>
+                            <ul>
+                                <li data-options="state:'closed'">
+                                    <span>第一部门</span>
+                                    <ul>
+                                        <li>
+                                            <span>Friend</span>
+                                        </li>
+                                        <li>
+                                            <span>Wife</span>
+                                        </li>
+                                        <li>
+                                            <span>Company</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span>第二部门</span>
+                                    <ul>
+                                        <li>Intel</li>
+                                        <li>Java</li>
+                                        <li>Microsoft Office</li>
+                                        <li>Games</li>
+                                    </ul>
+                                </li>
+                                <li>index.html</li>
+                                <li>about.html</li>
+                                <li>welcome.html</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--内容-->
+                <div class="col-md-10 el_qlmContent">
+
+                    <!--索引-->
+                    <div class="row el_queryBox">
+                        <form action="">
+
+                                <div class="col-md-3 el_qlmQuery">
+                                    <div class="input-group" role="toolbar">
+                                        <span class="el_spans">部门名称：</span>
+                                        <input type="text" class="form-control" name=""/>
+                                    </div>
+                                </div>
+
+                            <!--提交查询按钮-->
+                            <button type="submit" class="btn btn-default el_queryButton">查询</button>
+                        </form>
+
+                    </div>   <!--结束 查询表单提交-->
+
+                    <!--显示内容-->
+                    <h3 class="el_mainHead">内部部门信息</h3>
+                    <div class="panel panel-default el_Mainmain">
+
+                        <!--按钮面板-->
+                        <div class="panel-body">
+
+                            <div class="panel panel-default">
+                                <div class="panel-body el_MainxiaoMain">
+
+                                    <div class="el_topButton">
+                                        <!-- 按钮触发模态框1 -->
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                                添加部门
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--表格
+                                内容都提取到json里边
+                            -->
+                            <table class="table table-bordered">
+                                <thead>
+                                <th><input type="checkbox" id="el_checkQuanxuan"/></th>
+                                <th>部门名称</th>
+                                <th>部门经理</th>
+                                <th>联系人</th>
+                                <th>联系方式</th>
+                                <th>上级部门</th>
+                                <th>操作</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><input type="checkbox" class="el_checks"/></td>
+                                    <td>-阿斯顿</td>
+                                    <td> 速度</td>
+                                    <td>13242342341234</td>
+                                    <td>234213424140</td>
+                                    <td>3</td>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#myModal">修改</a>&nbsp;
+                                        <a class="el_delButton" onClick="delcfm()">删除</a><br/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--第一列，复选框基本事件-->
+                            <script>
+                                $("#el_checkQuanxuan").change(function () {
+                                    if ($(this).prop("checked") == true) {
+                                        $(".el_checks").prop("checked", "true");
+                                    } else {
+                                        $(".el_checks").removeAttr("checked");
+                                    }
+                                })
+                            </script>
+
+                            <!--分页-->
+                            <div style="margin:20px 0;"></div>
+                            <div class="easyui-panel">
+                                <!--
+                                total 数字 当分页建立时设置记录的总数量 1
+                                pageSize 数字 每一页显示的数量 10
+                                pageNumber 数字 当分页建立时，显示的页数 1
+                                pageList 数组 用户可以修改每一页的大小，
+                                pageList属性定义了多少种大小可以改变. [10,20,30,50]
+                                loading 布尔 定义数据是否正在加载 false
+                                buttons 数组 定义自定义按钮，每个按钮包含两个属性：
+                                iconCls: 显示背景图像的CSS类
+                                handler: 当一个按钮被点击时的处理函数 null
+                                showPageList 布尔 定义是否显示页面列表 true
+                                showRefresh 布尔 定义是否显示刷新按钮 true
+                                beforePageText 字符串 在输入框组件前显示的标签 Page
+                                afterPageText 字符串 在输入框组件后显示的标签 of {pages}
+                                displayMsg 字符串 显示一个页面的信息。
+                                -->
+                                <div class="easyui-pagination" data-options="
+                            total:120,
+
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- 模态框 部门添加-->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button><!--关闭符号-->
+                                    <!--标题-->
+                                    <h4 class="modal-title" id="myModalLabel2">添加部门信息</h4>
+                                </div>
+                                <form>
+                                    <div class="modal-body">
+
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">单位名称：</span>
+                                            <input type="text" class="form-control el_modelinput" name=""/>
+                                            <span></span>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">部门经理：</span>
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">联&nbsp;&nbsp;系&nbsp;人：</span>
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <!--<span class="input-group-addon">联系方式</span>-->
+                                            <span class="el_spans">联系方式：</span>
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <!--<span class="input-group-addon">上级单位</span>-->
+                                            <span class="el_spans">上级单位：</span>
+                                            <input type="text" class="form-control" name="" value="***单位"/>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary">保存</button>
+                                    </div>
+                                </form>
+
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+
+                    <!-- 模态框   信息删除确认 -->
+                    <div class="modal fade" id="delcfmModel">
+                        <div class="modal-dialog">
+                            <div class="modal-content message_align">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">提示</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>您确认要删除该条信息吗？</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" id="url"/>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    <script>
+                        function delcfm() {
+                            $('#delcfmModel').modal();
+                        }
+                        function urlSubmit() {
+                            var url = $.trim($("#url").val());//获取会话中的隐藏属性URL
+                            window.location.href = url;
+                        }
+                    </script>
+
+                    <!--分页-->
+                    <script>
+                        /*
+                         当前页的的值
+                         * $_POST['page']
+                         * 每页多少条数据 , 默认10条
+                         * $_POST['rows']
+                         * 获取数据库总量
+                         * $result["total"]
+                         * 获取多少页：$result["total"]/$_POST['rows']
+                         * */
+                        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+                        $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+                        // ...
+                        $rs = mysql_query("select count(*) from item");
+                        $row = mysql_fetch_row($rs);
+                        $result["total"] = $row[0];
+
+                        $rs = mysql_query("select * from item limit $offset,$rows");
+
+                        $items = array();
+                        while ($row = mysql_fetch_object($rs)) {
+                            array_push($items, $row);
+                        }
+                        $result["rows"] = $items;
+
+                        echo
+                        json_encode($result);
+                    </script>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

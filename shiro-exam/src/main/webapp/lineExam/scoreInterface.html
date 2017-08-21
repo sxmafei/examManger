@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考试进入界面</title>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--导航-->
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #el_header{
+            width:100%;
+            height:70px;
+            background-color:rgb(249,249,249);
+        }
+        #el_headerLeftLogo{
+            float:left;
+            width:250px;
+            height:70px;
+            line-height:70px;
+            margin-left:50px;
+            font-size:25px;
+        }
+        #el_headerRightinfo{
+            float:right;
+            height:70px;
+            position:relative;
+        }
+        #el_systemTime{
+            width:200px;
+            height:25px;
+            font-size:13px;
+            position:absolute;
+            right:15px;
+            top:5px;
+        }
+        #el_opration{
+            width:350px;
+            position:absolute;
+            bottom: 6px;
+            right:0px;
+        }
+        #el_opration ul li{
+            float:left;
+            list-style: none;
+            font-size:14px;
+            margin-left:40px;
+        }
+        #el_indexPage{
+            display:inline-block;
+        }
+    </style>
+    <!--时钟-->
+    <script>
+        /*获得系统当前时间*/
+        $(function(){
+            var d=new Date(),str='';
+            str +=d.getFullYear()+'年'; //获取当前年份
+            str +=d.getMonth()+1+'月'; //获取当前月份（0——11）
+            str +=d.getDate()+'日'+ ' ';
+            str +=d.getHours()+'时';
+            str +=d.getMinutes()+'分';
+            str +=d.getSeconds()+'秒';
+            $("#time").html(str);
+
+            function current(){
+                var d=new Date(),str='';
+                str +=d.getFullYear()+'年'; //获取当前年份
+                str +=d.getMonth()+1+'月'; //获取当前月份（0——11）
+                str +=d.getDate()+'日'+ ' ';
+                str +=d.getHours()+'时';
+                str +=d.getMinutes()+'分';
+                str +=d.getSeconds()+'秒';
+                return str; }
+            setInterval(function(){$("#time").html(current)},1000);
+        });
+    </script>
+
+    <!--内容-->
+    <style>
+        .container{
+            padding:20px;
+        }
+        .container table{
+            width:60%;
+            height:200px;
+            margin:0 auto;
+        }
+        .container table caption{
+            font-size:25px;
+        }
+
+        .container table tr{
+            width:90%;
+            border-top:1px solid #ccc;
+            border-bottom:1px solid #ccc;
+        }
+        .container table tr td:first-child{
+            padding-left:20px;
+            width:200px;
+            background-color:rgb(249,249,249)
+        }
+        .container table tr td:last-child{
+            text-align: center;
+        }
+        #el_getScore{
+            text-shadow:1px 1px 4px #ff0000;
+            color: black;
+            font-size: 40px;
+            font-weight: bold;
+            font-family: 宋体;
+            text-align: center;
+            /* color: #fafafa;
+            letter-spacing: 0;
+            font-size:25px;
+            text-shadow: 0px 1px 0px #999, 0px 2px 0px #888, 0px 3px 0px #777, 0px 4px 0px #666, 0px 5px 0px #555, 0px 6px 0px #444, 0px 7px 0px #333, 0px 8px 7px #001135
+        */}
+    </style>
+</head>
+<body>
+<!--导航-->
+<div id="el_header">
+    <div id="el_headerLeftLogo">
+        电厂名称或logo
+    </div>
+    <div id="el_headerRightinfo">
+        <div id="el_systemTime">
+            <P id="time"></P>
+        </div>
+
+        <div id="el_opration">
+            <ul>
+                <li>
+                    <img src="../image/user%20(2).png" width="15" alt="">
+                    <span>当前用户：</span>
+                    <span id="el_currentUser">用户1</span>
+                </li>
+                <li><a id="el_indexPage" href="">返回首页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+<table>
+    <caption>本次考试的成绩</caption>
+    <tr>
+        <td>考试名称：</td>
+        <td>**考试</td>
+    </tr>
+    <tr>
+        <td>考试时长：</td>
+        <td>120分钟</td>
+    </tr>
+    <tr>
+        <td>试卷总分：</td>
+        <td>100</td>
+    </tr>
+
+    <tr>
+        <td>您获得的分数：</td>
+        <td id="el_getScore">100</td>
+    </tr>
+</table>
+</div>
+</body>
+</html>

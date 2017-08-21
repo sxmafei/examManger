@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.ExampaperMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Exampaper" >
+    <id column="paperId" property="paperid" jdbcType="VARCHAR" />
+    <result column="makeTime" property="maketime" jdbcType="TIMESTAMP" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="deparementId" property="deparementid" jdbcType="VARCHAR" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    paperId, makeTime, level, deparementId, employeeId, title, answer, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from exampaper
+    where paperId = #{paperid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from exampaper
+    where paperId = #{paperid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Exampaper" >
+    insert into exampaper (paperId, makeTime, level, 
+      deparementId, employeeId, title, 
+      answer, description)
+    values (#{paperid,jdbcType=VARCHAR}, #{maketime,jdbcType=TIMESTAMP}, #{level,jdbcType=VARCHAR}, 
+      #{deparementid,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{answer,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Exampaper" >
+    insert into exampaper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paperid != null" >
+        paperId,
+      </if>
+      <if test="maketime != null" >
+        makeTime,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="deparementid != null" >
+        deparementId,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paperid != null" >
+        #{paperid,jdbcType=VARCHAR},
+      </if>
+      <if test="maketime != null" >
+        #{maketime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="deparementid != null" >
+        #{deparementid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Exampaper" >
+    update exampaper
+    <set >
+      <if test="maketime != null" >
+        makeTime = #{maketime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="deparementid != null" >
+        deparementId = #{deparementid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where paperId = #{paperid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Exampaper" >
+    update exampaper
+    set makeTime = #{maketime,jdbcType=TIMESTAMP},
+      level = #{level,jdbcType=VARCHAR},
+      deparementId = #{deparementid,jdbcType=VARCHAR},
+      employeeId = #{employeeid,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where paperId = #{paperid,jdbcType=VARCHAR}
+  </update>
+</mapper>

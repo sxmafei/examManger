@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>培训资料视频查看</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link href="../controls/Video/css/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" src="../controls/Video/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../controls/Video/js/jquery.jplayer.min.js"></script>
+    <script type="text/javascript" src="../controls/Video/js/jplayer.playlist.min.js"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        $(document).ready(function () {
+
+            new jPlayerPlaylist({
+                jPlayer: "#jquery_jplayer_1",
+                cssSelectorAncestor: "#jp_container_1"
+            }, [
+                {
+                    /*列表标题*/
+                    title: "Big Buck Bunny Trailer",
+                    /*视频制作人*/
+                    artist: "Blender Foundation",
+                    /*显示视频类型*/
+                    free: true,
+                    /*视频地址，下边是不同类型的集中视频*/
+                    m4v: "http://www.jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v",
+                    ogv: "http://www.jplayer.org/video/ogv/Big_Buck_Bunny_Trailer.ogv",
+                    webmv: "http://www.jplayer.org/video/webm/Big_Buck_Bunny_Trailer.webm",
+                    poster: "http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"
+                },
+                {
+                    title: "Finding Nemo Teaser",
+                    artist: "Pixar",
+                    m4v: "http://www.jplayer.org/video/m4v/Finding_Nemo_Teaser.m4v",
+                    ogv: "http://www.jplayer.org/video/ogv/Finding_Nemo_Teaser.ogv",
+                    webmv: "http://www.jplayer.org/video/webm/Finding_Nemo_Teaser.webm",
+                    poster: "http://www.jplayer.org/video/poster/Finding_Nemo_Teaser_640x352.png"
+                },
+                {
+                    title: "Incredibles Teaser",
+                    artist: "Pixar",
+                    free:true,
+                    m4v: "http://www.jplayer.org/video/m4v/Incredibles_Teaser.m4v",
+                    ogv: "http://www.jplayer.org/video/ogv/Incredibles_Teaser.ogv",
+                    webmv: "http://www.jplayer.org/video/webm/Incredibles_Teaser.webm",
+                    poster: "http://www.jplayer.org/video/poster/Incredibles_Teaser_640x272.png"
+                }
+            ], {
+                swfPath: "js/jplayer",
+                supplied: "webmv, ogv, m4v",
+                useStateClassSkin: true,
+                autoBlur: false,
+                smoothPlayBar: true,
+                keyEnabled: true
+            });
+
+            new jPlayerPlaylist({
+                jPlayer: "#jquery_jplayer_2",
+                cssSelectorAncestor: "#jp_container_2"
+            }, [
+                {
+                    title: "Cro Magnon Man",
+                    mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+                    oga: "http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg"
+                },
+                {
+                    title: "Your Face",
+                    mp3: "http://www.jplayer.org/audio/mp3/TSP-05-Your_face.mp3",
+                    oga: "http://www.jplayer.org/audio/ogg/TSP-05-Your_face.ogg"
+                }
+            ], {
+                swfPath: "js/jplayer",
+                supplied: "oga, mp3",
+                wmode: "window",
+                useStateClassSkin: true,
+                autoBlur: false,
+                smoothPlayBar: true,
+                keyEnabled: true
+            });
+        });
+        //]]>
+    </script>
+
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <style>
+
+        /*视频*/
+        #jp_container_1{
+            margin:0 auto;
+        }
+
+        /*培训资料的信息*/
+        .el_parperInfo {
+            width: 80%;
+            height: 310px;
+            margin: 10px auto;
+            font-size: 14px;
+            border-top: 2px solid #eee;
+            border-bottom: 2px solid #eee;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .el_parperInfo table {
+            width: 100%;
+        }
+
+        .el_parperInfo table tr {
+            height: 35px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .el_parperInfo table tr td:first-child {
+            border-right: 1px solid #eee;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">培训资料的详细内容</div>
+        <div class="panel-body">
+            <!--返回按钮-->
+            <input type="button" class="btn btn-default"  name="back" value="返回" onclick="javascript:history.back(-1);"/>
+
+            <!--资料信息-->
+            <div class="el_parperInfo">
+                <table>
+                    <tr>
+                        <td>资料名称</td>
+                        <td>电厂安全资料</td>
+                    </tr>
+                    <tr>
+                        <td>上传时间</td>
+                        <td>2017年 11月 10日</td>
+                    </tr>
+                    <tr>
+                        <td>上传人</td>
+                        <td>小李</td>
+                    </tr>
+                    <tr>
+                        <td>浏览量</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>资料所属级别</td>
+                        <td>一级</td>
+                    </tr>
+                    <tr>
+                        <td>所属部门</td>
+                        <td>该试卷是一份非常好的试卷</td>
+                    </tr>
+                    <tr>
+                        <td>播放时长</td>
+                        <td>120分钟</td>
+                    </tr>
+                    <tr>
+                        <td>资料简介</td>
+                        <td>该试卷是一份非常好的试卷</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!--视频-->
+            <div id="jp_container_1" class="jp-video jp-video-270p" role="application" aria-label="media player">
+                <div class="jp-type-playlist">
+                    <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                    <div class="jp-gui">
+
+                        <!--可以在视频界面上，添加内容-->
+                        <div class="jp-video-play">
+                            <button class="jp-video-play-icon" role="button" tabindex="0">play</button><!--播放按钮-->
+                        </div>
+
+                        <!--中间的一堆控件-->
+                        <div class="jp-interface">
+                            <div class="jp-progress">
+                                <div class="jp-seek-bar">
+                                    <div class="jp-play-bar"></div>
+                                </div>
+                            </div>
+                            <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                            <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                            <div class="jp-controls-holder">
+                                <div class="jp-controls">
+                                    <button class="jp-previous" role="button" tabindex="0">previous</button>
+                                    <button class="jp-play" role="button" tabindex="0">play</button>
+                                    <button class="jp-next" role="button" tabindex="0">next</button>
+                                    <button class="jp-stop" role="button" tabindex="0">stop</button>
+                                </div>
+                                <div class="jp-volume-controls">
+                                    <button class="jp-mute" role="button" tabindex="0">mute</button>
+                                    <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                                    <div class="jp-volume-bar">
+                                        <div class="jp-volume-bar-value"></div>
+                                    </div>
+                                </div>
+                                <div class="jp-toggles">
+                                    <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                                    <button class="jp-shuffle" role="button" tabindex="0">shuffle</button>
+                                    <button class="jp-full-screen" role="button" tabindex="0">full screen</button>
+                                </div>
+                            </div>
+                            <div class="jp-details">
+                                <div class="jp-title" aria-label="title">&nbsp;</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--播放列表-->
+                    <div class="jp-playlist">
+                        <ul>
+                            <li>&nbsp;</li>
+                        </ul>
+                    </div>
+
+                    <!--无法使用该插件，提示-->
+                    <div class="jp-no-solution">
+                        <span>Update Required</span>
+                        To play the media you will need to either update your browser to a recent version or update your <a
+                            href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                    </div>
+                </div>
+            </div>
+
+            <div id="jquery_jplayer_2" class="jp-jplayer"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

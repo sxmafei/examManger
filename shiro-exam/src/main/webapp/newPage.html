@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>主页</title>
+    <link href="bs/css/bootstrap.css" rel="stylesheet">
+    <script src="js/jquery.min.js"></script>
+    <script src="bs/js/bootstrap.min.js"></script>
+
+    <!--输入验证-->
+    <script src="主页/js/zhuye.js"></script>
+    <script src="controls/validate/jquery.validate.js"></script>
+    <script src="controls/validate/messages_zh.js"></script>
+
+    <!--验证码-->
+    <script src="controls/indentifyingCode/gVerify.js"></script>
+
+    <!--轮播-->
+    <script src="主页/js/lunbo.js"></script>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .el_section {
+            width: 85%;
+            height: 95%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /*顶部导航栏*/
+
+        .el_nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            box-shadow: 0 2px 2px #ccc;
+        }
+
+        .el_logoName {
+            position: absolute;
+            height: 80px;
+            line-height: 80px;
+            font-size: 25px;
+            width: 20%;
+        }
+
+        .el_navUL {
+            left: 20%;
+            position: absolute;
+            width: 60%;
+            height: 80px;
+        }
+
+        .el_navUL ul li {
+            list-style: none;
+            float: left;
+            width: 120px;
+            font-size: 17px;
+            text-decoration: none;
+            color: black;
+            height: 100%;
+            line-height: 80px;
+            text-align: center;
+        }
+
+        .el_navUL li:hover {
+            background-color: orange;
+        }
+
+        .el_navUL li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        /*登录*/
+        .el_navLogin {
+            width: 20%;
+            height: 60px;
+            font-size: 16px;
+            position: absolute;
+            text-align: center;
+            line-height: 60px;
+            right: 0;
+            top: 10px;
+            border-left: 1px solid #eee;
+        }
+
+        .el_navLogin a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .el_navLoginName {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .el_navLoginName:hover {
+            cursor: pointer;
+        }
+
+        /*新闻区域*/
+        .el_news {
+            width: 100%;
+            height: 400px;
+            padding-top:20px;
+            padding-bottom:20px;
+            background-color:#eee;
+        }
+    </style>
+
+    <!--轮播图-->
+    <style type="text/css" media="screen">
+        li, ul li {
+            list-style: none;
+        }
+
+        .banner {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            margin: 83px auto;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+
+        .banner-inner {
+            width: 100%;
+            height: 350px;
+        }
+
+        .banner img {
+            background-repeat: no-repeat;
+            width:1360px;
+            text-align:center;
+            height:auto;
+            display: block;
+            float: left;
+        }
+
+        .banner .ctrlbtn a {
+            display: block;
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 24px;
+            margin-top: -50px;
+            color: white;
+            background: rgba(100, 100, 100, .5);
+            text-decoration:none;
+        }
+
+        .prev {
+            right: 0;
+            font-family: "宋体";
+        }
+
+        .next {
+            left: 0;
+            font-family: "宋体";
+        }
+
+        .banner a:hover {
+            background: rgba(255, 255, 255, 0.5)
+        }
+
+        .banner ul {
+            position: absolute;
+            left: 0;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .banner li {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, .5);
+            border-radius: 50%;
+            z-index: 1111;
+            cursor: pointer;
+        }
+
+        .banner .active {
+            background: rgba(255, 255, 255, 1)
+        }
+    </style>
+
+    <!--底部footer-->
+    <style>
+        .el_footer {
+            box-shadow:0 -2px 1px rgb(245,245,245);
+            text-align: center;
+            width: 100%;
+            height: 100px;
+        }
+        .el_footerContent{
+            margin-top:1px;
+            height:30px;
+        }
+    </style>
+
+    <!--登录-->
+    <style>
+        .modal-content {
+            width: 550px;
+            height: 430px;
+            text-align:center;
+        }
+
+        .modal-content ul {
+            width: 550px;
+            margin: 0 auto;
+        }
+
+        .modal-content ul li {
+            width:80%;
+            margin:15px auto;
+            list-style: none;
+        }
+
+        .modal-content ul li label {
+            display: inline-block;
+            float: left;
+        }
+
+        .modal-content ul li span{
+            height: 25px;
+            border: 1px solid #aaa;
+            padding: 3px 8px;
+            border-radius: 5px;
+            float:right;
+        }
+        /*验证码*/
+        .el_validateCode{
+            float:right;
+        }
+        /*记住密码*/
+        .el_TipPassword{
+            margin:10px;
+            margin-left:40px;
+            float:left;
+        }
+        .el_sub_btn{
+            width:100%;
+            margin:0 auto;
+        }
+    </style>
+</head>
+<body>
+<!--<导航>-->
+<div class="el_nav">
+    <div class="el_section">
+
+        <a href="#">
+            <div class="el_logoName">
+                电厂logo或名字
+            </div>
+        </a>
+        <div class="el_navUL">
+            <ul>
+                <a href="">
+                    <li>新闻中心</li>
+                </a>
+                <a href="studyMainpage.html">
+                    <li>培训学习</li>
+                </a>
+                <a href="">
+                    <li>关于我们</li>
+                </a>
+            </ul>
+        </div>
+
+        <!--右侧登录-->
+        <div class="el_navLogin">
+            <button class="btn btn-link btn-lg " data-toggle="modal" data-target="#myModal">
+                <img src=""/>登录</button>
+        </div>
+    </div>
+</div>
+
+<!--轮播-->
+<div class="banner">
+    <div class="banner-inner">
+        <img src="image/img/a1.png" alt="" name="0">
+        <img src="image/img/a2.png" alt="" name="1">
+        <img src="image/img/a3.png" alt="" name="2">
+        <img src="image/img/a4.png" alt="" name="3">
+    </div>
+    <div class="ctrlbtn">
+        <a href="javascript:;" class="prev">></a>
+        <a href="javascript:;" class="next"><</a>
+    </div>
+    <ul class="pageCtrl">
+        <li class="active"></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(".banner").changePic({
+        figureBtnAct: "active",
+        clickNode: $(".pageCtrl li"),
+        loopNode: $(".banner-inner"),
+        loopCircle: "-800px",
+        sameNode: $("img"),
+        attrData: "name",
+        leftBtn: $(".prev"),
+        rightBtn: $(".next")
+    })
+</script>
+
+<!--<新闻消息>-->
+<div class="el_news">
+    <div class="el_section">
+        <h3>新闻消息</h3>
+        <div class="col-md-3">
+
+            <div id="yaowen">
+                <a href=""><h3>要闻</h3></a>
+            </div>
+
+            <ul>
+                <li><a href="">我厂最新培训资料已经上传</a></li>
+                <li><a href="">我厂荣获2017最佳企业奖</a></li>
+                <li><a href="">王厂长深入车间视察工作</a></li>
+            </ul>
+            <br>
+            <div>
+                <ul class="pagination">
+                    <li>
+                        <a href="#">上一页</a>
+                    </li>
+                    <li>
+                        <a href="#">1</a>
+                    </li>
+                    <li>
+                        <a href="#">2</a>
+                    </li>
+                    <li>
+                        <a href="#">3</a>
+                    </li>
+                    <li>
+                        <a href="#">下一页</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="row clearfix">
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                        <img alt="150x140" src="../图片描述/img/mushroom.jpg"/>
+                        <div class="caption">
+                            <h3>
+                                学习资料
+                            </h3>
+                            <p>
+                                最新学习资料已上传
+                            </p>
+                            <p>
+                                <a class="btn btn-primary" href="#">了解更多</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                        <img alt="150x140" src="../图片描述/img/mushroom.jpg"/>
+                        <div class="caption">
+                            <h3>
+                                学习资料
+                            </h3>
+                            <p>
+                                最新学习资料已上传
+                            </p>
+                            <p>
+                                <a class="btn btn-primary" href="#">了解更多</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                        <img alt="150x140" src="../图片描述/img/mushroom.jpg"/>
+                        <div class="caption">
+                            <h3>
+                                学习资料
+                            </h3>
+                            <p>
+                                最新学习资料已上传
+                            </p>
+                            <p>
+                                <a class="btn btn-primary" href="#">了解更多</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                        <img alt="150x140" src="../图片描述/img/mushroom.jpg"/>
+                        <div class="caption">
+                            <h3>
+                                学习资料
+                            </h3>
+                            <p>
+                                最新学习资料已上传
+                            </p>
+                            <p>
+                                <a class="btn btn-primary" href="#">了解更多</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--底部-->
+<div class="el_footer">
+    <div class="el_section">
+        <div class="el_footerContent">Copyright © 2015-2016 Tencent. All Rights Reserved. 技术支持联系方式：0351-6998011</div>
+        <div class="el_footerContent">版权所有 备案证号：晋ICP备050024564号</div>
+    </div>
+</div>
+
+<!-- 模态框 用户登录-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="false" data-keyboard="false">
+
+    <div class="modal-dialog" id="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button><!--关闭符号-->
+                <!--标题-->
+                <h3 class="modal-title" id="myModalLabel">用户登录</h3>
+            </div>
+            <form name="form1" method="post">
+
+                <ul>
+                    <li>
+                        <label>用户名：</label>
+                        <input type="text" class="form-control" name="yourname" placeholder="请输入用户名"  onblur="checkna()" required/>
+                        <span class="tips" id="divname">长度1~12个字符</span>
+                    </li>
+                    <li>
+                        <label>密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+                        <input type="password" class="form-control" name="yourpass" placeholder="请输入你的密码" onblur="checkpsd1()" required/>
+                        <span class="tips" id="divpassword1">密码必须由字母和数字组成</span>
+                    </li>
+                    <li>
+                        <label>用户类型：</label>
+                        <select class="form-control" name="el_chooseUser" id="el_userType">
+                            <option value="1">员工</option>
+                            <option value="2">管理员</option>
+                        </select>
+                        <!--<span class="tips" id="divpassword2"></span>-->
+                    </li>
+                    <li>
+                        <label>验证码：</label>
+                        <input type="text" class="form-control" id="code_input" value="" placeholder="请输入验证码"/>
+                        <div class="el_validateCode" id="v_container" ></div>
+                    </li>
+                </ul>
+                <!--记住密码-->
+                <div class="el_TipPassword">
+                    <label>&nbsp;</label>
+                    <input type="checkbox" name="isChecked" value="yes"/><span>记住密码</span>
+                </div>
+                <div class="el_sub_btn">
+                    <button type="submit" class="btn btn-lg btn-block" id="my_button">
+                        <a id="el_loginA">登录</a>
+                        <a href="lineExam/examInterface.html">一般用户页面</a>
+                        <a href="public/homeMain.html">系统管理员页面</a>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#my_button").click(function () {
+        var checkText=$("#el_userType").find("option:selected").val();
+        if(checkText == 1) {
+            window.navigate("public/homeMain.html");
+            $("#el_loginA").css("href","public/homeMain.html")
+        } else{
+            $("#el_loginA").css("href","lineExam/examInterface.html")
+        }
+    })
+</script>
+
+</body>
+
+<!--验证码
+<script>
+    var verifyCode = new GVerify("v_container");
+
+    document.getElementById("my_button").onclick = function(){
+        var res = verifyCode.validate(document.getElementById("code_input").value);
+        if(res){
+            alert("验证正确");
+        }else{
+            alert("验证码错误");
+        }
+    }
+</script>-->
+</html>

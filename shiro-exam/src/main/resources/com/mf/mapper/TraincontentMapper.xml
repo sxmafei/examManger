@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.TraincontentMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Traincontent" >
+    <id column="documentId" property="documentid" jdbcType="INTEGER" />
+    <result column="documentName" property="documentname" jdbcType="VARCHAR" />
+    <result column="trainType" property="traintype" jdbcType="VARCHAR" />
+    <result column="originalName" property="originalname" jdbcType="VARCHAR" />
+    <result column="currentName" property="currentname" jdbcType="VARCHAR" />
+    <result column="upTime" property="uptime" jdbcType="TIMESTAMP" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="VARCHAR" />
+    <result column="browseTimes" property="browsetimes" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    documentId, documentName, trainType, originalName, currentName, upTime, size, employeeId, 
+    level, description, departmentId, browseTimes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from traincontent
+    where documentId = #{documentid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from traincontent
+    where documentId = #{documentid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Traincontent" >
+    insert into traincontent (documentId, documentName, trainType, 
+      originalName, currentName, upTime, 
+      size, employeeId, level, 
+      description, departmentId, browseTimes
+      )
+    values (#{documentid,jdbcType=INTEGER}, #{documentname,jdbcType=VARCHAR}, #{traintype,jdbcType=VARCHAR}, 
+      #{originalname,jdbcType=VARCHAR}, #{currentname,jdbcType=VARCHAR}, #{uptime,jdbcType=TIMESTAMP}, 
+      #{size,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{departmentid,jdbcType=VARCHAR}, #{browsetimes,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Traincontent" >
+    insert into traincontent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="documentid != null" >
+        documentId,
+      </if>
+      <if test="documentname != null" >
+        documentName,
+      </if>
+      <if test="traintype != null" >
+        trainType,
+      </if>
+      <if test="originalname != null" >
+        originalName,
+      </if>
+      <if test="currentname != null" >
+        currentName,
+      </if>
+      <if test="uptime != null" >
+        upTime,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="departmentid != null" >
+        departmentId,
+      </if>
+      <if test="browsetimes != null" >
+        browseTimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="documentid != null" >
+        #{documentid,jdbcType=INTEGER},
+      </if>
+      <if test="documentname != null" >
+        #{documentname,jdbcType=VARCHAR},
+      </if>
+      <if test="traintype != null" >
+        #{traintype,jdbcType=VARCHAR},
+      </if>
+      <if test="originalname != null" >
+        #{originalname,jdbcType=VARCHAR},
+      </if>
+      <if test="currentname != null" >
+        #{currentname,jdbcType=VARCHAR},
+      </if>
+      <if test="uptime != null" >
+        #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="browsetimes != null" >
+        #{browsetimes,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Traincontent" >
+    update traincontent
+    <set >
+      <if test="documentname != null" >
+        documentName = #{documentname,jdbcType=VARCHAR},
+      </if>
+      <if test="traintype != null" >
+        trainType = #{traintype,jdbcType=VARCHAR},
+      </if>
+      <if test="originalname != null" >
+        originalName = #{originalname,jdbcType=VARCHAR},
+      </if>
+      <if test="currentname != null" >
+        currentName = #{currentname,jdbcType=VARCHAR},
+      </if>
+      <if test="uptime != null" >
+        upTime = #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null" >
+        departmentId = #{departmentid,jdbcType=VARCHAR},
+      </if>
+      <if test="browsetimes != null" >
+        browseTimes = #{browsetimes,jdbcType=INTEGER},
+      </if>
+    </set>
+    where documentId = #{documentid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Traincontent" >
+    update traincontent
+    set documentName = #{documentname,jdbcType=VARCHAR},
+      trainType = #{traintype,jdbcType=VARCHAR},
+      originalName = #{originalname,jdbcType=VARCHAR},
+      currentName = #{currentname,jdbcType=VARCHAR},
+      upTime = #{uptime,jdbcType=TIMESTAMP},
+      size = #{size,jdbcType=VARCHAR},
+      employeeId = #{employeeid,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      departmentId = #{departmentid,jdbcType=VARCHAR},
+      browseTimes = #{browsetimes,jdbcType=INTEGER}
+    where documentId = #{documentid,jdbcType=INTEGER}
+  </update>
+</mapper>

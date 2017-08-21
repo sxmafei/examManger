@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.PictureindexMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Pictureindex" >
+    <id column="pictureId" property="pictureid" jdbcType="VARCHAR" />
+    <result column="pictureType" property="picturetype" jdbcType="VARCHAR" />
+    <result column="originalName" property="originalname" jdbcType="VARCHAR" />
+    <result column="currentName" property="currentname" jdbcType="VARCHAR" />
+    <result column="pictureSize" property="picturesize" jdbcType="VARCHAR" />
+    <result column="uploadTime" property="uploadtime" jdbcType="TIMESTAMP" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pictureId, pictureType, originalName, currentName, pictureSize, uploadTime, employeeId, 
+    description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pictureindex
+    where pictureId = #{pictureid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from pictureindex
+    where pictureId = #{pictureid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Pictureindex" >
+    insert into pictureindex (pictureId, pictureType, originalName, 
+      currentName, pictureSize, uploadTime, 
+      employeeId, description)
+    values (#{pictureid,jdbcType=VARCHAR}, #{picturetype,jdbcType=VARCHAR}, #{originalname,jdbcType=VARCHAR}, 
+      #{currentname,jdbcType=VARCHAR}, #{picturesize,jdbcType=VARCHAR}, #{uploadtime,jdbcType=TIMESTAMP}, 
+      #{employeeid,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Pictureindex" >
+    insert into pictureindex
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pictureid != null" >
+        pictureId,
+      </if>
+      <if test="picturetype != null" >
+        pictureType,
+      </if>
+      <if test="originalname != null" >
+        originalName,
+      </if>
+      <if test="currentname != null" >
+        currentName,
+      </if>
+      <if test="picturesize != null" >
+        pictureSize,
+      </if>
+      <if test="uploadtime != null" >
+        uploadTime,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pictureid != null" >
+        #{pictureid,jdbcType=VARCHAR},
+      </if>
+      <if test="picturetype != null" >
+        #{picturetype,jdbcType=VARCHAR},
+      </if>
+      <if test="originalname != null" >
+        #{originalname,jdbcType=VARCHAR},
+      </if>
+      <if test="currentname != null" >
+        #{currentname,jdbcType=VARCHAR},
+      </if>
+      <if test="picturesize != null" >
+        #{picturesize,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Pictureindex" >
+    update pictureindex
+    <set >
+      <if test="picturetype != null" >
+        pictureType = #{picturetype,jdbcType=VARCHAR},
+      </if>
+      <if test="originalname != null" >
+        originalName = #{originalname,jdbcType=VARCHAR},
+      </if>
+      <if test="currentname != null" >
+        currentName = #{currentname,jdbcType=VARCHAR},
+      </if>
+      <if test="picturesize != null" >
+        pictureSize = #{picturesize,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadtime != null" >
+        uploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pictureId = #{pictureid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Pictureindex" >
+    update pictureindex
+    set pictureType = #{picturetype,jdbcType=VARCHAR},
+      originalName = #{originalname,jdbcType=VARCHAR},
+      currentName = #{currentname,jdbcType=VARCHAR},
+      pictureSize = #{picturesize,jdbcType=VARCHAR},
+      uploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+      employeeId = #{employeeid,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where pictureId = #{pictureid,jdbcType=VARCHAR}
+  </update>
+</mapper>

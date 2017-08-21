@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.OptionsMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Options" >
+    <id column="optionId" property="optionid" jdbcType="VARCHAR" />
+    <result column="questionId" property="questionid" jdbcType="VARCHAR" />
+    <result column="optionContent" property="optioncontent" jdbcType="VARCHAR" />
+    <result column="optionSequence" property="optionsequence" jdbcType="INTEGER" />
+    <result column="isAnswer" property="isanswer" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    optionId, questionId, optionContent, optionSequence, isAnswer, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from options
+    where optionId = #{optionid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from options
+    where optionId = #{optionid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Options" >
+    insert into options (optionId, questionId, optionContent, 
+      optionSequence, isAnswer, description
+      )
+    values (#{optionid,jdbcType=VARCHAR}, #{questionid,jdbcType=VARCHAR}, #{optioncontent,jdbcType=VARCHAR}, 
+      #{optionsequence,jdbcType=INTEGER}, #{isanswer,jdbcType=BIT}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Options" >
+    insert into options
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="optionid != null" >
+        optionId,
+      </if>
+      <if test="questionid != null" >
+        questionId,
+      </if>
+      <if test="optioncontent != null" >
+        optionContent,
+      </if>
+      <if test="optionsequence != null" >
+        optionSequence,
+      </if>
+      <if test="isanswer != null" >
+        isAnswer,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="optionid != null" >
+        #{optionid,jdbcType=VARCHAR},
+      </if>
+      <if test="questionid != null" >
+        #{questionid,jdbcType=VARCHAR},
+      </if>
+      <if test="optioncontent != null" >
+        #{optioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="optionsequence != null" >
+        #{optionsequence,jdbcType=INTEGER},
+      </if>
+      <if test="isanswer != null" >
+        #{isanswer,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Options" >
+    update options
+    <set >
+      <if test="questionid != null" >
+        questionId = #{questionid,jdbcType=VARCHAR},
+      </if>
+      <if test="optioncontent != null" >
+        optionContent = #{optioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="optionsequence != null" >
+        optionSequence = #{optionsequence,jdbcType=INTEGER},
+      </if>
+      <if test="isanswer != null" >
+        isAnswer = #{isanswer,jdbcType=BIT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where optionId = #{optionid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Options" >
+    update options
+    set questionId = #{questionid,jdbcType=VARCHAR},
+      optionContent = #{optioncontent,jdbcType=VARCHAR},
+      optionSequence = #{optionsequence,jdbcType=INTEGER},
+      isAnswer = #{isanswer,jdbcType=BIT},
+      description = #{description,jdbcType=VARCHAR}
+    where optionId = #{optionid,jdbcType=VARCHAR}
+  </update>
+</mapper>

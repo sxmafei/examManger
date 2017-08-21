@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考试进入界面</title>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            padding: 20px;
+            padding-top: 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /*待参加考试样式*/
+        .el_stayExam {
+            margin: 10px;
+        }
+
+        .el_exam {
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 1px #777;
+            padding-bottom: 60px;
+            position: relative;
+            margin: 30px;
+            margin-top: 15px;
+        }
+
+        .el_exam li {
+            list-style: none;
+            border-bottom: 1px solid #ccc;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        /*考试名称*/
+        .el_examName {
+            font-size: 18px;
+        }
+
+        .el_examStartButton {
+            position: absolute;
+            right: 50px;
+            bottom: 20px;
+
+        }
+
+        .el_examTip {
+            position: absolute;
+            bottom: 10px;
+            left: 40px;
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /*考试规范*/
+        .el_examStandard {
+            border: 1px solid #ccc;
+        }
+
+        /*培训考试情况*/
+        .el_queryForm {
+            height: 90px;
+        }
+
+        .el_querys {
+            height: 20px;
+            position: relative;
+        }
+
+        .el_query {
+            margin: 10px;
+        }
+
+        .el_query2 {
+            position: absolute;
+            left: 40%;
+            top: 0;
+        }
+
+        .el_queryButton {
+            float: right;
+            margin-right: 50px;
+            margin-top: 20px;
+            /*
+            position:absolute;
+            right:20px;*/
+        }
+
+        /*右侧布局*/
+        .tab-content{
+            width:85%;
+            float:right;
+        }
+        /*左侧菜单栏*/
+        .el_leftMenu {
+            width: 15%;
+            min-width:150px;
+            height: 200px;
+            float:left;
+        }
+
+        .el_leftMenu ul {
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .el_leftMenu ul li {
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            margin: 5px;
+            list-style: none;/*
+            background-color: #eee;*/
+            color:black;
+            border:1px solid #ccc;
+            border-radius:6px;
+        }
+    </style>
+
+    <!--修改密码-->
+    <style type="text/css">
+
+        /*导入*/
+        ul.pass_set {
+            clear: both;
+            margin-top: 7px;
+            margin-bottom: 10px;
+            height: 18px;
+            line-height: 18px;
+            overflow: hidden;
+            width: 156px;
+            margin-left: 320px
+        }
+
+        ul.pass_set li {
+            float: left;
+            text-align: center;
+            width: 50px;
+            border-right: 2px solid #fff;
+            background: #ffd8b4;
+            color: #fff;
+            list-style-type: none;
+        }
+
+        /*提示*/
+        dl.code_note {
+            clear: both;
+            width: 75%;
+            margin: 0 auto;
+            padding: 30px 0 0 0;
+        }
+
+        dl.code_note dt {
+            clear: both;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.7em;
+        }
+
+        dl.code_note dt p {
+            clear: both;
+            font-weight: normal;
+            padding-top: 5px;
+        }
+
+        dl.code_note dd {
+            clear: both;
+            padding-top: 15px;
+        }
+
+        .el_modifyPassword {
+            width: 500px;
+            height: 70px;
+            margin-left: 100px;
+        }
+
+        .el_modifyPassword2 {
+            margin-top: 20px;
+        }
+
+        .el_modifyPassword span {
+            font-size: 15px;
+            width: 80px;
+            display: inline-block;
+        }
+
+        .el_modifyPasswordTrueButton {
+            margin-left: 100px;
+        }
+    </style>
+
+    <!--导航-->
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        #el_header{
+            width:100%;
+            height:70px;
+            background-color:rgb(249,249,249);
+        }
+        #el_headerLeftLogo{
+            float:left;
+            width:250px;
+            height:70px;
+            line-height:70px;
+            margin-left:50px;
+            font-size:25px;
+        }
+        #el_headerRightinfo{
+            float:right;
+            height:70px;
+            position:relative;
+        }
+        #el_systemTime{
+            width:200px;
+            height:25px;
+            font-size:13px;
+            position:absolute;
+            right:15px;
+            top:5px;
+        }
+        #el_opration{
+            width:350px;
+            position:absolute;
+            bottom: 6px;
+            right:0px;
+        }
+        #el_opration ul li{
+            float:left;
+            list-style: none;
+            font-size:14px;
+            margin-left:40px;
+        }
+        #el_indexPage{
+            display:inline-block;
+        }
+    </style>
+
+    <!--时钟-->
+    <script>
+        /*获得系统当前时间*/
+        $(function(){
+            var d=new Date(),str='';
+            str +=d.getFullYear()+'年'; //获取当前年份
+            str +=d.getMonth()+1+'月'; //获取当前月份（0——11）
+            str +=d.getDate()+'日'+ ' ';
+            str +=d.getHours()+'时';
+            str +=d.getMinutes()+'分';
+            str +=d.getSeconds()+'秒';
+            $("#time").html(str);
+
+            function current(){
+                var d=new Date(),str='';
+                str +=d.getFullYear()+'年'; //获取当前年份
+                str +=d.getMonth()+1+'月'; //获取当前月份（0——11）
+                str +=d.getDate()+'日'+ ' ';
+                str +=d.getHours()+'时';
+                str +=d.getMinutes()+'分';
+                str +=d.getSeconds()+'秒';
+                return str; }
+            setInterval(function(){$("#time").html(current)},1000);
+        });
+    </script>
+
+</head>
+<body>
+<!--导航-->
+<div id="el_header">
+    <div id="el_headerLeftLogo">
+        电厂名称或logo
+    </div>
+    <div id="el_headerRightinfo">
+        <div id="el_systemTime">
+            <P id="time"></P>
+        </div>
+
+        <div id="el_opration">
+            <ul>
+                <li>
+                    <img src="../image/user%20(2).png" width="15" alt="">
+                    <span>当前用户：</span>
+                    <span id="el_currentUser">用户1</span>
+                </li>
+                <li><a id="el_indexPage" href="">返回首页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--内容-->
+<div class="container-fluid">
+
+
+
+    <div class="el_leftMenu">
+
+        <ul>
+            <a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                <li role="presentation" class="active">待参加考试</li>
+            </a>
+            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                <li role="presentation">培训档案</li>
+            </a>
+            <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
+                <li role="presentation">修改密码</li>
+            </a>
+        </ul>
+    </div>
+
+    <!--内容-->
+    <div class="tab-content">
+        <!--待参加的考试-->
+        <div role="tabpanel" class="tab-pane active el_stayExam" id="home">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">待参加的考试</div>
+                <div class="panel-body">
+                    <div class="col-md-9">
+                        <!--考试1-->
+                        <div class="el_exam">
+                            <span class="el_examName">考试名称：<span>安全培训考试</span></span>
+                            <ul>
+                                <li>开考时间：<span>2017年12月20日 &nbsp;上午10点</span></li>
+                                <li>考试时长：<span>120分钟</span></li>
+                                <li>考试描述：<span>asdfasdfjasldfhs sdfas hfksadf sdf sfsajf sdhf hsdfh sfj sfh sadhf saf
+                        asdf asdfj alsdfhs fh sfl sdlfjls jflsal fashdf sdjf jsdflsldjf lsjfl sjflj lsjf</span></li>
+                            </ul>
+                            <a href="ExamParper.html"><input type="button" class="btn btn-info el_examStartButton"
+                                                             value="开始考试"/></a>
+                            <span class="el_examTip">提示：将在<span>3分20秒</span>后进入考试，请做好准备</span>
+                        </div>
+
+                        <!--考试2-->
+                        <div class="el_exam">
+                            <span class="el_examName">考试名称：<span>安全培训考试</span></span>
+                            <ul>
+                                <li>开考时间：<span>2017年12月20日 &nbsp;上午10点</span></li>
+                                <li>考试时长：<span>120分钟</span></li>
+                                <li>考试描述：<span>asdfasdfjasldfhs sdfas hfksadf sdf sfsajf sdhf hsdfh sfj sfh sadhf saf
+                        asdf asdfj alsdfhs fh sfl sdlfjls jflsal fashdf sdjf jsdflsldjf lsjfl sjflj lsjf</span></li>
+                            </ul>
+                            <input type="button" class="btn btn-info el_examStartButton" value="开始考试" disabled
+                                   title="开考时间未到"/>
+                            <span class="el_examTip">提示：将在<span>3分20秒</span>后进入考试，请做好准备</span>
+                        </div>
+
+                        <!--考试3-->
+                        <div class="el_exam">
+                            <span class="el_examName">考试名称：<span>安全培训考试</span></span>
+                            <ul>
+                                <li>开考时间：<span>2017年12月20日 &nbsp;上午10点</span></li>
+                                <li>考试时长：<span>120分钟</span></li>
+                                <li>考试描述：<span>asdfasdfjasldfhs sdfas hfksadf sdf sfsajf sdhf hsdfh sfj sfh sadhf saf
+                        asdf asdfj alsdfhs fh sfl sdlfjls jflsal fashdf sdjf jsdflsldjf lsjfl sjflj lsjf</span></li>
+                            </ul>
+                            <button class="btn btn-info el_examStartButton">开始考试</button>
+                            <span class="el_examTip">提示：将在<span>3分20秒</span>后进入考试，请做好准备</span>
+                        </div>
+                    </div>
+                    <!--考试规范文档-->
+                    <div class=" col-md-3 el_examStandard">
+                        <h4><img src="../image/kao.png" width="20"/>考试规范</h4>
+                        <span>1撒打发士大夫</span>
+                        <h4>使用说明</h4>
+                        <p>左侧为您所需参加的考试列表，根据时间来从上到下进行排序（最近要考的放在最上边）。<br/>
+                            考试时间到后，请点击 <i>开始考试</i> 进入考试界面。<br/>
+                            在考试界面中，您可以实时的点击保存按钮，保存您已填写的内容，
+                            以防网络异常等问题，造成填写内容丢失。</p>
+                    </div>
+                </div>
+            </div>
+            ...
+        </div>
+
+        <!--培训考试情况-->
+        <div role="tabpanel" class="tab-pane el_stayExam" id="profile">
+            <div class="panel panel-default">
+                <div class="panel-heading">您的培训信息</div>
+                <!--员工培训档案-->
+                <div class="panel-body">
+                    <form action="" class="el_queryForm">
+                        <div class="row el_querys">
+                            <div class="col-md-4 input-group el_query">
+                                <span class="input-group-addon">安全培训考试通过情况</span>
+                                <select class="selectpicker form-control" title="请选择">
+                                    <option>--请选择--</option>
+                                    <option>通过一级考试</option>
+                                    <option>通过二级考试</option>
+                                    <option>通过三级考试</option>
+                                    <option>未通过</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 input-group el_query el_query2">
+                                        <span class="input-group-addon"
+                                              style="height:33px;margin-right:10px;">培训考试通过情况</span>
+                                <label class="el_radioBox"><input type="radio" name="leixing"> 是</label>
+                                <label class="el_radioBox"><input type="radio" name="leixing"> 否</label>
+                            </div>
+                        </div>
+                        <!--提交查询按钮-->
+                        <button type="submit" class="btn btn-default el_queryButton">查询</button>
+                    </form>
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>序号</th>
+                        <th>培训考试级别</th>
+                        <th>培训考试时间</th>
+                        <th>考试总分数</th>
+                        <th>获得成绩</th>
+                        <th>是否通过</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>一级</td>
+                            <td>2011-12-45</td>
+                            <td>120</td>
+                            <td>90</td>
+                            <td>是</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>一级</td>
+                            <td>2011-12-45</td>
+                            <td>120</td>
+                            <td>90</td>
+                            <td>是</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>一级</td>
+                            <td>2011-12-45</td>
+                            <td>120</td>
+                            <td>90</td>
+                            <td>是</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>一级</td>
+                            <td>2011-12-45</td>
+                            <td>120</td>
+                            <td>90</td>
+                            <td>是</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--第一列，复选框基本事件-->
+                    <script>
+                        $("#el_checkQuanxuan2").change(function () {
+                            if ($(this).prop("checked") == true) {
+                                $(".el_checks2").prop("checked", "true");
+                            } else {
+                                $(".el_checks2").removeAttr("checked");
+                            }
+                        })
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!--修改密码-->
+        <div role="tabpanel" class="tab-pane el_stayExam" id="messages">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">修改密码</div>
+                <div class="panel-body">
+                    <form action="">
+
+                        <i>请修改密码后，确保不丢失。</i><br/><br/>
+
+                        <div class="el_modifyPassword">
+                            <span>原密码：</span>
+                            <input type="password" class="form-control"/>
+                        </div>
+
+                        <div class="m el_modifyPassword">
+                            <span>新密码：</span>
+                            <input type="password" class="form-control" onkeyup="pwStrength(this.value)">
+                            <ul class="pass_set">
+                                <li id="strength_L">弱</li>
+                                <li id="strength_M">中</li>
+                                <li id="strength_H">强</li>
+                            </ul>
+                        </div>
+                        <div class="el_modifyPassword el_modifyPassword2">
+                            <span>密码确认：</span>
+                            <input type="password" class="form-control">
+                        </div>
+
+                        <hr/>
+                        <div class="el_modifyPasswordTrueButton">
+                            <input type="submit" id="el_MPB" class="btn btn-info" value="确认"/>
+                        </div>
+                        <script>
+                            $("#el_MPB").click(function () {
+                                alert("恭喜您，密码修改成功！")
+                            })
+                        </script>
+
+                    </form>
+                    <script type="text/javascript">
+                        function pwStrength(pwd) {
+                            O_color = "#eeeeee";
+                            L_color = "#ffd8b4";
+                            M_color = "#ffaf56";
+                            H_color = "#e85959";
+                            if (pwd == null || pwd == '') {
+                                Lcolor = Mcolor = Hcolor = O_color;
+                            } else {
+                                S_level = checkStrong(pwd);
+                                switch (S_level) {
+                                    case 0:
+                                        Lcolor = Mcolor = Hcolor = O_color;
+                                    case 1:
+                                        Lcolor = L_color;
+                                        Mcolor = Hcolor = O_color;
+                                        break;
+                                    case 2:
+                                        Lcolor = L_color;
+                                        Mcolor = M_color;
+                                        Hcolor = O_color;
+                                        break;
+                                    default:
+                                        Lcolor = L_color;
+                                        Mcolor = M_color;
+                                        Hcolor = H_color;
+                                }
+                            }
+                            $("#strength_L").css('background-color', Lcolor);
+                            $("#strength_M").css('background-color', Mcolor);
+                            $("#strength_H").css('background-color', Hcolor);
+                            return;
+                        }
+
+                        //判断输入密码的类型
+                        function CharMode(iN) {
+                            if (iN >= 48 && iN <= 57) //数字
+                                return 1;
+                            if (iN >= 65 && iN <= 90) //大写
+                                return 2;
+                            if (iN >= 97 && iN <= 122) //小写
+                                return 4;
+                            else return 8;
+                        }
+                        //bitTotal函数
+                        //计算密码模式
+                        function bitTotal(num) {
+                            modes = 0;
+                            for (i = 0; i < 4; i++) {
+                                if (num & 1) modes++;
+                                num >>>= 1;
+                            }
+                            return modes;
+                        }
+                        //返回强度级别
+                        function checkStrong(sPW) {
+                            if (sPW.length <= 4) return 0; //密码太短
+                            Modes = 0;
+                            for (i = 0; i < sPW.length; i++) {
+                                //密码模式
+                                Modes |= CharMode(sPW.charCodeAt(i));
+                            }
+                            return bitTotal(Modes);
+                        }
+                    </script>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

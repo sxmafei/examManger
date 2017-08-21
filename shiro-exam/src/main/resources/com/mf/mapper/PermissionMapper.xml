@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Permission" >
+    <id column="permissionId" property="permissionid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="permissionCode" property="permissioncode" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentid" jdbcType="VARCHAR" />
+    <result column="parentsId" property="parentsid" jdbcType="VARCHAR" />
+    <result column="sortNo" property="sortno" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+ <sql id="Base_Column_List" >
+    permissionId, name, status, type, url, permissionCode, parentId, parentsId, sortNo, 
+    description
+  </sql>
+  
+   <!-- 查询所有的权限 -->
+  <select id="getAllPermission" resultType="com.mf.domain.Permission">
+  	select * from permission 
+  </select>
+  
+     <!-- 查询所有已启用的的权限-->
+  <select id="getAllIsusePermission" resultType="com.mf.domain.Permission">
+  	select * from permission where status='1'
+  </select>
+  
+  <!-- 查询启用的权限（不包括 厂级的权限）：部门级角色 -->
+  <select id="getDepartIsuserPermission" resultType="com.mf.domain.Permission">
+  	SELECT * FROM permission where type!='scope' and status='1'
+  </select>
+  
+   <!-- 更新权限：是否可用 -->
+  <update id="updatePermission" parameterType="com.mf.domain.Permission">
+  	update permission
+    <set>
+      <if test="status ==true" >
+        status = 1,
+      </if>
+      <if test="status ==false">
+      	status = 0
+      </if>
+      <if test="description != null and description!=''" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+	WHERE permissionId=#{permissionid}
+  </update>
+  
+  <!-- 根据permissionid查询权限信息 -->
+  <select id="getPermissionById" parameterType="String" resultType="com.mf.domain.Permission">
+  	select * from permission where permissionId=#{permissionid}
+  </select>
+  
+  <!-- 根据permissionid查询下一级所有权限信息 -->
+  <select id="getNextPermissionById" parameterType="String" resultType="com.mf.domain.Permission">
+  	select * from permission where parentId=#{permissionid}
+  </select>
+  
+  <!-- 根据角色id 查询角色所拥有的权限 -->
+  <select id="getPermissionByRole" resultType="com.mf.domain.Permission" parameterType="String">
+  	SELECT * from role LEFT JOIN rolepermission USING(roleId) LEFT JOIN `permission` USING(permissionId)
+	where roleId=#{roleid}
+  </select>
+  
+ 
+</mapper>

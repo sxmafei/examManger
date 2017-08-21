@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+
+    <!--
+    <link rel="stylesheet" href="../../css/menu/menu.css" />
+    <link rel="stylesheet" href="../../css/public/main2.css" />
+    <script type="text/javascript" src="../../js/menu/menu.js" ></script>-->
+
+    <style>
+        a{
+            color:black;
+            text-decoration: none;
+        }
+        li{
+            color:#0d88c1;
+        }
+        .list-group-item:after{
+            background-color:white;
+            color:white;
+        }
+        .list-group-item a{
+            background-color:white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!--左边索引模块-->
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+    <!--考试和试卷管理-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading1">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                    考试及试卷管理
+                </a>
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="#examManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        考试管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#examparperManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        试卷管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#createExamParper" aria-controls="profile" role="tab" data-toggle="tab">
+                        创建试卷
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--题库管理-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    题库管理
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="#questionManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        试题管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#quesLibManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        题库管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--成绩管理-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                   aria-expanded="true" aria-controls="collapseOne">
+                    成绩管理
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+             aria-labelledby="headingOne">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="#gradeManage" aria-controls="home" role="tab" data-toggle="tab">
+                        成绩管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--外来单位管理-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTwo2">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo">
+                    外来单位管理
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo2" class="panel-collapse collapse" role="tabpanel"
+             aria-labelledby="headingTwo2">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="#outdepartManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        外来单位管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#outdepartEmpManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        外来单位员工管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--部门管理-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    部门管理
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+             aria-labelledby="headingThree">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="#innerdepartManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        部门管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#innerdepartEmpManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        员工管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!--培训内容管理-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree2">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseThree2" aria-expanded="false" aria-controls="collapseThree">
+                    培训内容管理
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree2" class="panel-collapse collapse" role="tabpanel"
+             aria-labelledby="headingThree2">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="#trainManage" aria-controls="profile" role="tab" data-toggle="tab">
+                        培训内容管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--系统管理-->
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree3">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseThree3" aria-expanded="false" aria-controls="collapseThree3">
+                    系统管理
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree3" class="panel-collapse collapse" role="tabpanel"
+             aria-labelledby="headingThree3">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="#employee" aria-controls="profile" role="tab" data-toggle="tab">
+                        职工管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#innerdepart" aria-controls="profile" role="tab" data-toggle="tab">
+                        部门管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#role" aria-controls="profile" role="tab" data-toggle="tab">
+                        角色管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#authority" aria-controls="profile" role="tab" data-toggle="tab">
+                        权限管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#users" aria-controls="profile" role="tab" data-toggle="tab">
+                        用户管理
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#dictionary" aria-controls="profile" role="tab" data-toggle="tab">
+                        字典管理
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<!--右侧事件-->
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+                ..sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkha.sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkha.sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkha.sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkhaskdf.<br/>
+                ..sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkhaskdf.<br/>
+                ..sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkhaskdf.<br/>
+                ..sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkhaskdf.<br/>
+                ..sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkhaskdf.<br/>
+                ..sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkhaskdf.
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="profile">....sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkhaskdf
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="messages">..sadfasdfsakdhfkhsafsdfhsakfhkasdffhasldfhfkhaskdf..
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

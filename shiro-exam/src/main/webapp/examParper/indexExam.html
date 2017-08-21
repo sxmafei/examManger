@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <!--问卷-->
+    <link rel="stylesheet" type="text/css" href="../controls/exam/wenjuan_ht.css">
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+
+    <!--编辑框-->
+    <script>
+        $(document).ready(function (e) {
+
+            //鼠标移上去显示按钮
+            $(".movie_box").hover(function () {
+                var html_cz = "<div class='kzqy_czbut'>" +
+                    "<a href='javascript:void(0)' class='sy'>上移</a>" +
+                    "<a href='javascript:void(0)'  class='xy'>下移</a>" +
+                    "<a href='javascript:void(0)' class='del' >删除</a>" +
+                    "</div>";
+                $(this).css({"border": "1px solid #0099ff"});
+                $(this).children(".wjdc_list").after(html_cz);
+                $(this).children(".el_BigTitle").after(html_cz);
+            }, function () {
+                $(this).css({"border": "1px solid #fff"});
+                $(this).children(".kzqy_czbut").remove();
+            });
+
+            $(".movie_box_title").hover(function () {
+                var html_cz = "<div class='kzqy_czbut'>" +
+                    "<a href='javascript:void(0)' class='del_title' >删除</a>" +
+                    "</div>";
+                $(this).css({"border": "1px solid #0099ff"});
+                $(this).children(".el_BigTitle").after(html_cz);
+            }, function () {
+                $(this).css({"border": "1px solid #fff"});
+                $(this).children(".kzqy_czbut").remove();
+            });
+
+            //下移
+            $(".movie_box").on("click", ".xy", function () {
+                //文字的长度
+                var leng = $(".yd_box").children(".movie_box").length;
+                /*dqgs题号*/
+                var dqgs = $(this).parent(".kzqy_czbut").parent(".movie_box").index();
+
+                if (dqgs < leng - 1) {
+                    var czxx = $(this).parent(".kzqy_czbut").parent(".movie_box");
+                    var xyghtml = czxx.next().html();
+                    var syghtml = czxx.html();
+                    czxx.next().html(syghtml);
+                    czxx.html(xyghtml);
+                    czxx.find(".nmb").text(dqgs + 1);
+                    czxx.next().find(".nmb").text(dqgs + 2);
+                } else {
+                    alert("到底了");
+                }
+            });
+            //上移
+            $(".movie_box").on("click", ".sy", function () {
+                //文字的长度
+                var leng = $(".yd_box").children(".movie_box").length;
+                var dqgs = $(this).parent(".kzqy_czbut").parent(".movie_box").index();
+                if (dqgs > 0) {
+                    var czxx = $(this).parent(".kzqy_czbut").parent(".movie_box");
+                    var xyghtml = czxx.prev().html();
+                    var syghtml = czxx.html();
+                    czxx.prev().html(syghtml);
+                    czxx.html(xyghtml);
+                    //序号
+                    czxx.find(".nmb").text(dqgs + 1);
+                    czxx.prev().find(".nmb").text(dqgs);
+
+                } else {
+                    alert("到头了");
+                }
+            });
+
+            //删除
+            $(".movie_box").on("click", ".del", function () {
+                /*如果点击确定，则则执行下边*/
+                var res = confirm("确认删除吗？");
+                if (res) {
+                    var czxx = $(this).parent(".kzqy_czbut").parent(".movie_box");
+                    var zgtitle_gs = czxx.parent(".yd_box").find(".movie_box").length;
+                    var xh_num = 0;
+                    //重新编号
+                    czxx.parent(".yd_box").find(".movie_box").each(function () {
+                        $(".yd_box").children(".movie_box").eq(xh_num).find(".nmb").text(xh_num);
+                        xh_num++;
+                        //alert(xh_num);
+                    });
+                    czxx.remove();
+                }
+            });
+
+            $(".movie_box_title").on("click", ".del_title", function () {
+                /*如果点击确定，则则执行下边*/
+                var res = confirm("确认所有题吗？");
+                if (res) {
+                    $(this).parent().parent().parent().children(".all_660").remove();
+                }
+            });
+
+
+        });
+    </script>
+
+    <style>
+        a, a:hover, a:active, a:after, a:before, a:visited {
+            color: black;
+        }
+
+        li {
+            color: #0d88c1;
+        }
+
+        /*类型题干*/
+        .elquesTitle {
+            width: 100%;
+            height: 80px;
+            background-color: rgb(240, 242, 242);
+            position: relative
+        }
+
+        /*左边固定*/
+        .panel-group {
+            position: fixed;
+        }
+
+        /*选项样式*/
+        .movie_box {
+            width: 100%;
+        }
+
+        .wjdc_list {
+            height: 100px;
+        }
+
+        .tm_btitlt {
+            display: block;
+            width: 100%;
+            height: 40px;
+        }
+
+        .movie_box .wjdc_list li {
+            float: left;
+            text-decoration: none;
+            min-width: 20%;
+            margin: 10px;
+            height: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        /*左侧*/
+        #accordion {
+            min-width: 180px;
+        }
+
+        #accordion .panel {
+            width: 100%;
+            text-align: center;
+        }
+
+        .el_lbutton {
+            width: 40%;
+            height: 20px;
+            font-size: 13px;
+            margin: 10px;
+            line-height: 20px;
+        }
+
+        .el_lulli {
+            background-color: #EEE;
+            color: black;
+        }
+
+        .el_lulli2 {
+            color: black;
+            float: left;
+            padding-bottom: 20px;
+            padding-top: 10px;
+            background-color: white;
+        }
+
+        .el_zongfen {
+            color: black;
+            margin-left: 40px;
+        }
+
+        .el_eright {
+            min-width: 1000px;
+            position: relative;
+            left: 30px;
+        }
+
+        /*提交试卷内容*/
+        .el_Inputlulli {
+            text-align: left;
+            margin-left: 25%;
+            color: black;
+        }
+
+        /*全选*/
+        .el_Inputlulli1 {
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+            margin-left: 0;
+            padding-left: 25%;
+        }
+
+        .el_Inputlulli input {
+            margin-right: 5px;
+        }
+
+        .el_Inputlulli2 {
+            margin: 10px 0;
+            margin-left: 70%;
+            width: 50px;
+            border: 2px outset #ddd;
+            border-radius: 5px;
+            color: black;
+            background-color: #ddd;
+        }
+
+        .el_Inputlulli2:hover {
+            cursor: pointer;
+        }
+
+        .el_Inputlulli2:active {
+            border: 2px inset #ddd;
+        }
+
+        /*试卷基本信息*/
+        .el_examInfo .input-group{
+            margin:8px;
+        }
+    </style>
+
+    <!--判断每个选项的宽度-->
+    <script>
+        $(function () {
+            var liF_width = $(".wjdc_list").css("width");
+            var li_width = $(".wjdc_list li").css("width");
+
+            /*截取数字*/
+            var lif_width = liF_width.substring(0, liF_width.length - 2);
+            var li_width2 = li_width.substring(0, li_width.length - 2);
+
+            //alert(lif_width/li_width2);
+
+            /*alert(liF_width,li_width);*/
+            if ((lif_width / li_width2 ) > 4) {
+                //alert("asdf");
+
+                //$(".wjdc_list li").parent().children("li").css("clear","both");
+            }
+
+        });
+
+    </script>
+
+    <!--返回-->
+    <style>
+        .el_returnButton {
+            position: fixed;
+            right: 30px;
+            top: 30px;
+
+        }
+
+        .el_useButton {
+            color: white;
+            position: fixed;
+            right: 130px;
+            top: 30px;
+            z-index: 650;
+        }
+
+        .el_useButton a {
+            color: white;
+        }
+
+        .el_returnButton a {
+            text-decoration: none;
+        }
+
+        .button {
+            display: inline-block;
+            position: relative;
+            color: #888;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            text-align: center;
+            padding: 6px 10px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: helvetica, arial, sans-serif;
+            border-radius: 4px;
+            border: 1px solid #bcbcbc;
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(239, 239, 239, 1) 60%, rgba(225, 223, 226, 1) 100%);
+            background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(239, 239, 239, 1) 60%, rgba(225, 223, 226, 1) 100%);
+            background-image: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(239, 239, 239, 1) 60%, rgba(225, 223, 226, 1) 100%);
+            background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(239, 239, 239, 1) 60%, rgba(225, 223, 226, 1) 100%);
+            background-image: linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(239, 239, 239, 1) 60%, rgba(225, 223, 226, 1) 100%);
+        }
+
+        .button:hover {
+            color: #555;
+        }
+
+        .button:active, .button:active:after, .button:active:before {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        .button.back {
+            border-left: none;
+        }
+
+        .button.back:after {
+            content: '';
+            position: absolute;
+            height: 50%;
+            width: 15px;
+            border-left: 1px solid #bcbcbc;
+            background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            background-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            left: -5px;
+            top: 1px;
+            -webkit-transform: skew(-35deg, 0);
+            -moz-transform: skew(-35deg, 0);
+            -o-transform: skew(-35deg, 0);
+            -ms-transform: skew(-35deg, 0);
+            transform: skew(-35deg, 0);
+        }
+
+        .button.back:before {
+            content: '';
+            position: absolute;
+            height: 48%;
+            width: 15px;
+            border-left: 1px solid #bcbcbc;
+            bottom: 1px;
+            left: -5px;
+            -webkit-transform: skew(35deg, 0);
+            -moz-transform: skew(35deg, 0);
+            -o-transform: skew(35deg, 0);
+            -ms-transform: skew(35deg, 0);
+            transform: skew(35deg, 0);
+            background-image: -webkit-linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            background-image: -moz-linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            background-image: -o-linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            background-image: -ms-linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            background-image: linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            -webkit-box-shadow: -2px 1px 2px rgba(100, 100, 100, 0.1);
+            box-shadow: -2px 1px 2px rgba(100, 100, 100, 0.1);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!--左侧-->
+<div class="col-md-2">
+    <!--左边索引模块-->
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                       aria-expanded="true" aria-controls="collapseThree">
+                        试卷导出
+                    </a>
+                </h4>
+            </div>
+
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <ul class="list-group">
+
+                    <ul class="el_lul">
+                        <li class="el_Inputlulli1 el_Inputlulli"><label><input type="checkbox"/>全选</label></li>
+                        <li class="el_Inputlulli"><label><input type="checkbox"/>试卷</label></li>
+                        <li class="el_Inputlulli"><label><input type="checkbox"/>答案</label></li>
+                        <li class="el_Inputlulli"><label><input type="checkbox"/>参考人员信息</label></li>
+                        <li class="el_Inputlulli2" onClick="output()">导出</li>
+                    </ul>
+
+                </ul>
+                <script>
+                    $(".el_Inputlulli1 input").change(function () {
+                        if ($(this).prop("checked") == true) {
+                            $(".el_Inputlulli input").prop("checked", "true");
+                        } else {
+                            $(".el_Inputlulli input").removeAttr("checked")
+                        }
+                    });
+                </script>
+            </div>
+
+
+            <!--试题统计-->
+            <div class="panel-heading" role="tab" id="headingTow">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTow"
+                       aria-expanded="true" aria-controls="collapseTow">
+                        试题统计
+                    </a>
+                </h4>
+            </div>
+
+            <div id="collapseTow" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTow">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <ul class="el_lul">
+                            <li class="el_lulli">单选题</li>
+                            <li class="el_lulli2">______道</li>
+                            <li class="el_lulli2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______分数</li>
+                        </ul>
+                        <br>
+                        <ul class="el_lul">
+                            <li class="el_lulli">多选题</li>
+                            <li class="el_lulli2">______道</li>
+                            <li class="el_lulli2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______分数</li>
+                        </ul>
+                        <br>
+                        <ul class="el_lul">
+                            <li class="el_lulli">判断题</li>
+                            <li class="el_lulli2">______道</li>
+                            <li class="el_lulli2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______分数</li>
+                        </ul>
+                        <br>
+
+                        <div class="el_zongfen">总分：_______</div>
+                        <br/>
+                    </li>
+                </ul>
+            </div>
+
+            <!--增加试题-->
+            <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"
+                       aria-expanded="true" aria-controls="collapseThree">
+                        增加试题
+                    </a>
+                </h4>
+            </div>
+
+            <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+                <ul class="list-group">
+
+                    <ul class="el_lul">
+                        <li class="el_lulli">单选题</li>
+                        <li class="el_lulli2"></li>
+                    </ul>
+                    <br>
+                    <ul class="el_lul">
+                        <li class="el_lulli">多选题</li>
+                    </ul>
+                    <br>
+                    <ul class="el_lul">
+                        <li class="el_lulli">判断题</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--返回按钮-->
+<div class="el_returnButton">
+    <input type="button" class="btn btn-default"  name="back" value="返回" onclick="javascript:history.back(-1);"/>
+</div>
+<!--
+<div class="el_returnButton">
+    <a class="button back" href="addExamparper.html">返 回</a>
+</div>-->
+
+<div class="el_useButton">
+    <a href="examparperManage.html" class="btn btn-primary">保存修改</a>
+</div>
+
+<!--右侧事件-->
+<div class="row">
+    <div class="el_eright col-md-9">
+
+        <!--试卷基本信息-->
+
+        <div class="col-md-10">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <!--标题-->
+                <h4 class="modal-title" id="myModalLabel">请填写新试卷基本信息</h4>
+            </div>
+            <form action="indexExam.html" class="el_examInfo">
+                <div class="col-md-10">
+                    <div class="input-group" role="toolbar">
+                        <span class="input-group-addon">试卷标题</span>
+                        <input type="text" class="form-control" name=""/>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="input-group" role="toolbar">
+                        <span class="input-group-addon">出卷时间</span>
+                        <input type="date" class="form-control" name=""/>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="input-group" role="toolbar">
+                        <span class="input-group-addon">创建人</span>
+                        <input type="text" class="form-control" name=""/>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="input-group" role="toolbar">
+                        <span class="input-group-addon">试卷级别</span>
+                        <select class="selectpicker form-control" title="请选择">
+                            <option>--请选择--</option>
+                            <option>一级（厂级）</option>
+                            <option>二级（部门级）</option>
+                            <option>三级（班级）</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="input-group" role="toolbar">
+                        <span class="input-group-addon">试卷描述</span>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">提交更改</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+
+
+        <div class="tab-content">
+            <!--第二-->
+            <div role="tabpanel" class="tab-pane active">
+                <!--考试标题-->
+                <h2><input style="border:none;" type="text" value="电厂安全考试"/></h2>
+
+                <div>
+                    <span>考试时间：<span></span>120</span><span>分钟</span>
+                </div>
+
+                <!--单选题-->
+                <div class="elaquesTitle_father">
+                    <div class="elquesTitle movie_box_title">
+                        <h4 class="el_BigTitle">一、单选题(共11题；共22分）</h4>
+                    </div>
+
+                    <!--试题-->
+                    <div class=" all_660">
+
+                        <div class="yd_box">
+
+
+                            <div class="movie_box">
+                                <div class="tm_btitlt">
+                                    <i class="nmb">1</i>. <i class="btwenzi">你dd有多久的公务员资历?</i>
+                                </div>
+                                <ul class="wjdc_list">
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>0-3年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>4-10年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>11-20年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>20年以上</span></label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <div class="tm_btitlt">
+                                    <i class="nmb">1</i>. <i class="btwenzi">你dd有多久的公务员资历?</i>
+                                </div>
+                                <ul class="wjdc_list">
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>0-3年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>4-10年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>11-20年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>20年以上</span></label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <div class="tm_btitlt">
+                                    <i class="nmb">1</i>. <i class="btwenzi">你dd有多久的公务员资历?</i>
+                                </div>
+                                <ul class="wjdc_list">
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>0-3年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>4-10年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>11-20年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>20年以上</span></label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <div class="tm_btitlt">
+                                    <i class="nmb">1</i>. <i class="btwenzi">你dd有多久的公务员资历?</i>
+                                </div>
+                                <ul class="wjdc_list">
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>0-3年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>4-10年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>11-20年</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>20年以上</span></label>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!--多选题-->
+                <div>
+                    <div class="elquesTitle movie_box_title">
+                        <h4 class="el_BigTitle">一、多选题(共11题；共22分）</h4>
+                    </div>
+
+                    <div class=" all_660">
+
+                        <div class="yd_box">
+
+
+                            <div class="movie_box">
+                                <div class="tm_btitlt">
+                                    <i class="nmb">1</i>. <i class="btwenzi">对目前的工作哪方面不满意【多选】?</i>
+                                </div>
+                                <ul class="wjdc_list">
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span>任务多、压力大</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span>人际关系难处理，环境难适应</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span> 缺少认同和成就感</span></label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <div class="tm_btitlt">
+                                    <i class="nmb">1</i>. <i class="btwenzi">对目前的工作哪方面不满意【多选】?</i>
+                                </div>
+                                <ul class="wjdc_list">
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span>任务多、压力大</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span>人际关系难处理，环境难适应</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span> 缺少认同和成就感</span></label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <div class="tm_btitlt">
+                                    <i class="nmb">1</i>. <i class="btwenzi">对目前的工作哪方面不满意【多选】?</i>
+                                </div>
+                                <ul class="wjdc_list">
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span>任务多、压力大</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span>人际关系难处理，环境难适应</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span> 缺少认同和成就感</span></label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <div class="tm_btitlt">
+                                    <i class="nmb">1</i>. <i class="btwenzi">对目前的工作哪方面不满意【多选】?</i>
+                                </div>
+                                <ul class="wjdc_list">
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span>任务多、压力大</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span>人际关系难处理，环境难适应</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="" type="checkbox" value="">
+                                            <span> 缺少认同和成就感</span></label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--判断题-->
+                <div>
+                    <div class="elquesTitle movie_box_title">
+                        <h4 class="el_BigTitle">一、判断题(共11题；共22分）</h4>
+                    </div>
+
+                    <div class=" all_660">
+
+                        <div class="yd_box">
+
+                            <div class="movie_box">
+                                <ul class="wjdc_list">
+
+                                    <div class="tm_btitlt"><i class="nmb">3</i>. <i class="btwenzi">
+                                        任务多、压力大任务多、压力大任务多、压力大？</i>
+                                    </div>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>正确</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>错误</span></label>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <ul class="wjdc_list">
+
+                                    <div class="tm_btitlt"><i class="nmb">3</i>. <i class="btwenzi">
+                                        任务多、压力大任务多、压力大任务多、压力大？</i>
+                                    </div>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>正确</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>错误</span></label>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <ul class="wjdc_list">
+
+                                    <div class="tm_btitlt"><i class="nmb">3</i>. <i class="btwenzi">
+                                        任务多、压力大任务多、压力大任务多、压力大？</i>
+                                    </div>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>正确</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>错误</span></label>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="movie_box">
+                                <ul class="wjdc_list">
+
+                                    <div class="tm_btitlt"><i class="nmb">3</i>. <i class="btwenzi">
+                                        任务多、压力大任务多、压力大任务多、压力大？</i>
+                                    </div>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>正确</span></label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input name="a" type="radio" value="">
+                                            <span>错误</span></label>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框   导出提示框 -->
+<div class="modal fade" id="outputModel">
+    <div class="modal-dialog">
+        <div class="modal-content message_align">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title">提示信息</h4>
+            </div>
+            <div class="modal-body">
+                <span>您确认要导出<span>试卷</span>、<span>答案</span><span>和参考人员的信息</span>吗？</span>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="url"/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    function output() {
+        $('#outputModel').modal();
+    }
+    function urlSubmit() {
+        var url = $.trim($("#url").val());//获取会话中的隐藏属性URL
+        window.location.href = url;
+    }
+</script>
+
+</body>
+</html>

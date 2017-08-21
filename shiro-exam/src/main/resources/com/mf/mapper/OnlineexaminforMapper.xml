@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.OnlineexaminforMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Onlineexaminfor" >
+    <id column="onLineExamId" property="onlineexamid" jdbcType="VARCHAR" />
+    <result column="examId" property="examid" jdbcType="VARCHAR" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="loginTime" property="logintime" jdbcType="TIMESTAMP" />
+    <result column="startTime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="ipAddress" property="ipaddress" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    onLineExamId, examId, employeeId, loginTime, startTime, endTime, ipAddress
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from onlineexaminfor
+    where onLineExamId = #{onlineexamid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from onlineexaminfor
+    where onLineExamId = #{onlineexamid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Onlineexaminfor" >
+    insert into onlineexaminfor (onLineExamId, examId, employeeId, 
+      loginTime, startTime, endTime, 
+      ipAddress)
+    values (#{onlineexamid,jdbcType=VARCHAR}, #{examid,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, 
+      #{logintime,jdbcType=TIMESTAMP}, #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{ipaddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Onlineexaminfor" >
+    insert into onlineexaminfor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="onlineexamid != null" >
+        onLineExamId,
+      </if>
+      <if test="examid != null" >
+        examId,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="logintime != null" >
+        loginTime,
+      </if>
+      <if test="starttime != null" >
+        startTime,
+      </if>
+      <if test="endtime != null" >
+        endTime,
+      </if>
+      <if test="ipaddress != null" >
+        ipAddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="onlineexamid != null" >
+        #{onlineexamid,jdbcType=VARCHAR},
+      </if>
+      <if test="examid != null" >
+        #{examid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="logintime != null" >
+        #{logintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ipaddress != null" >
+        #{ipaddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Onlineexaminfor" >
+    update onlineexaminfor
+    <set >
+      <if test="examid != null" >
+        examId = #{examid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="logintime != null" >
+        loginTime = #{logintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="starttime != null" >
+        startTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ipaddress != null" >
+        ipAddress = #{ipaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where onLineExamId = #{onlineexamid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Onlineexaminfor" >
+    update onlineexaminfor
+    set examId = #{examid,jdbcType=VARCHAR},
+      employeeId = #{employeeid,jdbcType=VARCHAR},
+      loginTime = #{logintime,jdbcType=TIMESTAMP},
+      startTime = #{starttime,jdbcType=TIMESTAMP},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      ipAddress = #{ipaddress,jdbcType=VARCHAR}
+    where onLineExamId = #{onlineexamid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>整体页面</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+    <style>
+        body{
+            margin:0;
+            padding:0;
+        }
+        .footer{
+            background-color: rgb(249,249,249);
+            padding-top: 20px;
+            padding-bottom: 30px;
+            margin: 0 auto;
+            text-align: center;
+            position:absolute;
+            bottom:0;
+        }
+       .el_footer{
+            width:100%;
+            height:100px;
+           clear:both;
+        }
+
+        /*主页*/
+        .el_queryBoxMainPage {
+            min-width: 970px;
+            width: 100%;
+            display: block;
+        }
+
+        /*索引内容*/
+        .el_queryBox {
+            width: 103%;
+            height: 160px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+        /*索搜行*/
+        .el_queryBoxrow{
+            margin:20px;
+        }
+        .el_queryBox form {
+            margin-top: 20px;
+            min-width: 970px;
+        }
+
+        .el_queryButton {
+            position: absolute;
+            right: 50px;
+            bottom: 10px;
+        }
+
+        .input-group-addon {
+            font-size: 12px;
+        }
+
+        .form-control {
+            font-size: 12px;
+        }
+
+        /*标题*/
+        .el_mainHead {
+            width: 103%;
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            right: 20px;
+        }
+
+        /*主要部分*/
+        .el_Mainmain {
+            position: relative;
+            top: -10px;
+        }
+
+        .panel-body {
+            border: none;
+        }
+
+        /*按钮操作*/
+        .el_topButton {
+            height: 50px;
+            margin-top: 20px;
+        }
+
+        .el_delButton:hover {
+            cursor: pointer;
+        }
+
+        /*单选按钮*/
+        .el_radioBox {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<!--头-->
+<div class="row">
+
+</div>
+
+<!--主-->
+<div class="row">
+    <!--中部-->
+    <div class="html_middle">
+
+        <!--放菜单-->
+        <div class="col-md-2">
+
+        </div>
+
+        <!--放主界面内容-->
+        <div class="col-md-10">
+
+            <!--右侧事件-->
+            <div class="row">
+
+                <div class="tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="examManage">
+                        <div class="container-fluid">
+                            <div class="panel panel-default el_queryBoxMainPage">
+                                <!--菜单连接标题-->
+                                <div class="panel-heading"><span>考试管理</span><span>>用户添加</span></div>
+                                <div class="panel-body">
+
+                                    <!--内容-->
+                                    <div class=" col-md-12">
+
+                                        <!--索引-->
+                                        <div class="row el_queryBox">
+                                            <form action="">
+                                                <div class="row el_queryBoxrow">
+
+                                                    <div class="col-md-3">
+                                                        <div class="input-group" role="toolbar">
+                                                            <span class="input-group-addon">考试名称</span>
+                                                            <input type="text" class="form-control" name=""/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="input-group" role="toolbar">
+                                                            <span class="input-group-addon" style="height:33px;margin-right:10px;">考试级别</span>
+                                                            <label class="el_radioBox">
+                                                                <input type="radio" name="leixing" checked class="">一级</label>
+                                                            <label class="el_radioBox"><input type="radio" name="leixing"> 二级</label>
+                                                            <label class="el_radioBox"><input type="radio" name="leixing"> 三级</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="input-group" role="toolbar">
+                                                            <span class="input-group-addon" style="height:33px;margin-right:10px;">考试状态</span>
+                                                            <label class="el_radioBox">
+                                                                <input type="radio" name="el_state" checked class="">未考</label>
+                                                            <label class="el_radioBox"><input type="radio" name="el_state"> 已考</label>
+                                                            <label class="el_radioBox"><input type="radio" name="el_state"> 考试中</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row el_queryBoxrow">
+                                                    <!--部门联动-->
+                                                    <div class="col-md-3">
+
+                                                        <div class="input-group" role="toolbar">
+                                                            <span class="input-group-addon">参考人员部门</span>
+                                                            <select id="el_department" class="selectpicker form-control" title="请选择">
+                                                                <option>--请选择--</option>
+                                                                <option value="0">部门1</option>
+                                                                <option value="1">部门2</option>
+                                                                <option value="2">部门3</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group" role="toolbar">
+                                                            <span class="input-group-addon">参考人员班组</span>
+                                                            <select id="el_banzu" class="selectpicker form-control" title="请选择">
+                                                                <option>--请选择--</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <script>
+                                                        $(function () {
+                                                            //2.创建二维数组用于存储部门和班组
+                                                            var classes = new Array(4);
+                                                            classes[0] = new Array("班组1", "班组2", "班组3", "班组4", "班组5");
+                                                            classes[1] = new Array("班组2", "班组2", "班组3", "班组4");
+                                                            classes[2] = new Array("班组3", "班组2", "班组3", "班组4");
+                                                            classes[3] = new Array("班组4", "班组2", "班组3", "班组4");
+
+                                                            $("#el_department").change(function () {
+                                                                //清除第二个下拉列表的内容
+                                                                $("#el_banzu").empty();
+
+                                                                var val = this.value;
+                                                                //3.遍历二维数组中的部门
+                                                                $.each(classes, function (i, vals) {
+                                                                    if (val == i) {
+                                                                        /*获取部门选择的数组，并遍历*/
+                                                                        $.each(vals, function (j, vals2) {
+                                                                            /*每个班号*/
+                                                                            //alert(vals2)
+                                                                            $("#el_banzu").append("<option>" + vals2 + "</option>");
+                                                                        })
+                                                                    }
+                                                                });
+                                                            });
+                                                        });
+                                                    </script>
+
+                                                </div>
+
+                                                <!--提交查询按钮-->
+                                                <button type="submit" class="btn btn-default el_queryButton">查询</button>
+                                            </form>
+
+                                        </div>   <!--结束 查询表单提交-->
+
+                                        <!--显示内容-->
+                                        <h3 class="el_mainHead">考试信息</h3>
+                                        <div class="panel panel-default el_Mainmain">
+
+                                            <!--按钮面板-->
+                                            <div class="panel-body">
+
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body el_MainxiaoMain">
+
+                                                        <div class="el_topButton">
+                                                            <!-- 按钮触发模态框1-->
+                                                            <div class="col-md-2">
+                                                                <button class="btn btn-primary">
+                                                                    <a style="text-decoration:none;color:white;" href="addExam.html">创建考试</a>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button type="button" class="btn btn-primary" onclick="piliangdelcfm()">批量删除
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <!--表格
+                                                    内容都提取到json里边
+                                                -->
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <th><input type="checkbox" id="el_checkQuanxuan"/></th>
+                                                    <th>考试名称</th>
+                                                    <th>考试时间</th>
+                                                    <th>等级</th>
+                                                    <th>考试状态</th>
+                                                    <th>考试人数</th>
+                                                    <th>考试时长</th>
+                                                    <th>考试地点</th>
+                                                    <th>参加考试部门</th>
+                                                    <th width="30%">描述</th>
+                                                    <th>操作</th>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><input type="checkbox" class="el_checks"/></td>
+                                                        <td>内啊手动阀</td>
+                                                        <td>2017-12-20</td>
+                                                        <td>1级</td>
+                                                        <td>已考</td>
+                                                        <td>20</td>
+                                                        <td>20分钟</td>
+                                                        <td>电器化电器及电气部</td>
+                                                        <td>工厂阶教</td>
+                                                        <td>试卷主要是手动阀撒旦解放啦世界的分厘卡机说得来发</td>
+                                                        <td>
+                                                            <a href="addExam.html">修改</a>
+                                                            <a class="el_delButton" onClick="delcfm()">删除</a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!--第一列，复选框基本事件-->
+                                                <script>
+                                                    $("#el_checkQuanxuan").change(function () {
+                                                        if ($(this).prop("checked") == true) {
+                                                            $(".el_checks").prop("checked", "true");
+                                                        } else {
+                                                            $(".el_checks").removeAttr("checked");
+                                                        }
+                                                    })
+                                                </script>
+
+                                                <!--分页-->
+                                                <div style="margin:20px 0;"></div>
+                                                <div class="easyui-panel">
+                                                    <!--
+                                                    total 数字 当分页建立时设置记录的总数量 1
+                                                    pageSize 数字 每一页显示的数量 10
+                                                    pageNumber 数字 当分页建立时，显示的页数 1
+                                                    pageList 数组 用户可以修改每一页的大小，
+                                                    pageList属性定义了多少种大小可以改变. [10,20,30,50]
+                                                    loading 布尔 定义数据是否正在加载 false
+                                                    buttons 数组 定义自定义按钮，每个按钮包含两个属性：
+                                                    iconCls: 显示背景图像的CSS类
+                                                    handler: 当一个按钮被点击时的处理函数 null
+                                                    showPageList 布尔 定义是否显示页面列表 true
+                                                    showRefresh 布尔 定义是否显示刷新按钮 true
+                                                    beforePageText 字符串 在输入框组件前显示的标签 Page
+                                                    afterPageText 字符串 在输入框组件后显示的标签 of {pages}
+                                                    displayMsg 字符串 显示一个页面的信息。
+                                                    -->
+                                                    <div class="easyui-pagination" data-options="
+                            total:120,
+
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <!-- 模态框   信息删除确认 -->
+                                        <div class="modal fade" id="delcfmModel">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content message_align">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                                aria-hidden="true">×</span></button>
+                                                        <h4 class="modal-title">提示</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>您确认要删除该试卷吗？</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="url"/>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                        <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                        <script>
+                                            function delcfm() {
+                                                $('#delcfmModel').modal();
+                                            }
+                                            function urlSubmit() {
+                                                var url = $.trim($("#url").val());//获取会话中的隐藏属性URL
+                                                window.location.href = url;
+                                            }
+                                        </script>
+
+                                        <!-- 模态框   批量信息删除确认 -->
+                                        <div class="modal fade" id="delcfmModel2">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content message_align">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                                aria-hidden="true">×</span></button>
+                                                        <h4 class="modal-title">提示</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>您确认要删除该试卷吗？</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="url2"/>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                        <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                        <script>
+                                            function piliangdelcfm() {
+                                                //累计选择的个数，若大于1，才执行，否则提示
+                                                var nums = 0;
+                                                $.each($(".el_checks"), function (i, el_check) {
+                                                    if ($(this).prop("checked")) {
+                                                        nums++;
+                                                    }
+                                                });
+                                                if (nums > 1) {
+                                                    $('#delcfmModel2').modal();
+                                                } else {
+                                                    alert("请至少选择两列，才能执行此操作！")
+                                                }
+                                            }
+                                            function urlSubmit() {
+                                                var url = $.trim($("#url2").val());//获取会话中的隐藏属性URL
+                                                window.location.href = url;
+                                            }
+                                        </script>
+
+                                        <script>
+                                            /*
+                                             当前页的的值
+                                             * $_POST['page']
+                                             * 每页多少条数据 , 默认10条
+                                             * $_POST['rows']
+                                             * 获取数据库总量
+                                             * $result["total"]
+                                             * 获取多少页：$result["total"]/$_POST['rows']
+                                             * */
+                                            $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+                                            $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+                                            // ...
+                                            $rs = mysql_query("select count(*) from item");
+                                            $row = mysql_fetch_row($rs);
+                                            $result["total"] = $row[0];
+
+                                            $rs = mysql_query("select * from item limit $offset,$rows");
+
+                                            $items = array();
+                                            while ($row = mysql_fetch_object($rs)) {
+                                                array_push($items, $row);
+                                            }
+                                            $result["rows"] = $items;
+
+                                            echo
+                                            json_encode($result);
+                                        </script>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<!--脚-->
+<div class="el_footer">
+    <footer class="footer">
+        <div class="center" >Copyright © 2015-2016 Tencent. All Rights Reserved. 技术支持联系方式：0351-6998011</div>
+        <div class="center">版权所有 备案证号：晋ICP备050024564号</div>
+    </footer>
+</div>
+</body>
+</html>

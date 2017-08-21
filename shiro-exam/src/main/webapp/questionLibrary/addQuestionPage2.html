@@ -1,0 +1,314 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>添加试题</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+
+    <!--试题包-->
+    <link rel="stylesheet" type="text/css" href="../controls/exam/wenjuan_ht.css">
+    <script src="http://www.jq22.com/jquery/jquery-1.7.1.js"></script>
+    <script src="../js/index1question.js"></script>
+
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--日历-->
+    <link rel="stylesheet" href="../controls/calendar/pikaday.css">
+    <script src="../controls/calendar/pikaday.js"></script>
+
+    <!--select2下拉列表知识点-->
+    <link type="text/css" rel="stylesheet" href="../controls/select2/select2.css"/>
+    <script type="text/javascript" src="../controls/select2/select2.js"></script>
+
+    <!--富文本框-->
+    <link rel="stylesheet" href="../controls/kindEditor/themes/default/default.css"/>
+    <script charset="utf-8" src="../controls/kindEditor/kindeditor-all-min.js"></script>
+    <script charset="utf-8" src="../controls/kindEditor/zh-CN.js"></script>
+
+    <style>
+        /*上传图片*/
+        .el_loadPictrue {
+            width: 200px;
+            display: inline
+        }
+    </style>
+
+    <style>
+        /*所有内容*/
+        .input-group {
+            margin: 20px;
+        }
+
+        .el_queryBox form {
+            margin-top: 20px;
+        }
+
+        .form-control {
+            height: 30px;
+            font-size: 12px;
+            border-radius: 3px;
+            width: 350px;
+        }
+    </style>
+
+    <!--/*span改变样式后的样子*/-->
+    <style>
+        /*模态框中的内容*/
+        .el_modellist {
+            margin: 10px;
+            margin-bottom: 15px;
+            width: 500px;
+        }
+
+        .el_spans {
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1;
+            color: #555;
+            text-align: center;
+            border-radius: 4px;
+            width: 1%;
+            white-space: nowrap;
+            vertical-align: middle;
+            display: table-cell;
+        }
+
+        .el_modelinput {
+            width: 300px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+<div class="row">
+    <h4 class="modal-title" id="myMo34dalLabel">添加试题</h4>
+    <form>
+
+        <div class="modal-body">
+
+            <div class="input-group el_modellist" role="toolbar">
+                <span class="el_spans">试题题目：</span>
+                <input type="text" class="form-control el_modelinput" name=""/>
+            </div>
+
+            <div class="input-group el_modellist" role="toolbar">
+                <span class="el_spans">选择题库：</span>
+                <select id="el_department3" class="selectpicker form-control" title="请选择">
+                    <option>--请选择--</option>
+                    <option value="0">题库1</option>
+                    <option value="0">题库1</option>
+                    <option value="0">题库1</option>
+                    <option value="0">题库1</option>
+                </select>
+            </div>
+
+            <div class="input-group el_modellist">
+                <span class="el_spans">试题类型：</span>
+                <label id="addquerstions" class="addquerstions form-control">
+                    <label><input type="radio" name="leixing" checked value="0"> 单选</label>
+                    <label><input type="radio" name="leixing" value="1"> 多选</label>
+                    <label><input type="radio" name="leixing" value="2"> 判断</label>
+                </label>
+            </div>
+
+
+            <div class="input-group el_modellist" role="toolbar">
+                <span class="el_spans">知&nbsp;&nbsp;识&nbsp;点：</span>
+                <select class="combox" class="form-control" id="sel_productTag" name="tagId" multiple>
+                    <optgroup label="请选择">
+                        <option value="kakaxi">安全生产法律法规</option>
+                        <option value="mingren">安全生产基础知识</option>
+                        <option value="zuozhu">安全生产管理知识</option>
+                        <option value="xiaoying">安全生产技术知识</option>
+                        <option value="xiaoying">电力安全规程制度</option>
+                        <option value="xiaoying">电力人身安全风险防控</option>
+                        <option value="xiaoying">防止电力生产事故的二十五项重点要求</option>
+                        <option value="xiaoying">职业健康类知识</option>
+                        <option value="xiaoying">现场急救知识</option>
+                        <option value="xiaoying">公共安全知识</option>
+                        <option value="xiaoying">其他</option>
+                    </optgroup>
+                    <!--<optgroup label="父辈">
+                        <option value="bofengshuimen">波风水门</option>
+                        <option value="dashewan">大蛇丸</option>
+                        <option value="gangshou">纲手</option>
+                        <option value="自来也">自来也</option>
+                    </optgroup>-->
+                </select>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#sel_productTag').select2({
+                            placeholder: "请至少选择一个知识点",
+                            tags: true,
+                            createTag: function (decorated, params) {
+                                return null;
+                            },
+                            width: '408px'
+                        });
+                    });
+                </script>
+            </div>
+
+            <div class="input-group el_modellist" role="toolbar">
+                <span class="el_spans">试题说明：</span>
+                <textarea class="form-control el_modelinput" rows="1"></textarea>
+            </div>
+
+            <div class="input-group el_modellist">
+                <span class="el_spans">试题状态：</span>
+                <div class="form-control">
+                    <label><input type="radio" name="leixing" checked value="0"> 禁用</label>
+                    <label><input type="radio" name="leixing" value="1"> 开放</label>
+                </div>
+            </div>
+
+            <div class="input-group el_modellist" role="toolbar">
+                <span class="el_spans">上&nbsp;&nbsp;传&nbsp;人：</span>
+                <input type="text" class="form-control el_modelinput" name=""/>
+            </div>
+            <div class="input-group el_modellist" role="toolbar">
+                <span class="el_spans">上传时间：</span>
+                <input type="text" id="datepicker" class="form-control el_modelinput"/>
+                <script type="text/javascript">
+                    var picker = new Pikaday(
+                        {
+                            field: document.getElementById('datepicker'),
+                            firstDay: 1,
+                            minDate: new Date('1995-01-01'),
+                            maxDate: new Date('2050-12-31'),
+                            yearRange: [1995, 2050]
+                        });
+                    //获取当前日期
+                    var mydate = new Date();
+                    var year = mydate.getFullYear();
+                    var month = mydate.getMonth() + 1;
+                    if (month < 9) {
+                        month = "0" + month;
+                    }
+                    var day = mydate.getDate();
+                    if (day < 9) {
+                        day = "0" + day;
+                    }
+                    $("#datepicker").val(year + "-" + month + "-" + day);
+
+                </script>
+            </div>
+
+            <!--添加试题区域-->
+            <div class="el_addQuestionPanel">
+                <!--文本框-->
+                <textarea id="editor_id" name="content" style="width:700px;height:300px;"></textarea>
+            </div>
+
+            <!--试题区域-->
+            <!--
+            <div class="all_660">
+                <div class="yd_box"></div>
+                &lt;!&ndash;选项卡区域  模板区域&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                <div class="xxk_box">
+                    <div class="xxk_conn hide">
+                        &lt;!&ndash;单选-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                        <div class="xxk_xzqh_box dxuan ">
+
+                <textarea id="editor_id1" name="content" cols="" rows="" class="input_wenbk btwen_text"
+                          style="width:100%;height:200px;">
+                单选题目</textarea>
+
+                            <div class="title_itram">
+                                <div class="kzjxx_iteam">
+                                    <input name="" type="radio" value="" class="dxk">
+                                    <input name="" type="text" class="input_wenbk" value="" placeholder="选项">
+                                    <label><input name="el_setDanxuanAnswer" type="radio">设置为答案</label>
+
+                                    <input type="file" value="图片上传" name=图片上传" a accept=".jpg,.png"
+                                           class="el_loadPictrue"/>
+
+                                    <a href="javascript:void(0);" class="del_xm">删除</a>
+                                </div>
+                            </div>
+                            <a href="javascript:void(0)" class="zjxx">增加选项</a>
+                            &lt;!&ndash;完成编辑&ndash;&gt;
+                            <div class="bjqxwc_box">
+                                <a href="javascript:void(0);" class="qxbj_but">取消编辑</a>
+                                <a href="javascript:void(0);" class="swcbj_but"> 完成编辑</a>
+                            </div>
+                        </div>
+                        &lt;!&ndash;多选-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                        <div class="xxk_xzqh_box duoxuan hide">
+
+                <textarea id="editor_id2" name="content" cols="" rows="" class="input_wenbk btwen_text"
+                          style="width:100%;height:200px;">
+                多选题目asdfasdfasdfasdf</textarea>
+                            <div class="title_itram">
+                                <div class="kzjxx_iteam">
+                                    <input name="" type="checkbox" value="" class="dxk">
+                                    <input name="" type="text" class="input_wenbk" value="选项" placeholder="选项">
+
+                                    &lt;!&ndash; 导入图片
+                                     <div class="col-sm-9 big-photo">
+                                         <div id="preview">
+                                             <img id="imghead" border="0" src="img/photo_icon.png" width="30" height="30" onclick="$('#previewImg').click();">
+                                         </div>
+                                         <input type="file" onchange="previewImage(this)" style="display: none;" id="previewImg">
+                                     </div>&ndash;&gt;
+
+                                    &lt;!&ndash;设置答案&ndash;&gt;
+                                    <label><input name="el_DuoxuansetAnswer" type="checkbox">设置为答案</label>
+                                    <a href="javascript:void(0);" class="del_xm">删除</a>
+                                </div>
+                            </div>
+                            <a href="javascript:void(0)" class="zjxx">增加选项</a>
+                            &lt;!&ndash;完成编辑&ndash;&gt;
+                            <div class="bjqxwc_box">
+                                <a href="javascript:void(0);" class="qxbj_but">取消编辑</a>
+                                <a href="javascript:void(0);" class="swcbj_but"> 完成编辑</a>
+                            </div>
+                        </div>
+
+                        &lt;!&ndash; 判断-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;
+                        <div class="xxk_xzqh_box tktm hide">
+                <textarea id="editor_id3" name="content" cols="" rows="" class="input_wenbk btwen_text btwen_text_tk"
+                          style="width:100%;height:200px;">
+                答题asdfasdf区</textarea>
+                            <div class="title_itram">
+                                <div class="kzjxx_iteam">
+                                    <label><input name="" type="checkbox" value="" class="dxk">正确</label>
+
+                                    <label><input name="el_setPanduanAnswer" type="radio">设置为答案</label><br/>
+                                    <label><input name="" type="checkbox" value="" class="dxk">错误</label>
+
+                                    <label><input name="el_setPanduanAnswer" type="radio">设置为答案</label>
+                                </div>
+                            </div>
+                            &lt;!&ndash;完成编辑&ndash;&gt;
+                            <div class="bjqxwc_box">
+                                <a href="javascript:void(0);" class="qxbj_but">取消编辑</a>
+                                <a href="javascript:void(0);" class="swcbj_but"> 完成编辑</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+-->
+
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="btn btn-default" value="关闭" onclick="javascript:history.back(-1);"/>
+            <a href="questionManage.html">
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </a>
+        </div>
+    </form>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>试题管理</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+
+    <style>
+        /*索引内容*/
+        .el_queryBox {
+            width: 103%;
+            height: 110px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        /*索搜行*/
+        .el_queryBoxrow {
+            margin: 20px;
+            margin-top:0;
+        }
+
+        .el_queryBoxrow .row {
+            min-width: 250px;
+        }
+
+        .el_queryBox form {
+            margin-top: 10px;
+            min-width: 970px;
+        }
+
+        .el_queryButton {
+            position: absolute;
+            right: 50px;
+            bottom: 10px;
+        }
+
+        .input-group-addon {
+            font-size: 12px;
+        }
+
+        .form-control {
+            font-size: 12px;
+        }
+
+        /*标题*/
+        .el_mainHead {
+            width: 103%;
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            right: 20px;
+        }
+
+        /*主要部分*/
+        .el_Mainmain {
+            position: relative;
+            top: -10px;
+        }
+
+        .panel-body {
+            border: none;
+        }
+
+        /*按钮操作*/
+        .el_topButton {
+            height: 50px;
+            margin-top: 20px;
+        }
+
+        .el_delButton:hover {
+            cursor: pointer;
+        }
+
+        /*单选按钮*/
+        .el_radioBox {
+            margin-left: 10px;
+        }
+
+        /*试题内容*/
+        .el_qusContentInfo .panel-heading {
+            height: 25px;
+            padding: 0px;
+            line-height: 25px;
+            padding-left: 10px;
+        }
+
+        .el_qusContentInfo .panel-body {
+            padding: 10px 20px;
+        }
+    </style>
+
+    <!--索引-->
+    <style>
+        /*搜索边框*/
+        .el_qlmQuery {
+            min-width: 150px;
+            width: 30%;
+            float: left;
+            margin: 10px;
+        }
+        .form-control {
+            height: 25px;
+            font-size: 10px;
+            border-radius: 3px;
+            width: 350px;
+        }
+        /*span改变样式后的样子*/
+        .el_spans {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: normal;
+            line-height: 1;
+            color: #555;
+            text-align: center;
+            border-radius: 4px;
+            width: 1%;
+            white-space: nowrap;
+            vertical-align: middle;
+            display: table-cell;
+        }
+        /*下拉列表*/
+        .selectpicker{
+            padding:2px;
+            padding-left:5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <!--菜单连接标题-->
+        <div class="panel-heading"><span>试题管理</span><span>>用户添加</span></div>
+
+        <!--内容-->
+        <div class="col-md-12">
+
+            <!--索引-->
+            <div class="row el_queryBox">
+                <form action="">
+                    <div class="row el_queryBoxrow">
+
+                        <div class="col-md-3 el_qlmQuery">
+                            <div class="input-group" role="toolbar">
+                                <span class="el_spans">知识点：</span>
+                                <input type="text" class="form-control" name=""/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 el_qlmQuery">
+                            <div class="input-group" role="toolbar">
+                                <span class="el_spans">选择题库：</span>
+                                <select class="selectpicker form-control" title="请选择">
+                                    <option>--请选择--</option>
+                                    <option>题库1</option>
+                                    <option>题库2</option>
+                                    <option>题库3</option>
+                                    <option>题库5</option>
+                                    <option>题库4</option>
+                                    <option>题库6</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 el_qlmQuery">
+                            <div class="input-group" role="toolbar">
+                                <span class="el_spans">试题类型：</span>
+                                <label class="el_radioBox"><input type="radio" name="el_type" checked
+                                                                  class="">单选</label>
+                                <label class="el_radioBox"><input type="radio" name="el_type"> 多选</label>
+                                <label class="el_radioBox"><input type="radio" name="el_type"> 判断</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 el_qlmQuery">
+                            <div class="input-group" role="toolbar">
+                                <span class="el_spans">审核状态：</span>
+                                <label class="el_radioBox"><input type="radio" name="leixing"> 已完成</label>
+                                <label class="el_radioBox"><input type="radio" name="leixing"> 未审核</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--提交查询按钮-->
+                    <button type="submit" class="btn btn-default el_queryButton">查询</button>
+                </form>
+
+            </div>   <!--结束 查询表单提交-->
+
+            <!--显示内容-->
+            <h3 class="el_mainHead">试题信息</h3>
+            <div class="panel panel-default el_Mainmain">
+
+                <!--按钮面板-->
+                <div class="panel-body">
+
+                    <div class="panel panel-default">
+                        <div class="panel-body el_MainxiaoMain">
+
+                            <div class="el_topButton">
+                                <div class="col-md-2">
+                                    <a href="addQuestionPage.html">
+                                        <button class="btn btn-primary">添加试题</button>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--表格 内容都提取到json里边-->
+                    <table class="table table-bordered">
+                        <thead>
+                        <th><input type="checkbox" id="el_checkQuanxuan"/></th>
+                        <th>试题题目</th>
+                        <th>所属题库</th>
+                        <th>试题类型</th>
+                        <th>审核状态</th>
+                        <th>知识点描述</th>
+                        <th>上传人</th>
+                        <th>上传时间</th>
+                        <th>操作</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input type="checkbox" class="el_checks"/></td>
+                            <td>阿斯顿发射点</td>
+                            <td>ssd题库</td>
+                            <td>单选</td>
+                            <td>已审核</td>
+                            <td>啊手动阀手动阀老师；啊的肌肤</td>
+                            <td>xiaoming</td>
+                            <td>2017-12-20</td>
+                            <td>
+                                <a href="addQuestionPage.html">修改</a>&nbsp;&nbsp;
+                                <a class="el_delButton" onClick="delcfm()">删除</a>&nbsp;&nbsp;
+                                <a href="" data-toggle="modal" data-target="#el_questionInfo">预览</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="el_checks"/></td>
+                            <td>阿斯顿发射点</td>
+                            <td>ssd题库</td>
+                            <td>单选</td>
+                            <td style="color:red;">未审核</td>
+                            <td>啊手动阀手动阀老师；啊的肌肤</td>
+                            <td>xiaoming</td>
+                            <td>2017-12-20</td>
+                            <td>
+                                <a href="addQuestionPage.html">修改</a>&nbsp;&nbsp;
+                                <a class="el_delButton" onClick="delcfm()">删除</a>&nbsp;&nbsp;
+                                <a href="" data-toggle="modal" data-target="#el_questionInfo">预览</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--第一列，复选框基本事件-->
+                    <script>
+                        $("#el_checkQuanxuan").change(function () {
+                            if ($(this).prop("checked") == true) {
+                                $(".el_checks").prop("checked", "true");
+                            } else {
+                                $(".el_checks").removeAttr("checked");
+                            }
+                        })
+                    </script>
+
+                    <!--分页-->
+                    <div style="margin:20px 0;"></div>
+                    <div class="easyui-panel">
+                        <!--
+                        total 数字 当分页建立时设置记录的总数量 1
+                        pageSize 数字 每一页显示的数量 10
+                        pageNumber 数字 当分页建立时，显示的页数 1
+                        pageList 数组 用户可以修改每一页的大小，
+                        pageList属性定义了多少种大小可以改变. [10,20,30,50]
+                        loading 布尔 定义数据是否正在加载 false
+                        buttons 数组 定义自定义按钮，每个按钮包含两个属性：
+                        iconCls: 显示背景图像的CSS类
+                        handler: 当一个按钮被点击时的处理函数 null
+                        showPageList 布尔 定义是否显示页面列表 true
+                        showRefresh 布尔 定义是否显示刷新按钮 true
+                        beforePageText 字符串 在输入框组件前显示的标签 Page
+                        afterPageText 字符串 在输入框组件后显示的标签 of {pages}
+                        displayMsg 字符串 显示一个页面的信息。
+                        -->
+                        <div class="easyui-pagination" data-options="
+                            total:120,
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 模态框 查看详细信息-->
+            <div class="modal fade" id="el_questionInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button><!--关闭符号-->
+                            <!--标题-->
+                            <h4 class="modal-title" id="myMo34dalLabel2">试题详细信息</h4>
+                        </div>
+
+                        <div class="modal-body panel panel-default el_qusContentInfo">
+                            <div class="panel-heading">题目</div>
+                            <div class="panel-body">
+                                阿斯顿发生发射点发射点发生s撒地方 第三方撒地方阿斯蒂芬
+                            </div>
+                            <div class="panel-heading">选项</div>
+                            <div class="panel-body">
+                                A.asdf B.asdfasdf C.asdfasdfasdf D.asdfasdfa
+                            </div>
+                            <div class="panel-heading">试题答案</div>
+                            <div class="panel-body">
+                                A
+                            </div>
+                            <div class="panel-heading">试题解析</div>
+                            <div class="panel-body">
+                                顿发生发射点发射点发生s撒地方 第三方撒地方顿发生发射点发射点发生s撒地方 第三方撒地方顿发生发射点发射点发
+                                生s撒地方 第三方撒地方顿发生发射点发射点发生s撒地方 第三方撒地方顿发生发射点发射点发生s撒地方 第三方撒地方
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+            <!-- 模态框   信息删除确认 -->
+            <div class="modal fade" id="delcfmModel">
+                <div class="modal-dialog">
+                    <div class="modal-content message_align">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">×</span></button>
+                            <h4 class="modal-title">提示</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>您确认要删除该试卷吗？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="url"/>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <script>
+                function delcfm() {
+                    $('#delcfmModel').modal();
+                }
+                function urlSubmit() {
+                    var url = $.trim($("#url").val());//获取会话中的隐藏属性URL
+                    window.location.href = url;
+                }
+            </script>
+
+            <!--分页-->
+            <script>
+                /*
+                 当前页的的值
+                 * $_POST['page']
+                 * 每页多少条数据 , 默认10条
+                 * $_POST['rows']
+                 * 获取数据库总量
+                 * $result["total"]
+                 * 获取多少页：$result["total"]/$_POST['rows']
+                 * */
+                $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+                $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+                // ...
+                $rs = mysql_query("select count(*) from item");
+                $row = mysql_fetch_row($rs);
+                $result["total"] = $row[0];
+
+                $rs = mysql_query("select * from item limit $offset,$rows");
+
+                $items = array();
+                while ($row = mysql_fetch_object($rs)) {
+                    array_push($items, $row);
+                }
+                $result["rows"] = $items;
+
+                echo
+                json_encode($result);
+            </script>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+</body>
+</html>

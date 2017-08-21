@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <base href="http://demo.tomexam.com/" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>新增试题</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="skins/default/style.css" />
+    <script src="inc/js/jquery.js" type="text/javascript"></script>
+    <script src="inc/js/baseutil.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="inc/js/jquery-validation-engine/css/validationEngine.jquery.css" />
+    <script src="inc/js/jquery-validation-engine/js/jquery.validationEngine.js"></script>
+
+    <script src="inc/js/jquery-validation-engine/js/languages/jquery.validationEngine-zh_CN.js"></script>
+
+    <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+
+        var editor_content = null;
+        var editor_resolve = null;
+
+        window.onload = function(){
+
+            jQuery('#form_question_add').validationEngine();
+
+            editor_content = CKEDITOR.replace('q_content');
+            editor_resolve = CKEDITOR.replace('q_resolve', {
+                toolbar : 'Basic'
+            });
+
+            tmQuestion.formInit(customHelper.getQuestionType());
+            customHelper.restoreQuestionType();
+            customHelper.restoreQuestionDb();
+        }
+
+        //空格数
+        var var_Blanks = 0;
+
+        var tmQuestion = {
+            formInit : function(qtype){
+                if(qtype == 1){
+                    tmQuestion.formInitSingle();
+                }else if(qtype == 2){
+                    tmQuestion.formInitMultiple();
+                }else if(qtype == 3){
+                    tmQuestion.formInitJudgment();
+                }else if(qtype == 4){
+                    tmQuestion.formInitBlank();
+                }else if(qtype == 5){
+                    tmQuestion.formInitEssay();
+                }
+
+                customHelper.setQuestionType(qtype);
+            },
+
+            formInitSingle : function(){
+                var html = [];
+                var btnval = '增加选项';
+                html.push("<div><input type='button' class='tm_btn' value='"+btnval+"' onclick='tmQuestion.addOption(1)' /></div>");
+
+                var tm_options = ['A','B','C','D'];
+                html.push('<table class="tm_question_options" align="left">');
+                $(tm_options).each(function(i){
+                    html.push('<tr>');
+                    html.push('	<td width="80" id="tm_option_' + this + '">选项' + this + '&nbsp;');
+                    html.push('	<input type="radio" class="validate[required]" name="q_key" value="' + this + '" /></td>');
+                    html.push('	<th><textarea rows="3" name="q_options" class="tm_txtx validate[required]"></textarea></th>');
+                    if(i>0){
+                        html.push('	<td width="50"><a href="javascript:;" onclick="$(this).parent().parent().remove()" class="tm_ico_delete"></a></td>');
+                    }else{
+                        html.push('	<td width="50"></td>');
+                    }
+                    html.push('</tr>');
+                });
+                html.push('</table>');
+
+                $("#tm_body").html(html.join(""));
+                $("#tm_title").html('选项设置 : ');
+            },
+
+            formInitMultiple : function(){
+                var html = [];
+                var btnval = '增加选项';
+                html.push("<div><input type='button' class='tm_btn' value='"+btnval+"' onclick='tmQuestion.addOption(2)' /></div>");
+
+                var tm_options = ['A','B','C','D'];
+                html.push('<table class="tm_question_options" align="left">');
+                $(tm_options).each(function(i){
+                    html.push('<tr>');
+                    html.push('	<td width="80" id="tm_option_' + this + '">选项' + this + '&nbsp;');
+                    html.push('	<input type="checkbox" class="validate[required]" name="q_key" value="' + this + '" /></td>');
+                    html.push('	<th><textarea rows="3" name="q_options" class="tm_txtx validate[required]"></textarea></th>');
+                    if(i>0){
+                        html.push('	<td width="50"><a href="javascript:;" onclick="$(this).parent().parent().remove()" class="tm_ico_delete"></a></td>');
+                    }else{
+                        html.push('	<td width="50"></td>');
+                    }
+                    html.push('</tr>');
+                });
+                html.push('</table>');
+
+                $("#tm_body").html(html.join(""));
+                $("#tm_title").html('选项设置 : ');
+            },
+
+            formInitJudgment : function(){
+                var html = [];
+                html.push('<label style="line-height:30px"><input type="radio" class="validate[required]" name="q_key" value="Y" />正确</label>');
+                html.push('<br/>');
+                html.push('<label style="line-height:30px"><input type="radio" class="validate[required]" name="q_key" value="N" />错误</label>');
+
+                $("#tm_body").html(html.join(""));
+                $("#tm_title").html('答案设置 : ');
+            },
+
+            formInitBlank : function(){
+                var html = [];
+                html.push('<div>');
+                html.push(' <input type="button" class="tm_btn" value="增加填空" onclick="tmQuestion.addBlank();" />');
+                html.push(' <input type="checkbox" value="Y" name="q_iscomplex" />混杂模式批改（不按答题顺序批改用户答案）');
+                html.push(' <input type="text" class="validate[required]" style="clear:both; width:1px; height:1px; border:none;" id="tm_blank_marker" value="" />');
+                html.push('</div>');
+                html.push('<table class="tm_question_options" align="left">');
+                html.push('<tr><td id="tm_question_blanks"></td></tr>');
+                html.push('</table>');
+                $("#tm_body").html(html.join(""));
+
+                $("#tm_title").html('选项设置 : ');
+            },
+
+            formInitEssay : function(){
+                var html = [];
+                html.push('<div><textarea name="q_key" rows="5" class="validate[required] tm_txtx" style="width:80%"></textarea></div>');
+
+                $("#tm_body").html(html.join(""));
+                $("#tm_title").html('答案设置 : ');
+            },
+
+            /*************** Opreations ************/
+            addOption : function(qtype){
+                var tm_options = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                for(var i=0; i<tm_options.length; i=i+1){
+                    var this_value = tm_options[i];
+                    //不存在就添加
+                    if(!document.getElementById("tm_option_" + this_value)){
+                        var html = [];
+
+                        html.push('<tr>');
+                        html.push('	<td width="80" id="tm_option_' + this_value + '">选项' + this_value + '&nbsp;');
+
+                        if(1 == qtype){
+                            html.push('	<input type="radio" class="validate[required]" name="q_key" value="' + this_value + '" /></td>');
+                        }else if(2 == qtype){
+                            html.push('	<input type="checkbox" class="validate[required]" name="q_key" value="' + this_value + '" /></td>');
+                        }
+
+                        html.push('	<th><textarea rows="3" name="q_options" class="tm_txtx validate[required]"></textarea></th>');
+                        html.push('	<td width="50"><a href="javascript:;" onclick="$(this).parent().parent().remove()" class="tm_ico_delete"></a></td>');
+                        html.push('</tr>');
+
+                        $(".tm_question_options").append(html.join(""));
+
+                        break;
+                    }
+                }
+            },
+
+            addBlank : function(){
+                var_Blanks ++;
+                var html = [];
+                html.push('<div class="tm_question_blank">');
+                html.push('<span>' + var_Blanks + ' : </span>');
+                html.push('<input name="q_blankids" type="hidden" value="'+var_Blanks+'" />');
+                html.push('<input name="q_blanks" type="input" class="validate[required] tm_txt" maxlength="30" class="txt" />');
+                html.push('<a href="javascript:;" data-blankid="'+var_Blanks+'" class="tm_ico_delete" onclick="tmQuestion.removeBlank(this)"></a>');
+                html.push('</div>');
+
+                editor_content.insertHtml("[BlankArea"+var_Blanks+"]");
+                $("#tm_question_blanks").append(html.join(""));
+
+                $("#tm_blank_marker").val('HASVALUE');
+            },
+
+            removeBlank : function(obj){
+                var question_content = editor_content.getData();
+                $(obj).parent().remove();
+                var blankid = $(obj).attr("data-blankid");
+                question_content = question_content.replace("[BlankArea"+blankid+"]","");
+                editor_content.setData(question_content);
+
+                var _blanks = $("input[name='q_blanks']").length;
+                if(_blanks <= 0){
+                    $("#tm_blank_marker").val("");
+                }
+            }
+
+
+
+        };
+
+        var tm_var_question_status = {
+            '1' : '学生自测可见',
+            '0' : '<font color=\'red\'>学生自测不可见</font>'
+        };
+
+        function tm_question_status_change(obj){
+            $("#tm_question_status_tip").html(tm_var_question_status[obj.value]);
+        }
+
+        var customHelper = {
+            support : function(){
+                try{
+                    if(window.localStorage){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }catch(e){
+                    return false;
+                }
+
+            },
+            setQuestionType : function(v){
+                if(customHelper.support()){
+                    localStorage.setItem("tom_question_type", v);
+                }
+            },
+            getQuestionType : function(){
+                if(customHelper.support()){
+                    var tom_question_type = localStorage.getItem("tom_question_type");
+                    if(!baseutil.isNull(tom_question_type)){
+                        return tom_question_type;
+                    }
+                }
+                return 1;
+            },
+
+            setQuestionDb : function(v){
+                if(customHelper.support()){
+                    localStorage.setItem("tom_questiondb_id", v);
+                }
+            },
+
+            restoreQuestionType : function(){
+                if(customHelper.support()){
+                    var tom_question_type = localStorage.getItem("tom_question_type");
+                    if(!baseutil.isNull(tom_question_type)){
+                        $("select[name='q_type']").val(tom_question_type);
+                    }
+                }
+            },
+            restoreQuestionDb : function(){
+                if(customHelper.support()){
+                    var tom_questiondb_id = localStorage.getItem("tom_questiondb_id");
+                    if(!baseutil.isNull(tom_questiondb_id)){
+                        $("select[name='q_dbid']").val(tom_questiondb_id);
+                    }
+                }
+            }
+
+        };
+
+    </script>
+</head>
+
+<body>
+
+<div class="tm_main">
+
+    <div class="tm_container">
+        <ul class="tm_breadcrumb">
+            <li><a href="common/welcome.thtml">首页</a> <span class="divider">&gt;</span></li>
+            <li class="active">新增试题</li>
+        </ul>
+    </div>
+
+    <div class="tm_container">
+        <div class="tm_navtitle">
+            <h1>新增试题</h1>
+            <span>填写下面的表单，创建新的试题。选择不同的试题类型，需要填写的表单也各不相同。</span>
+        </div>
+        <div class="tm_navbuttons">
+            <a href="system/question/add.thtml" class="on">新增试题</a>
+            <a href="system/question/list.thtml">管理试题</a>
+            <a href="system/question/import.thtml">批量导入试题</a>
+        </div>
+    </div>
+
+    <br/>
+    <div class="tm_container">
+        <form action="system/question/save.do" method="post" id="form_question_add">
+            <table width="100%" cellpadding="5" border="0" class="tm_table_form">
+                <tbody>
+                <tr>
+                    <th width="120">试题类型 : </th>
+                    <td width="40%">
+                        <select name="q_type" class="tm_select" style="min-width:200px" onchange="tmQuestion.formInit(this.value)">
+                            <option value="1">单选题</option>
+                            <option value="2">多选题</option>
+                            <option value="3">判断题</option>
+                            <option value="4">填空题</option>
+                            <option value="5">问答题</option>
+                        </select>
+                    </td>
+                    <th width="120">试题难度 : </th>
+                    <td width="40%">
+                        <select name="q_level" class="tm_select" style="min-width:200px">
+                            <option value="1">非常容易</option>
+                            <option value="2">比较容易</option>
+                            <option value="3" selected>常规</option>
+                            <option value="4">较难</option>
+                            <option value="5">非常难</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>所属题库 : </th>
+                    <td>
+                        <select name="q_dbid" class="validate[required] tm_select" style="min-width:200px"
+                                onchange="customHelper.setQuestionDb(this.value);">
+                            <option value="">所属题库</option>
+
+                            <option value="086d8f83-8d7c-4db8-8cf2-d689a9e3d15f">保密</option>
+
+                            <option value="8285987f-eeae-425d-9ffa-94520333c925">kaoshi111</option>
+
+                            <option value="aac860ae-923e-408e-9b8f-4d371b808bd5">abcd</option>
+
+                            <option value="4774669a-acce-4514-aade-bace3ed0e65e">test</option>
+
+                            <option value="e282b418-03f2-4789-969b-29a5e9cd27d7">弟子规</option>
+
+                            <option value="34f38955-9a21-45a6-adb9-96cfe3521137">qq</option>
+
+                        </select>
+                    </td>
+                    <th>试题来源 : </th>
+                    <td>
+                        <input type="text" name="q_from" class="tm_txt tm_width200" size="50" maxlength="20" value='原创' />
+                    </td>
+                </tr>
+                <tr>
+                    <th>试题状态 : </th>
+                    <td>
+                        <select class="tm_select" name="q_status" style="min-width:200px" onchange="tm_question_status_change(this)">
+                            <option value="1">开放</option>
+                            <option value="0">关闭</option>
+                        </select>
+                        <span class="tm_tip" id="tm_question_status_tip">学生自测可见</span>
+                    </td>
+                    <th></th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>试题题干 : </th>
+                    <td colspan="3">
+                        <textarea name="q_content" rows="5" cols="40" class="validate[required]"></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th id="tm_title">选项设置 : </th>
+                    <td colspan="3" id="tm_body"></td>
+                </tr>
+
+                <tr>
+                    <th>试题解析 : </th>
+                    <td colspan="3">
+                        <textarea name="q_resolve" rows="5" cols="40" class="tm_txtx"></textarea>
+                    </td>
+                </tr>
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <th></th>
+                    <td colspan="3">
+                        <button class="tm_btn tm_btn_primary" type="submit">提交</button>
+                        <button class="tm_btn" type="button" onclick="javascript:history.go(-1);">取消</button>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+
+            <input type="hidden" name="q_poster" value="admin1" />
+            <input type="hidden" name="q_modifyor" value="admin1" />
+        </form>
+    </div>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+   
+<struts>
+  <constant name="struts.objectFactory.spring.autoWire" value="name"></constant>  
+    <package name="user" extends="struts-default" >
+    
+        <action name="login" class="loginAction">
+            <result name="success">success.jsp</result>
+            <result name="error">login.jsp</result>
+        </action>
+        
+        <action name="qBankManager" class="qBankManagerAction" >
+            <result name="success">qbmanager.jsp</result>
+            <result name="error">success.jsp</result>
+        </action>
+        
+        
+          <action name="insertQb" class="insertQbAction">
+            <result name="success">success.jsp</result>
+            <result name="error">success.jsp</result>
+        </action>
+        
+        <action name="rolefun*" class="rolefunAction" method="{1}">
+        	<result name="success">funmanager.jsp</result>
+        	<result name="upFunOK">sysmanager.jsp</result>
+        	<result name="rolefunOK">rolefun.jsp</result>
+        </action>
+    </package>
+</struts>

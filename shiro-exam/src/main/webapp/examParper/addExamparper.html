@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加试卷</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link href="../bs/css/bootstrap-select.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap-select.js"></script>
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+
+    <!--拖拽事件-->
+    <script src="../controls/jqueryUI/jquery-ui.min.js"></script>
+    <style>
+        .el_addEPleft {
+            width: 60%;
+        }
+
+        table tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tr td:first-child {
+            border-right: 1px solid #ddd;
+        }
+
+        .el_addEPtiku {
+            height:500px;
+            position: fixed;
+            top: 60px;
+            right: 21px;
+            width: 40%;
+        }
+        /*查询*/
+        .el_addEPquery{
+            padding:10px;
+        }
+        /*试题*/
+        .el_queryQuestions{
+            height:370px;
+            overflow-x:hidden;overflow-y:auto;
+        }
+        /*刷新统计*/
+        .el_addEPtongji {
+            height: 50px;
+            width: 100%;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #el_resetButton {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .el_addPopration a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .el_ExamStatistic {
+            margin-top: 80px;
+            width: 100%;
+        }
+
+        .el_ExamStatistic .el_lul {
+            list-style: none;
+            float: left;
+            width: 40%;
+        }
+
+        .el_lul li {
+            float: left;
+        }
+
+        .el_zongfen {
+            float: right;
+            margin-right: 30px;
+            margin-top: 20px;
+        }
+
+        /*题型*/
+        .el_addEPtixing {
+            margin-top: 80px;
+
+        }
+
+        .el_addEPtikuang {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        /*删除所有*/
+        .el_tiBoxMainDel {
+            position: absolute;
+            right: 30px;
+            top: 20px;
+            color: #2b669a;
+        }
+
+        .el_tiBoxMainDel:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /*删除单个*/
+        .el_tiBoxDel {
+            color: #2b669a;
+        }
+
+        .el_tiBoxDel:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .el_tiBoxli {
+            border: 1px solid #ccc;
+            min-height: 60px;
+            list-style: none;
+            margin-bottom: 10px;
+            height: auto;
+        }
+
+        .el_tiBoxli ul {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /*提的内容*/
+        .el_addEPBoxlili {
+            float: left;
+            list-style: none;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        /*分值，内容，删除*/
+        .el_BoxliScore {
+            position: absolute;
+            left: 20px;
+            min-width: 95px;
+            width: 15%;
+        }
+
+        .el_BoxliScore input {
+            border-radius: 5px;
+        }
+
+        .el_BoxliContent {
+            position: absolute;
+            left: 130px;
+            width: 60%;
+            max-width: 400px;
+            overflow: hidden;
+            max-height: 40px;
+        }
+
+        .el_BoxliDel {
+            position: absolute;
+            right: 20px;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            var getDrag;
+            $(".el_drag").draggable({
+                revert: "invalid",
+                /*发送的方向，根据这个来判断题型
+                 * 从而滑送选择，判断不同的题型，到不同的框
+                 * */
+                connectToSortable: ".el_ul2",
+                stop: function (event, ui) {
+                    getDrag = $(this);
+                }
+            });
+
+            $(".el_ul2").sortable({
+                revert: "invalid",
+                //disabled:true,
+                out: function (event, ui) {
+                    var getQcontent = getDrag.text();
+                    getDrag.empty();
+                    getDrag.removeAttr("class");
+                    getDrag.addClass("el_tiBoxli");
+                    getDrag.append('<ul class="el_drop">' +
+                        '<li class="el_BoxliScore  el_addEPBoxlili">分值：<input type="text" value="0" size="3"/></li>' +
+                        '<li class="el_BoxliContent  el_addEPBoxlili">' + getQcontent + '</li>' +
+                        '<li class="el_BoxliDel  el_addEPBoxlili"><a href="">删除</a></li>' +
+                        '</ul>');
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <!--菜单连接标题-->
+        <div class="panel-heading"><span>用户管理</span><span>>用户添加</span></div>
+        <div class="panel-body">
+
+            <!--内容-->
+            <div class="col-xs-6 col-md-12">
+
+                <!--显示内容-->
+                <div class="panel panel-default">
+                    <h3>创建试卷</h3>
+
+                    <!--面板，可以拉题，添加分值，可以删除-->
+                    <div class="col-md-7 el_addEPleft">
+
+                        <h3>考试名称</h3>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>类型</th>
+                                <th>内容</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>试卷编号</td>
+                                <td>456645</td>
+                            </tr>
+                            <tr>
+                                <td>试卷名称</td>
+                                <td>某某某试卷</td>
+                            </tr>
+                            <tr>
+                                <td>使用过改试卷的部门</td>
+                                <td>某某某部门，某某部门</td>
+                            </tr>
+                            <tr>
+                                <td>等级</td>
+                                <td>一级</td>
+                            </tr>
+                            <tr>
+                                <td>试卷描述</td>
+                                <td>asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfdsfdsfaf</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="col-md-2 el_addEPtongji">
+                            <button type="button" id="el_resetButton" class="btn btn-default btn-sm">统计刷新</button>
+                            <button type="submit" class="btn btn-primary el_addPopration">
+                                <a href="indexExam.html">预览</a>
+                            </button>
+                            <button type="submit" id="el_saveButton" class="btn btn-primary el_addPopration">保存
+                            </button>
+                            <script>
+                                $("#el_saveButton").click(function () {
+                                    var res = confirm("确定退出，并保存当前信息吗？");
+                                    if (res) {
+
+                                    }
+                                })
+                            </script>
+                        </div>
+
+                        <!--试题统计-->
+                        <div id="collapseTow" class="panel-collapse collapse in el_ExamStatistic" role="tabpanel"
+                             aria-labelledby="headingTow">
+
+                            <ul class="el_lul">
+                                <li class="el_lulli">单选题</li>
+                                <li class="el_lulli2"> ______道</li>
+                                <li class="el_lulli2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______分数</li>
+                            </ul>
+                            <ul class="el_lul">
+                                <li class="el_lulli">多选题</li>
+                                <li class="el_lulli2"> ______道</li>
+                                <li class="el_lulli2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______分数</li>
+                            </ul>
+                            <ul class="el_lul">
+                                <li class="el_lulli">判断题</li>
+                                <li class="el_lulli2"> ______道</li>
+                                <li class="el_lulli2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______分数</li>
+                            </ul>
+
+                            <div class="el_zongfen">总分：_______</div>
+                            <br/>
+                        </div>
+
+
+                        <!--题型
+                            点击题型，右侧的题库，也跟着解锁相应类型的试题
+                        -->
+                        <div class="el_addEPtixing">
+                            <form action="../待定页面/previewExam.html">
+                                <!--添加试题的文本域
+                                    自动生成分数框，题，可删除
+                                -->
+                                <div class="el_addEPtikuang">
+                                    <h4>单选题</h4>
+                                    <div class="el_tiBoxMainDel"><span>删除所有</span></div>
+                                    <ul class="el_ul2">
+                                        <li class="el_tiBoxli">
+                                            <ul class="el_drop">
+                                                <li class="el_BoxliScore el_addEPBoxlili">分值：<input type="text"
+                                                                                                    value="0" size="3"/>
+                                                </li>
+                                                <li class="el_BoxliContent el_addEPBoxlili">试d ddddd dddddd dddd
+                                                    题ddddddddddddd d ddddd dddddd dddd
+                                                    题ddddddddddddddddddasddasdfasdfasdfdddddd内容
+                                                </li>
+                                                <li class="el_BoxliDel el_addEPBoxlili"><span
+                                                        class="el_tiBoxDel">删除</span></li>
+                                            </ul>
+                                        </li>
+                                        <li class="el_tiBoxli">
+                                            <ul class="el_drop">
+                                                <li class="el_BoxliScore el_addEPBoxlili">分值：<input type="text"
+                                                                                                    value="0" size="3"/>
+                                                </li>
+                                                <li class="el_BoxliContent el_addEPBoxlili">试d ddddd dddddd dddd
+                                                    题ddddddddddddd d ddddd dddddd dddd
+                                                    题ddddddddddddddddddasddasdfasdfasdfdddddd内容
+                                                </li>
+                                                <li class="el_BoxliDel el_addEPBoxlili"><span
+                                                        class="el_tiBoxDel">删除</span></li>
+                                            </ul>
+                                        </li>
+                                        <li class="" style="list-style:none">
+                                            &nbsp;
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="el_addEPtikuang">
+                                    <h4>多选题</h4>
+                                    <div class="el_tiBoxMainDel"><span>删除所有</span></div>
+                                    <ul class="el_ul2">
+                                        <li class="el_tiBoxli">
+                                            <ul class="el_drop">
+                                                <li class="el_BoxliScore el_addEPBoxlili">分值：<input type="text"
+                                                                                                    value="0" size="3"/>
+                                                </li>
+                                                <li class="el_BoxliContent el_addEPBoxlili">试d ddddd dddddd dddd
+                                                    题ddddddddddddd d ddddd dddddd dddd
+                                                    题ddddddddddddddddddasddasdfasdfasdfdddddd内容
+                                                </li>
+                                                <li class="el_BoxliDel el_addEPBoxlili"><span
+                                                        class="el_tiBoxDel">删除</span></li>
+                                            </ul>
+                                        </li>
+                                        <li class="el_tiBoxli">
+                                            <ul class="el_drop">
+                                                <li class="el_BoxliScore el_addEPBoxlili">分值：<input type="text"
+                                                                                                    value="0" size="3"/>
+                                                </li>
+                                                <li class="el_BoxliContent el_addEPBoxlili">试d ddddd dddddd dddd
+                                                    题ddddddddddddd d ddddd dddddd dddd
+                                                    题ddddddddddddddddddasddasdfasdfasdfdddddd内容
+                                                </li>
+                                                <li class="el_BoxliDel el_addEPBoxlili"><span
+                                                        class="el_tiBoxDel">删除</span></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="" style="list-style:none">
+                                            &nbsp;
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="el_addEPtikuang">
+                                    <h4>判断题</h4>
+                                    <div class="el_tiBoxMainDel"><span>删除所有</span></div>
+                                    <ul class="el_ul2">
+                                        <li class="el_tiBoxli">
+                                            <ul class="el_drop">
+                                                <li class="el_BoxliScore el_addEPBoxlili">分值：<input type="text"
+                                                                                                    value="0" size="3"/>
+                                                </li>
+                                                <li class="el_BoxliContent el_addEPBoxlili">试d ddddd dddddd dddd
+                                                    题ddddddddddddd d ddddd dddddd dddd
+                                                    题ddddddddddddddddddasddasdfasdfasdfdddddd内容
+                                                </li>
+                                                <li class="el_BoxliDel el_addEPBoxlili"><span
+                                                        class="el_tiBoxDel">删除</span></li>
+                                            </ul>
+                                        </li>
+                                        <li class="el_tiBoxli">
+                                            <ul class="el_drop">
+                                                <li class="el_BoxliScore el_addEPBoxlili">分值：<input type="text"
+                                                                                                    value="0" size="3"/>
+                                                </li>
+                                                <li class="el_BoxliContent el_addEPBoxlili">试d ddddd dddddd dddd
+                                                    题ddddddddddddd d ddddd dddddd dddd
+                                                    题ddddddddddddddddddasddasdfasdfasdfdddddd内容
+                                                </li>
+                                                <li class="el_BoxliDel el_addEPBoxlili"><span
+                                                        class="el_tiBoxDel">删除</span></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="" style="list-style:none">
+                                            &nbsp;
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                            </form>
+                            <!--删除-->
+                            <script>
+                                $(".el_tiBoxDel").click(function () {
+                                    var res = confirm("确定删除吗？");
+                                    if (res) {
+                                        $(this).parent().parent().parent().remove();
+                                    }
+                                })
+                                $(".el_tiBoxMainDel").click(function () {
+                                    var res = confirm("确定删除所有吗？");
+                                    if (res) {
+                                        $(this).parent().children(".el_ul2").children(".el_tiBoxli").remove();
+                                    }
+                                })
+                            </script>
+                        </div>
+                    </div>
+
+                    <!--题库-->
+                    <div class="col-md-5 el_addEPtiku">
+
+                        <!--标题-->
+                        <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">
+                                <h4>从题库选择</h4>
+                            </div>
+                            <div class="panel-body el_addEPquery">
+                                <!--导航条-->
+                                <form>
+                                    <select name="q_type" class="tm_select" style="width:90px">
+                                        <option value="">试题类型</option>
+                                        <option value="1">单选题</option>
+                                        <option value="2">多选题</option>
+                                        <option value="3">判断题</option>
+                                    </select>
+                                    <select name="q_dbid" class="tm_select" style="width:120px">
+                                        <option value="">所属题库..</option>
+                                        <option value="fcd0022d-43ac-45ae-b616-ae891631df4b">客运员7月考试题库</option>
+                                        <option value="45a0b55d-756d-480a-a093-954d2b87ae5c">caison的题库</option>
+                                    </select>
+
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </form>
+                            </div>
+
+                            <!-- List group -->
+                            <ul class="list-group el_queryQuestions">
+                                <li class="list-group-item el_drag">试题1</li>
+                                <li class="list-group-item el_drag">Dapibus ac facilisis in</li>
+                                <li class="list-group-item el_drag">Morbi leo risus</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                                <li class="list-group-item el_drag">Porta ac consectetur ac</li>
+                            </ul>
+                        </div>
+                        <div style="margin:20px 0;"></div>
+                        <div class="easyui-panel">
+                            <div class="easyui-pagination" data-options="
+                            total:120,
+
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            /*
+             当前页的的值
+             * $_POST['page']
+             * 每页多少条数据 , 默认10条
+             * $_POST['rows']
+             * 获取数据库总量
+             * $result["total"]
+             * 获取多少页：$result["total"]/$_POST['rows']
+             * */
+            $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+            $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+            // ...
+            $rs = mysql_query("select count(*) from item");
+            $row = mysql_fetch_row($rs);
+            $result["total"] = $row[0];
+
+            $rs = mysql_query("select * from item limit $offset,$rows");
+
+            $items = array();
+            while ($row = mysql_fetch_object($rs)) {
+                array_push($items, $row);
+            }
+            $result["rows"] = $items;
+
+            echo
+            json_encode($result);
+        </script>
+
+    </div>
+
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

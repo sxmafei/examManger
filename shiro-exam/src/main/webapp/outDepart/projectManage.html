@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>外来单位管理</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+
+    <!--日历-->
+    <link rel="stylesheet" href="../controls/calendar/pikaday.css">
+    <script src="../controls/calendar/pikaday.js"></script>
+
+    <!--用于三级联动-->
+    <script src="../controls/liandong/distpicker.data.js"></script>
+    <script src="../controls/liandong/distpicker.js"></script>
+
+    <style>
+
+        /*索引内容*/
+        .el_queryBox {
+            width: 103%;
+            height: 70px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        /*索搜行*/
+        .el_queryBox {
+            overflow: hidden;
+        }
+
+        .el_queryBox form {
+            margin-top: 10px;
+        }
+
+        .el_queryButton {
+            position: absolute;
+            right: 50px;
+            bottom: 15px;
+        }
+
+        .form-control {
+            height: 30px;
+            font-size: 12px;
+            border-radius: 3px;
+            width: 350px;
+        }
+
+        /*标题*/
+        .el_mainHead {
+            width: 103%;
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            right: 20px;
+        }
+
+        /*主要部分*/
+        .el_Mainmain {
+            position: relative;
+            top: -10px;
+        }
+
+        .panel-body {
+            border: none;
+        }
+
+        /*按钮操作*/
+        .el_topButton {
+            height: 50px;
+            margin-top: 20px;
+        }
+
+        .el_delButton:hover {
+            cursor: pointer;
+        }
+
+        /*单选按钮*/
+        .el_radioBox {
+            margin-top:2px;
+            font-size:10px;
+        }
+        .el_radioBox:last-child{
+            margin-left:10px;
+        }
+        /*主要内容*/
+
+        /*搜索边框*/
+        .el_qlmQuery {
+            min-width: 150px;
+            width: 25%;
+            float: left;
+            margin: 10px;
+        }
+    </style>
+
+    <!--工程区域-->
+    <style>
+
+        .el_threeScoreList{
+            width:500px;
+            margin:-10px auto;
+            margin-bottom:20px;
+            height:160px;
+        }
+        .el_threeScoreList table{
+            width:100%;
+        }
+        .el_threeScoreList table caption{
+            font-size:16px;
+            margin:0;
+        }
+        .el_threeScoreList table tr{
+            border:1px solid #ccc;
+            width:100%;
+            height:40px;
+        }
+        .el_threeScoreList table tr td{
+            padding:5px;
+        }
+        .el_threeScoreList table tr td:nth-child(odd){
+            background-color:#eee;
+            width:20%;
+            text-align: center;
+            border-left:1px solid #ccc;
+        }
+
+        /*统计按钮*/
+        .el_btnStatic {
+            float: right;
+            right: 180px;
+            margin-right: 20px;
+
+        }
+
+        /*span改变样式后的样子*/
+        .el_spans {
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1;
+            color: #555;
+            text-align: center;
+            border-radius: 4px;
+            white-space: nowrap;
+            vertical-align: middle;
+            display: table-cell
+        }
+
+        .el_modellist{
+            margin:10px;
+            margin-bottom:15px;
+            width:400px;
+        }
+        .el_modellist:nth-child(5){
+            margin-left:0px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <!--菜单连接标题-->
+        <div class="panel-heading"><span>员工管理</span><span>>用户添加</span></div>
+        <div class="panel-body">
+
+            <div class="row" style="width:100%;min-width:1100px;">
+
+                <!--树indexTree2-->
+                <div class="col-xs-12 col-md-2">
+                    <!--标题类，添加了一个颜色-->
+                    <h4 class="bg-warning">部门</h4>
+                    <ul class="easyui-tree">
+                        <li>
+                            <span>部门</span>
+                            <ul>
+                                <li data-options="state:'closed'">
+                                    <span>第一部门</span>
+                                    <ul>
+                                        <li>
+                                            <span>Friend</span>
+                                        </li>
+                                        <li>
+                                            <span>Wife</span>
+                                        </li>
+                                        <li>
+                                            <span>Company</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span>第二部门</span>
+                                    <ul>
+                                        <li>Intel</li>
+                                        <li>Java</li>
+                                        <li>Microsoft Office</li>
+                                        <li>Games</li>
+                                    </ul>
+                                </li>
+                                <li>index.html</li>
+                                <li>about.html</li>
+                                <li>welcome.html</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--内容-->
+                <div class="col-md-10 el_qlmContent">
+
+                    <!--索引-->
+                    <div class="row el_queryBox">
+                        <form action="">
+                            <div class="row">
+                                <div class="col-md-2 el_qlmQuery">
+                                    <div class="input-group" role="toolbar">
+                                        <span class="el_spans">单位名称：</span>
+                                        <input type="text" class="form-control" name=""/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 el_qlmQuery">
+                                    <div class="input-group" role="toolbar">
+                                        <span class="el_spans">工程名称：</span>
+                                        <input type="text" class="form-control" name=""/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 el_qlmQuery">
+                                    <div class="input-group" role="toolbar">
+                                        <span class="el_spans">工程状态：</span>
+                                        <label class="el_radioBox">
+                                            <input type="radio" name="leixing" checked class="">完工</label>
+                                        <label class="el_radioBox"><input type="radio" name="leixing">未完工</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--提交查询按钮-->
+                            <button type="submit" class="btn btn-default el_queryButton">查询</button>
+                        </form>
+
+                    </div>   <!--结束 查询表单提交-->
+
+                    <!--显示内容-->
+                    <h4 class="el_mainHead">工程信息</h4>
+                    <div class="panel panel-default el_Mainmain">
+
+                        <!--按钮面板-->
+                        <div class="panel-body">
+
+                            <div class="panel panel-default">
+                                <div class="panel-body el_MainxiaoMain">
+
+                                    <div class="el_topButton">
+                                        <!-- 按钮触发模态框1 -->
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary el_btnStatic" data-toggle="modal"
+                                                    data-target="#el_addProject">添加工程
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--表格
+                                内容都提取到json里边
+                            -->
+                            <table class="table table-bordered">
+                                <thead>
+                                <th>工程名称</th>
+                                <th>施工时间</th>
+                                <th>施工开工时间</th>
+                                <th>负责单位</th>
+                                <th>工程负责人</th>
+                                <th>联系方式</th>
+                                <th>工程状态</th>
+                                <th>操作</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>****工程</td>
+                                    <td>30天</td>
+                                    <td>2017-12-7</td>
+                                    <td>8****部门</td>
+                                    <td>小明</td>
+                                    <td>18465846879</td>
+                                    <td>完工</td>
+                                    <td>
+                                        <a href="" data-toggle="modal" data-target="#el_modifyProject">修改</a>&nbsp;&nbsp;
+                                        <a class="el_delButton" onClick="delcfm()">删除</a><br/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!--分页-->
+                            <div style="margin:20px 0;"></div>
+                            <div class="easyui-panel">
+                                <!--
+                                total 数字 当分页建立时设置记录的总数量 1
+                                pageSize 数字 每一页显示的数量 10
+                                pageNumber 数字 当分页建立时，显示的页数 1
+                                pageList 数组 用户可以修改每一页的大小，
+                                pageList属性定义了多少种大小可以改变. [10,20,30,50]
+                                loading 布尔 定义数据是否正在加载 false
+                                buttons 数组 定义自定义按钮，每个按钮包含两个属性：
+                                iconCls: 显示背景图像的CSS类
+                                handler: 当一个按钮被点击时的处理函数 null
+                                showPageList 布尔 定义是否显示页面列表 true
+                                showRefresh 布尔 定义是否显示刷新按钮 true
+                                beforePageText 字符串 在输入框组件前显示的标签 Page
+                                afterPageText 字符串 在输入框组件后显示的标签 of {pages}
+                                displayMsg 字符串 显示一个页面的信息。
+                                -->
+                                <div class="easyui-pagination" data-options="
+                            total:120,
+
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- 模态框   信息删除确认 -->
+                    <div class="modal fade" id="delcfmModel">
+                        <div class="modal-dialog">
+                            <div class="modal-content message_align">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    <h4 class="modal-title">提示</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>您确认要删除该条信息吗？</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" id="url"/>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    <script>
+                        function delcfm() {
+                            $('#delcfmModel').modal();
+                        }
+                        function urlSubmit() {
+                            var url = $.trim($("#url").val());//获取会话中的隐藏属性URL
+                            window.location.href = url;
+                        }
+                    </script>
+
+                    <!-- 模态框 添加工程信息-->
+                    <div class="modal fade" id="el_addProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button><!--关闭符号-->
+                                    <!--标题-->
+                                    <h4 class="modal-title" id="myModalLabel">添加工程信息</h4>
+                                </div>
+                                <form>
+                                    <div class="modal-body">
+                                    <div class="el_threeScoreList">
+                                        <table>
+                                            <caption>负责单位：</caption>
+                                            <tr><td>单位名称</td><td>asdf</td> <td>单位地址</td><td>sadf</td></tr>
+                                            <tr><td>联系人</td><td>asdf</td> <td>联系方式</td><td>asdf</td></tr>
+                                            <tr><td>上级单位</td><td>asdf</td> <td>违章记分</td><td>asdf</td></tr>
+                                        </table>
+                                    </div>
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">工程名称：</span>
+                                            <!--<span class="input-group-addon">工程名称</span>-->
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">施工时间：</span>
+                                            <!--<span class="input-group-addon">施工时间</span>-->
+                                            <input type="text" class="form-control" name="" placeholder="30天"/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">开工时间：</span>
+                                            <input type="text" id="datepicker" class="form-control el_modelinput"/>
+                                            <script type="text/javascript">
+                                                var picker = new Pikaday(
+                                                    {
+                                                        field: document.getElementById('datepicker'),
+                                                        firstDay: 1,
+                                                        minDate: new Date('1995-01-01'),
+                                                        maxDate: new Date('2050-12-31'),
+                                                        yearRange: [1995, 2050]
+                                                    });
+                                            </script>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">工程状态：</span>
+                                            <!--<span class="input-group-addon" style="height:33px;margin-right:10px;">工程状态</span>-->
+                                            <label class="el_radioBox">
+                                                <input type="radio" name="leixing"class="" disabled>完工</label>
+                                            <label class="el_radioBox">
+                                                <input type="radio" name="leixing" checked disabled> 未开始</label>
+                                            <label class="el_radioBox">
+                                                <input type="radio" name="leixing" disabled> 进行中</label>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">负&nbsp;&nbsp;责&nbsp;人：</span>
+                                            <!--<span class="input-group-addon">工程负责人</span>-->
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">联系方式：</span>
+                                            <!--<span class="input-group-addon">联系方式</span>-->
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary">保存</button>
+                                    </div>
+                                </form>
+
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+
+                    <!-- 模态框 修改工程信息-->
+                    <div class="modal fade" id="el_modifyProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button><!--关闭符号-->
+                                    <!--标题-->
+                                    <h4 class="modal-title" id="myModalLabel4">修改工程信息</h4>
+                                </div>
+                                <form>
+                                    <div class="modal-body">
+                                        <div class="el_threeScoreList">
+                                            <table>
+                                                <caption>负责单位：</caption>
+                                                <tr><td>单位名称</td><td></td> <td>单位地址</td><td></td></tr>
+                                                <tr><td>联系人</td><td></td> <td>联系方式</td><td></td></tr>
+                                                <tr><td>上级单位</td><td></td> <td>违章记分</td><td></td></tr>
+                                            </table>
+                                        </div>
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">工程名称：</span>
+                                            <!--<span class="input-group-addon">工程名称</span>-->
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">施工时间：</span>
+                                            <!--<span class="input-group-addon">施工时间</span>-->
+                                            <input type="text" class="form-control" name="" placeholder="30天"/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">开工时间：</span>
+                                            <!--<span class="input-group-addon">施工开工时间</span>-->
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">工程状态：</span>
+                                            <!--<span class="input-group-addon" style="height:33px;margin-right:10px;">工程状态</span>-->
+                                            <label class="el_radioBox">
+                                                <input type="radio" name="el_projectState"class="">完工</label>
+                                            <label class="el_radioBox">&nbsp;
+                                                <input type="radio" name="el_projectState" checked> 未开始</label>
+                                            <label class="el_radioBox">
+                                                <input type="radio" name="el_projectState"> 进行中</label>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">负&nbsp;&nbsp;责&nbsp;人：</span>
+                                            <!--<span class="input-group-addon">工程负责人</span>-->
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+
+                                        <div class="input-group el_modellist" role="toolbar">
+                                            <span class="el_spans">联系方式：</span>
+                                            <!--<span class="input-group-addon">联系方式</span>-->
+                                            <input type="text" class="form-control" name=""/>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary">保存</button>
+                                    </div>
+                                </form>
+
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+
+                    <!--分页-->
+                    <script>
+                        /*
+                         当前页的的值
+                         * $_POST['page']
+                         * 每页多少条数据 , 默认10条
+                         * $_POST['rows']
+                         * 获取数据库总量
+                         * $result["total"]
+                         * 获取多少页：$result["total"]/$_POST['rows']
+                         * */
+                        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+                        $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+                        // ...
+                        $rs = mysql_query("select count(*) from item");
+                        $row = mysql_fetch_row($rs);
+                        $result["total"] = $row[0];
+
+                        $rs = mysql_query("select * from item limit $offset,$rows");
+
+                        $items = array();
+                        while ($row = mysql_fetch_object($rs)) {
+                            array_push($items, $row);
+                        }
+                        $result["rows"] = $items;
+
+                        echo
+                        json_encode($result);
+                    </script>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

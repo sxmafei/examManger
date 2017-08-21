@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.DictionaryMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Dictionary" >
+    <id column="dictionaryId" property="dictionaryid" jdbcType="VARCHAR" />
+    <result column="dictionaryName" property="dictionaryname" jdbcType="VARCHAR" />
+    <result column="upDictionaryId" property="updictionaryid" jdbcType="VARCHAR" />
+    <result column="isUse" property="isuse" jdbcType="BIT" />
+    <result column="discription" property="discription" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dictionaryId, dictionaryName, upDictionaryId, isUse, discription
+  </sql>	
+	<!-- 根据字典名称查询字典编码 -->
+	<select id="getCodeByName" parameterType="String" resultType="String">
+		select dictionaryId from dictionary where dictionaryName=#{dictionaryName};
+	</select>
+	
+	<!-- 根据字典编码查询字典名称 -->
+	<select id="getNameByCode" parameterType="String" resultType="String">
+		select dictionaryName from dictionary where dictionaryId=#{dictionaryId};
+	</select>
+	
+	<!-- 添加字典信息 -->
+	<insert id="insertDictionary" parameterType="com.mf.domain.Dictionary">
+    insert into dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dictionaryid != null and dictionaryid != '' " >
+        dictionaryId,
+      </if>
+      <if test="dictionaryname != null and dictionaryname !='' " >
+        dictionaryName,
+      </if>
+      <if test="updictionaryid != null and updictionaryid !=''" >
+        upDictionaryId,
+      </if>
+      <if test="isuse != null and isuse !=''" >
+        isUse,
+      </if>
+      <if test="discription != null and discription !=''" >
+        discription,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dictionaryid != null and dictionaryid !=''" >
+        #{dictionaryid,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryname != null and dictionaryname !=''" >
+        #{dictionaryname,jdbcType=VARCHAR},
+      </if>
+      <if test="updictionaryid != null and updictionaryid !=''" >
+        #{updictionaryid,jdbcType=VARCHAR},
+      </if>
+      <if test="isuse== true" > 1,</if>
+      <if test="isuser==false">0,</if>
+      <if test="discription != null and discription !=''" >
+        #{discription,jdbcType=VARCHAR},
+      </if>
+    </trim>
+	</insert>
+
+	<!-- 根据字典Id删除字典信息 -->
+	<delete id="deleteDictionary" parameterType="String">
+		delete from dictionary where
+		dictionaryId=#{dictionaryId};
+	</delete>
+
+	<!-- 修改字典信息 -->
+	<update id="updateDictionary" parameterType="com.mf.domain.Dictionary">
+		update dictionary
+    <set >
+      <if test="dictionaryname != null and dictionaryname !=''" >
+        #{dictionaryname,jdbcType=VARCHAR},
+      </if>
+      <if test="isuse== true" > 1,</if>
+      <if test="isuser==false">0,</if>
+      <if test="discription != null and discription !=''" >
+        #{discription,jdbcType=VARCHAR},
+      </if>
+				where dictionaryId=#{dictionaryId}
+	</set>
+	</update>
+	
+	<!-- 根据字典编码(dictionaryId)查询字典信息 -->
+	<select id="getDictionaryById" parameterType="String" resultType="com.mf.domain.Dictionary">
+		select * from dictionary
+		where dictionaryId=#{dictionaryId};
+	</select>
+	
+	
+	<!-- 根据条件查询字典信息(字典编号，字典名称， 起始记录数，每页的记录数，上级字典编号) -->
+	<select id="getDictionaryByConditon" parameterType="map" resultType="com.mf.domain.Dictionary">
+		SELECT *  FROM dictionary 
+		<where>
+			<if test="dictionary.dictionaryId==null or dictionary.dictionaryId =='' ">
+				dictionaryId != "1"
+			</if>
+			<if test="dictionary.dictionaryId!=null &amp;&amp; dictionary.dictionaryId !='' ">
+				dictionaryId=#{dictionaryId}
+			</if>
+			<if test="dictionary.dictionaryName!=null &amp;&amp; dictionary.dictionaryName!=''">
+				AND dictionaryName LIKE concat(concat('%',#{dictionaryName}),'%')
+			</if>
+			<if test="dictionary.upDictionaryId!=null &amp;&amp; dictionary.upDictionaryId!=''">
+				AND upDictionaryId=#{upDictionaryId}
+			</if>
+		</where>
+		order by dictionaryId asc
+		<!-- limit #{pageBegin},#{pageSize}; -->
+		<if test="pageBegin != null and pageSize != null">LIMIT #{pageBegin},#{pageSize}</if>
+	</select>
+	
+	<!-- 根据条件查询字典信息(字典编号，字典名称 或者上级字典编号) -->
+	<select id="getDicCountByConditon" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM dictionary 
+		<where>
+			<if test="dictionaryId!=null &amp;&amp; dictionaryId !='' ">
+				dictionaryId=#{dictionaryId}
+			</if>
+			<if test="dictionaryName!=null &amp;&amp; dictionaryName!=''">
+				AND dictionaryName LIKE concat(concat('%',#{dictionaryName}),'%');
+			</if>
+			<if test="upDictionaryId!=null &amp;&amp; upDictionaryId!=''">
+				AND upDictionaryId=#{upDictionaryId};
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据upDictionaryId查询下级字典信息 -->
+	
+	<select id="getDictionaryByUpDicId" parameterType="map"
+		resultType="com.mf.domain.Dictionary">
+		SELECT * FROM dictionary 
+		WHERE upDictionaryId=#{upDictionaryId}
+		<if test="pageBegin != null and pageSize != null">LIMIT #{pageBegin},#{pageSize}</if>
+	</select>
+
+	<!-- 查询全部字典信息 -->
+	
+	<select id="getAllDictionary" resultType="com.mf.domain.Dictionary">
+		SELECT * FROM dictionary;
+	</select>
+
+	<!-- 查询字典树信息 -->
+	
+	<select id="getDictionaryTree" resultType="Map">
+		SELECT dictionaryId,dictionaryName,upDictionaryId FROM dictionary;
+	</select>
+
+
+	<!-- 根据上级字典Id查询下一个要插入的下一级字典的编号 -->
+	
+	<select id="getMaxDictionaryId" parameterType="String"
+		resultType="String">
+		SELECT MAX(dictionaryId) FROM dictionary WHERE
+		upDictionaryId=#{upDictionaryId}
+	</select>
+	
+	
+	<!-- 根据上级字典Id查询最新的一个下级字典信息 -->
+	<select id="getNewDictionary" parameterType="String" resultType="com.mf.domain.Dictionary">
+		SELECT	*
+		FROM dictionary where dictionaryId = (SELECT MAX(dictionaryId) FROM dictionary WHERE
+		upDictionaryId=#{upDictionaryId});
+	</select>
+	
+	<!-- 上一级字典禁用/开启后，下一级字典也得禁用 /开启-->
+	<update id="updateChildNotUse" parameterType="com.mf.domain.Dictionary" >
+		UPDATE dictionary 
+		<set>
+			<if test="isuse==true"> isUse=1</if>
+			<if test="isuse==false"> isUse=0</if>
+		</set>
+	 	upDictionaryId=#{dictionaryid};
+	</update>
+	
+
+	<select id="getInstitutionList" parameterType="map" resultType="String">
+		SELECT dictionaryName FROM dictionary 
+		<where>
+		<if test="institution != null &amp;&amp; institution != ''">
+			dictionaryName LIKE CONCAT(CONCAT('%', #{institution}),'%')
+		</if>
+		and upDictionaryId=
+		(SELECT dictionaryId FROM dictionary WHERE
+		dictionaryName=#{dictionaryName}) 
+		</where>
+	</select>
+	
+	<!-- 根据上级字典Id查询下级字典名称 -->
+	 <select id="getDicNameByUpDicId" parameterType="String" resultType="Map">
+	 	SELECT DISTINCT dictionaryId, dictionaryName
+	 	FROM dictionary
+	 	WHERE upDictionaryId=#{upDictionaryId}
+	 </select>
+</mapper>

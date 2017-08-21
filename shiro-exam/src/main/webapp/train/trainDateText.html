@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>培训资料视频查看</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <style>
+        /*培训资料的信息*/
+        .el_parperInfo {
+            width: 80%;
+            height: 350px;
+            margin: 5px auto;
+            font-size: 14px;
+            border-top: 2px solid #eee;
+            border-bottom: 2px solid #eee;
+            padding: 10px;
+            padding-top:20px;
+            text-align: center;
+            margin-bottom: 40px;
+            position:relative;
+        }
+
+        .el_parperInfo table {
+            width: 100%;
+        }
+
+        .el_parperInfo table tr {
+            height: 35px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .el_parperInfo table tr td:first-child {
+            border-right: 1px solid #eee;
+            width: 150px;
+        }
+
+        /*下载*/
+        .el_loadOpration {
+            position:absolute;
+            bottom:0;
+            left:300px;
+            width: 100%;
+            height: 40px;
+        }
+    </style>
+
+    <!--返回-->
+
+</head>
+<body>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">培训资料的详细内容</div>
+        <div class="panel-body">
+            <!--返回按钮-->
+            <input type="button" class="btn btn-default"  name="back" value="返回" onclick="javascript:history.back(-1);"/>
+
+            <!--资料信息-->
+            <div class="el_parperInfo">
+                <table>
+                    <tr>
+                        <td>资料名称</td>
+                        <td>电厂安全资料</td>
+                    </tr>
+                    <tr>
+                        <td>上传时间</td>
+                        <td>2017年 11月 10日</td>
+                    </tr>
+                    <tr>
+                        <td>上传人</td>
+                        <td>小李</td>
+                    </tr>
+                    <tr>
+                        <td>浏览量</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>资料所属级别</td>
+                        <td>一级</td>
+                    </tr>
+                    <tr>
+                        <td>所属部门</td>
+                        <td>该试卷是一份非常好的试卷</td>
+                    </tr>
+                    <tr>
+                        <td>播放时长</td>
+                        <td>120分钟</td>
+                    </tr>
+                    <tr>
+                        <td>资料简介</td>
+                        <td>该试卷是一份非常好的试卷</td>
+                    </tr>
+                    <div class="el_loadOpration">
+                        <span>文件类型：</span><span>PPT</span>
+                        <botton class="btn btn-primary">下载</botton>
+                    </div>
+
+                </table>
+            </div>
+
+
+            <!--视频-->
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

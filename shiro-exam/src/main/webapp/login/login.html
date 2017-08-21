@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>脚</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link href="../css/public/public_style.css" rel="stylesheet"/>
+    <link href="login.css" rel="stylesheet"/><!--登录页面的基本样式-->
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <script src="../controls/validate/jquery.validate.js"></script><!--验证-->
+    <script src="../controls/indentifyingCode/gVerify.js"></script>
+
+    <!--放脚步数据-->
+    <script src="../js/public/public_js.js"></script>
+
+
+    <script type="text/javascript">
+        //数据验证
+        $(function() {
+            $("#load_form").validate({
+
+                rules : {
+                    'username' : {
+                        required : true
+                    }, //姓名,minlength:4,maxlength:15
+                    'password' : {
+                        required : true,
+                        minlength : 6,
+                        maxlength : 16
+                    }, //姓名
+                },
+                messages : {
+                    'username' : {
+                        required : '用户名不能为空'
+                    }, //姓名	  ,minlength:'长度为4-15个字符',maxlength:'长度为4-15个字符'
+                    'password' : {
+                        required : '请输入密码',
+                        minlength : '长度为6-16个字符',
+                        maxlength : '长度为6-16个字符'
+                    }, //姓名
+                },
+                errorClass : "error",
+                success : 'valid',
+                unhighlight : function(element, errorClass, validClass) { //验证通过
+                    $(element).removeClass(errorClass);
+                },
+                errorPlacement : function(error, element) { //处理错误，把错误提示，放到error标签中
+                    /* var $error = "" */
+                    error.appendTo(element.parent().next().children());
+                },
+                submitHandler : function(form) { //提交表单
+                    form.submit();
+                }
+            });
+        });
+
+    </script>
+
+</head>
+
+<body>
+
+<div>
+    <!-- 标题 -->
+    <div class="load_title ">
+        <div class="container">
+            <h1>电厂职工考试管理</h1>
+        </div>
+    </div>
+
+    <!-- 中部 -->
+    <div class="load_body">
+        <div class="container body_content" id="lzw">
+            <div class="load_body_right">
+                <div></div>
+
+                <!-- form表单 ，提交到login。action也即使LoginFilter-->
+                <form class="load_form" method="post" action="#">
+                    <div>
+                        <label>用户账号</label>
+                        <input type="text" class="form-control"
+                               name="username" id="username" value="" />
+                    </div>
+                    <div style="color: red; height: 16px; margin-bottom: 3px">
+
+                    </div>
+
+                    <div>
+                        <label>密码</label> <input type="password" class="form-control"
+                                                 name="password" value="${cookie.loginPassw.value }" />
+                    </div>
+                    <div style="color: red; height: 16px; margin-bottom: 3px">
+                        <span></span>
+                    </div>
+
+                    <!-- indentifyingCode验证码 -->
+                    <div id="v_container" style="width: 200px;height: 50px;"></div>
+                    <input type="text" id="code_input" value="" placeholder="请输入验证码"/><button id="my_button">验证</button>
+
+
+
+                    <!--提交按钮-->
+                    <div class="sub_btn">
+                        <input type="checkbox" name="isChecked" value="yes"/><span>记住密码</span>
+                        <button type="submit" class="btn btn-lg btn-block"
+                                style="background-color: rgb(30, 150, 200)"><a href="../public/home2.html">登录</a></button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--底部-->
+    <footer>
+        <div class="section">
+            <div id="footer_left"></div>
+
+        </div>
+    </footer>
+</body>
+
+<!--验证码-->
+<script>
+    var verifyCode = new GVerify("v_container");
+
+    document.getElementById("my_button").onclick = function(){
+        var res = verifyCode.validate(document.getElementById("code_input").value);
+        if(res){
+            alert("验证正确");
+        }else{
+            alert("验证码错误");
+        }
+    }
+</script>
+
+
+</html>

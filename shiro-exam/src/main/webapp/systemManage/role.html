@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+
+    <!--模态框-->
+
+    <link rel="stylesheet" type="text/css" href="../controls/zeroModal/zeroModal.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--模态框-->
+    <script src="../controls/zeroModal/zeroModal.min.js"></script>
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+
+    <style>
+        /*查询里边的搜索框*/
+        .form-control {
+            width:250px;
+        }
+
+        /*分页按钮颜色*/
+        .l-btn-icon {
+            background-color: rgb(29, 150, 232);
+        }
+
+
+    </style>
+
+
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <!--菜单连接标题-->
+        <div class="panel-heading"><span>角色管理</span><span>>用户添加</span></div>
+        <div class="panel-body">
+
+            <!--内容-->
+            <div class="col-md-12">
+
+                <!--显示内容-->
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <div class="col-md-12">
+
+
+                            <!-- 按钮触发模态框1 -->
+                            <div class="col-md-2">
+                                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1">
+                                    添加角色
+                                </button>
+                            </div>
+
+
+                            <!--需要在点击该按钮时，获取，所选择的几个角色项
+                                判断选择的个数是否大于1
+                                若大与1 ，才能执行，否则提示
+                             -->
+                            <div class="col-md-2">
+                                <button class="btn btn-primary btn-lg" data-toggle="modal" onClick="delcfm2()">
+                                    <!--在这里要添加一个获取当前列id的值
+                                    才能实现删除-->
+                                    批量删除
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!--不能要呢-->
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+
+                        <!--索引-->
+                        <div class="col-md-12">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">题库管理</div>
+                                <div class="panel-body">
+
+                                    <!--表单提交查询-->
+                                    <form>
+                                        <div class="col-md-2">
+                                            <div class="input-group" role="toolbar">
+
+                                                <span class="input-group-addon">角色名称</span>
+                                                <input type="text" class="form-control" name=""/>
+                                            </div>
+                                        </div>
+
+                                        <!--复选框-->
+                                        <div class="col-md-2">
+                                            <div class="checkbox">启用状态:
+                                                <input type="radio" name="state"> 启用
+                                                <input type="radio" name="state"> 禁用
+                                            </div>
+                                        </div>
+
+
+                                        <!--提交查询按钮-->
+                                        <button type="submit" class="btn btn-default">查询</button>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <!--表格
+                            内容都提取到json里边
+                        -->
+                            <table class="table table-bordered">
+                                <thead>
+                                <th>序号</th>
+                                <th>角色名称</th>
+                                <th>启用状态</th>
+                                <th>描述</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><input type="checkbox"/></td>
+                                    <td>科技局小测验</td>
+                                    <td>安全类</td>
+                                    <td>内容1</td>
+                                    <td>内容1</td>
+                                    <td><a class="btn btn-primary" href="" data-toggle="modal" data-target="#myModal1">修改</a>&nbsp;
+                                        <!--在这里要添加一个获取当前列id的值
+                                        才能实现删除-->
+                                        <a class="btn btn-primary" onClick="delcfm()">删除</a>
+
+                                        <a href="javascript:_button()" class="btn btn-primary" title="修改权限">修改</a>
+                                        <script>
+                                            function _button() {
+                                                zeroModal.show({
+                                                    title: '修改权限',
+                                                    iframe: true,
+                                                    url: '../systemManage/authority.html',
+                                                    ok: true,
+                                                    width: '60%',
+                                                    height: '80%',
+                                                    cancel: true,
+                                                    okFn: function (opt) {
+                                                        console.log(opt);
+                                                        alert('clicked ok and not close');
+                                                        return false;
+                                                    }
+                                                });
+                                            }
+                                        </script>
+
+
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                            <!--分页-->
+                            <div style="margin:20px 0;"></div>
+                            <div class="easyui-panel">
+                                <!--
+                                total 数字 当分页建立时设置记录的总数量 1
+                                pageSize 数字 每一页显示的数量 10
+                                pageNumber 数字 当分页建立时，显示的页数 1
+                                pageList 数组 用户可以修改每一页的大小，
+                                pageList属性定义了多少种大小可以改变. [10,20,30,50]
+                                loading 布尔 定义数据是否正在加载 false
+                                buttons 数组 定义自定义按钮，每个按钮包含两个属性：
+                                iconCls: 显示背景图像的CSS类
+                                handler: 当一个按钮被点击时的处理函数 null
+                                showPageList 布尔 定义是否显示页面列表 true
+                                showRefresh 布尔 定义是否显示刷新按钮 true
+                                beforePageText 字符串 在输入框组件前显示的标签 Page
+                                afterPageText 字符串 在输入框组件后显示的标签 of {pages}
+                                displayMsg 字符串 显示一个页面的信息。
+                                -->
+                                <div class="easyui-pagination" data-options="
+                            total:120,
+
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                            </div>
+
+                        </div>
+
+                    </div><!--结束面板-->
+                </div>
+
+
+                <!-- 模态框 批量删除-->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button><!--关闭符号-->
+                                <!--标题-->
+                                <h4 class="modal-title" id="myModalLabel">题库统计</h4>
+                            </div>
+                            <form>
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">题库名称</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="">
+                                    </div>
+
+                                    <div class="checkbox">题库状态：
+                                        <label>
+                                            <input type="radio" name="leixing" checked> 开放
+                                            <input type="radio" name="leixing"> 禁用
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">题库说明</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail2" placeholder="">
+                                    </div>
+
+                                    <!--根据试卷等级类型
+                                        来决定有没有部门和班的选择。-->
+                                    <div class="input-group" role="toolbar">
+                                        <span class="input-group-addon">题库类型类型</span>
+                                        <select class="selectpicker" title="请选择">
+                                            <option>--请选择--</option>
+                                            <option>一级（厂级）</option>
+                                            <option>二级（部门级）</option>
+                                            <option>三级（班级）</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary">提交更改</button>
+                                </div>
+                            </form>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
+
+
+                <!-- 模态框 添加角色-->
+                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button><!--关闭符号-->
+                                <!--标题-->
+                                <h4 class="modal-title" id="myModalLabel1">角色添加</h4>
+                            </div>
+                            <form>
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">角色名称</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail111"
+                                               placeholder="">
+                                    </div>
+
+                                    <div class="checkbox">启用
+                                        <label>
+                                            <input type="radio" name="leixing" checked>启用
+                                            <input type="radio" name="leixing"> 禁用
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">描述</label>
+                                        <input type="text" class="form-control" id="exampleInputEma1il2" placeholder="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">备注</label>
+                                        <input type="text" class="form-control" id="exampleInputEma1il232"
+                                               placeholder="">
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary">提交更改</button>
+                                </div>
+                            </form>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
+
+                <!-- 模态框   信息删除确认 -->
+                <div class="modal fade" id="delcfmModel">
+                    <div class="modal-dialog">
+                        <div class="modal-content message_align">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                                <h4 class="modal-title">提示信息</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>您确认要删除吗？</p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="url"/>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <script>
+                    function delcfm() {
+                        $('#delcfmModel').modal();
+                    }
+                    function urlSubmit() {
+                        var url = $.trim($("#url").val());//获取会话中的隐藏属性URL
+                        window.location.href = url;
+                    }
+                </script>
+
+
+                <!-- 模态框   批量信息删除确认 -->
+                <div class="modal fade" id="delcfmModel2">
+                    <div class="modal-dialog">
+                        <div class="modal-content message_align">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                                <h4 class="modal-title">批量删除提醒</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>您确认要删除这些信息吗？</p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="url2"/>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <a onclick="urlSubmit2()" class="btn btn-success" data-dismiss="modal">确定</a>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <script>
+                    function delcfm2() {
+                        $('#delcfmModel2').modal();
+                    }
+                    function urlSubmit2() {
+                        var url = $.trim($("#url2").val());//获取会话中的隐藏属性URL
+                        window.location.href = url;
+                    }
+                </script>
+
+
+
+              <!--分页-->
+                <script>
+                    /*
+                     当前页的的值
+                     * $_POST['page']
+                     * 每页多少条数据 , 默认10条
+                     * $_POST['rows']
+                     * 获取数据库总量
+                     * $result["total"]
+                     * 获取多少页：$result["total"]/$_POST['rows']
+                     * */
+                    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+                    $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+                    // ...
+                    $rs = mysql_query("select count(*) from item");
+                    $row = mysql_fetch_row($rs);
+                    $result["total"] = $row[0];
+
+                    $rs = mysql_query("select * from item limit $offset,$rows");
+
+                    $items = array();
+                    while ($row = mysql_fetch_object($rs)) {
+                        array_push($items, $row);
+                    }
+                    $result["rows"] = $items;
+
+                    echo
+                    json_encode($result);
+                </script>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

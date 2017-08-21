@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.RoleMapper" >
+    <resultMap id="BaseResultMap" type="com.mf.domain.Role" >
+    <id column="roleId" property="roleid" jdbcType="VARCHAR" />
+    <result column="roleName" property="rolename" jdbcType="VARCHAR" />
+    <result column="roleStatus" property="rolestatus" jdbcType="BIT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="VARCHAR" />
+    <collection property="permission" select="com.mf.mapper.PermissionMapper.selectPermissionByRole" 
+    javaType="list" column="roleId" ofType="com.mf.domain.Permission"></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    roleId, roleName, roleStatus, description, remark, role.departmentId
+  </sql>
+  <!-- 根据用户编号获取该用户角色信息 -->
+  <select id="getRoleByUserId" parameterType="String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"></include>
+	from role LEFT JOIN userrole USING(roleId) LEFT JOIN employee_in USING(employeeId) 
+	where employeeId=#{employeeid} 
+  </select>
+  
+  <!-- 根据角色编号查询该角色下的所有用户 -->
+  <select id="getUserByRoleId" parameterType="map" resultType="com.mf.domain.Employee_in">
+  	SELECT * from employee_in LEFT JOIN userrole USING(employeeId)
+	where roleId=#{roleid}
+	<if test="pageBegin != null and pageSize != null">LIMIT #{pageBegin},#{pageSize}</if>
+  </select>
+	
+  <!-- 根据用户编号查询该用户不扮演的角色 -->
+  <select id="getLeftRoleByUserId" parameterType="String" resultType="com.mf.domain.Role">
+  		SELECT * FROM role WHERE roleId NOT IN(SELECT roleId FROM userrole 
+  		WHERE employeeId=#{employeeid})
+  </select>
+
+  <!-- 根据roleid查询角色信息 包括权限信息 -->
+  <select id="getRoleByRoleId" parameterType="String" resultMap="BaseResultMap">
+  	select * from role where roleId= #{roleid}
+  </select>
+  
+  <!-- 查询所有启用的角色-->
+  <select id="getIsUseRoleByRoleId" parameterType="String" resultMap="BaseResultMap">
+  	select * from role where roleStatus='1'
+  	<if test="_parameter!=null and _parameter!=''">
+  		and departmentId=#{departmentid}
+  	</if>
+   </select>
+  
+	<!-- 查询本部的所有的角色信息 -->
+	<select id="getAllRoleByRoleId" parameterType="String" resultMap="BaseResultMap">
+		select * from role
+		<if test="_parameter!=null and _parameter!=''">
+	  		and departmentId=#{departmentid}
+	  	</if>
+	</select>
+	  
+	<!-- 查询本部极其所属部门的所有角色信息 -->
+	<select id="getAllRole" parameterType="map" resultMap="BaseResultMap">
+	  	SELECT * from role where departmentId LIKE concat(#{departmentid},'%')
+	  	 <if test="pageBegin != null and pageSize != null">LIMIT #{pageBegin},#{pageSize}</if>
+	  </select>
+	  
+	  <!-- 插入角色的权限信息 -->
+	  <insert id="addPermissionForRole" parameterType="com.mf.domain.Role">
+	  	insert into rolepermission (roleId,permissionId) values
+	  		<foreach collection="permissionid" item="item"  separator=",">
+	  			(#{roleid},#{item})
+	  		</foreach>
+	  </insert>
+  
+  
+	 <!-- 插入角色信息 -->
+	  <insert id="addRole" parameterType="com.mf.domain.Role">   
+	  <selectKey  keyProperty="roleid" resultType="java.lang.String" order="BEFORE">
+	              select uuid()
+	  </selectKey>
+  	   insert into role
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="roleid != null and roleid!=''" >roleId,</if>
+	      <if test="rolename != null and rolename!=null" >roleName,</if>
+	      <if test="rolestatus != null and rolestatus!=''" > roleStatus, </if>
+	      <if test="description != null and description!=''" >description,</if>
+	      <if test="departmentid!= null and departmentid!=''">departmentId</if>
+	      <if test="remark != null and remark!=''" > remark, </if>
+	    </trim>
+	    <trim prefix="values(" suffix=")" suffixOverrides="," >
+	      <if test="roleid != null and roleid!=''" >#{roleid},</if>
+	      <if test="rolename != null and rolename!=null" > #{rolename}, </if>
+	      <if test="rolestatus != null and rolestatus!=''" > #{rolestatus}, </if>
+	      <if test="description != null and description!=''" > #{description},</if>
+	      <if test="departmentid!= null and departmentid!=''">#{departmentid}</if>
+	      <if test="remark != null and remark!=''"  > #{remark}, </if>
+	    </trim>
+  </insert>
+  
+  <!-- 修改角色信息 -->
+  <update id="updateRoleInfo" parameterType="com.mf.domain.Role">
+  	  update role
+    <set>
+      <if test="rolename != null and rolename!=''" >roleName = #{rolename},</if>
+      <if test="rolestatus == true" >roleStatus = 1,</if>
+      <if test="rolestatus == false">roleStatus = 0</if>
+      <if test="description != null" >description = #{description}, </if>
+      <if test="remark != null" >remark = #{remark},</if>
+    </set>
+    	where roleId = #{roleid,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 删除角色信息 -->
+  <delete id="deleteRoleInfo" parameterType="list" >
+    delete from role where  roleId in (
+	<foreach collection="list" item="item" separator=",">
+		#{item}
+	</foreach>)
+  </delete>
+  
+  <!-- 删除角色的权限(收回分配给角色的权限) -->
+  <delete id="deleteRolePermissionByRoleid" parameterType="String">
+  	delete from rolepermission where roleId=#{roleid}
+  </delete>
+  
+  <select id="getRoleCount" parameterType="String" resultType="int">
+  	select count(*) from role where departmentId=#{departmentid}
+  </select>
+</mapper>

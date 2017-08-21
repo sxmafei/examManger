@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.UserMapper" >
+
+  <resultMap id="userWithDepAndRole" type="com.mf.domain.Employee_in" >
+    <id column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="employeeNumber" property="employeenumber" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="idCode" property="idcode" jdbcType="CHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="finger" property="finger" jdbcType="VARCHAR" />
+    <result column="trainStatus" property="trainstatus" jdbcType="INTEGER" />
+    <result column="Status" property="trainstatus" jdbcType="BIT" />
+    <association property="department" column="departmentId" javaType="com.mf.domain.Department" 
+    			select="com.mf.mapper.DepartmentMapper.selectDepartbyId"></association>
+    <collection property="role" column="employeeId" javaType="list" ofType="com.mf.domain.Role"
+    			select="com.mf.mapper.RoleMapper.selectRoleByUserId"></collection>
+  </resultMap>
+  
+    <resultMap id="userWithDepartName" type="com.mf.domain.Employee_in" >
+    <id column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="employeeNumber" property="employeenumber" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="idCode" property="idcode" jdbcType="CHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="departmentId" property="departmentid" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="finger" property="finger" jdbcType="VARCHAR" />
+    <result column="trainStatus" property="trainstatus" jdbcType="INTEGER" />
+    <association property="departmentname" column="departmentId" javaType="String" 
+    			select="com.mf.mapper.DepartmentMapper.selectDepartNameByDepartId"></association>
+  </resultMap>
+  
+  <sql id="userInfo" >
+    employeeId, employeeNumber, name, idCode, sex, birthday, phone, photo, email, address, 
+    duty, departmentId, password, finger, trainStatus
+  </sql>
+  
+  <!-- 根据用户名查询用户信息极其所属部门及其部门信息及其角色信息-->
+  <select id="getEmployee_inByName" parameterType="String" resultMap="userWithDepAndRole">
+  	SELECT * from employee_in WHERE `name`=#{name} and status='1'
+  </select>
+  
+  <!-- 根据用户名查询角色 -->
+  <select id="getRoleByName" parameterType="String" resultType="String">
+  		SELECT r.roleId
+		from employee_in emp LEFT JOIN userrole ur USING (employeeId)
+		LEFT JOIN role r USING(roleId)
+		WHERE emp.`name`=#{name}
+  </select>
+  
+  <!-- 根据用户名查询权限  -->
+  <select id="getPermissionByName" parameterType="String" resultType="String">
+ 	SELECT DISTINCT p.permissionCode
+	from employee_in emp LEFT JOIN userrole ur USING (employeeId)
+	LEFT JOIN role r USING(roleId)
+	LEFT JOIN rolepermission rp USING(roleId)
+	LEFT JOIN permission p USING(permissionId)
+	WHERE emp.`name`=#{name}
+  </select>
+  		
+
+	<!-- 删除用户 -->
+	<delete id="deleteUserById" parameterType="String">
+		DELETE FROM employee_in WHERE
+		employeeId=#{employeeId}
+	</delete>
+
+	
+	<!-- 给用户分配角色 -->
+	<insert id="addRoleForUser" parameterType="com.mf.domain.Employee_in">
+		 	insert into userrole (employeeId,roleId) values
+  		<foreach collection="roleid" item="item"  separator=",">
+  			(#{employeeid},#{item})
+  		</foreach>
+	</insert>
+	
+	<!-- 撤销分配给用户的角色 -->
+	<delete id="deleteRoleFromUser" parameterType="map">
+		DELETE FROM userrole WHERE employeeId=#{employeeid} 
+		<if test="roleid != null and roleid !=''">
+		AND roleId=#{roleid};
+		</if>
+	</delete>
+
+	<!-- 根据用户ID获取用户登录密码 -->
+	<select id="getPasswordByUserId" parameterType="String" resultType="String">
+		select password from employee_in where employeeId=#{employeeid}
+	</select>
+
+	<!-- 关闭/开启用户 -->
+	<update id="updateUserStatus" parameterType="com.mf.domain.Employee_in" >
+		update employee_in 
+			<set>
+				<if test="status==true">Status=1</if>
+				<if test="status==false">Status=0</if>
+			</set>
+		 where employeeId=#{employeeid}
+	</update>
+	
+	<!-- 根据用户名获取权限的对象集合 -->
+	<select id="getObjectPermissionByName" parameterType="String" resultType="com.mf.domain.Permission">
+			SELECT rp.permissionCode
+			from employee_in emp LEFT JOIN userrole ur USING (employeeId)
+			LEFT JOIN role r USING(roleId)
+			LEFT JOIN rolepermission rp USING(roleId)
+			LEFT JOIN permission p USING(permissionId)
+			WHERE emp.`name`=#{name}
+	</select>
+</mapper>
+

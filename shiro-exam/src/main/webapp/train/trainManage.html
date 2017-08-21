@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>培训资料管理</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--日历-->
+    <link rel="stylesheet" href="../controls/calendar/pikaday.css">
+    <script src="../controls/calendar/pikaday.js"></script>
+
+    <!--树-->
+    <link rel="stylesheet" href="../controls/selectDropTree/demo.css" type="text/css">
+    <link rel="stylesheet" href="../controls/selectDropTree/zTreeStyle/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="../controls/selectDropTree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../controls/selectDropTree/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript">
+        var setting = {
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                radioType: "all"
+            },
+            view: {
+                dblClickExpand: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: onClick,
+                onCheck: onCheck
+            }
+        };
+
+        var zNodes =[
+            { id:1, pId:0, name:"随意勾选 1", open:true},
+            { id:11, pId:1, name:"随意勾选 1-1", open:true},
+            { id:111, pId:11, name:"无 radio 1-1-1", nocheck:true},
+            { id:112, pId:11, name:"随意勾选 1-1-2"},
+            { id:12, pId:1, name:"无 radio 1-2", nocheck:true, open:true},
+            { id:121, pId:12, name:"无 radio 1-2-1"},
+            { id:122, pId:12, name:"无 radio 1-2-2"},
+            { id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
+            { id:21, pId:2, name:"随意勾选 2-1"},
+            { id:22, pId:2, name:"随意勾选 2-2", open:true},
+            { id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
+            { id:222, pId:22, name:"随意勾选 2-2-2"},
+            { id:23, pId:2, name:"随意勾选 2-3"}
+        ];
+
+        function onClick(e, treeId, treeNode) {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            zTree.checkNode(treeNode, !treeNode.checked, null, true);
+            return false;
+        }
+
+        function onCheck(e, treeId, treeNode) {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                nodes = zTree.getCheckedNodes(true),
+                v = "";
+            for (var i = 0, l = nodes.length; i < l; i++) {
+                v += nodes[i].name + ",";
+            }
+            if (v.length > 0) v = v.substring(0, v.length - 1);
+            var cityObj = $("#citySel");
+            cityObj.attr("value", v);
+        }
+
+        function showMenu() {
+            var cityObj = $("#citySel");
+            var cityOffset = $("#citySel").offset();
+            $("#menuContent").css({
+                left: cityOffset.left + "px",
+                top: cityOffset.top + cityObj.outerHeight() + "px"
+            }).slideDown("fast");
+
+            $("body").bind("mousedown", onBodyDown);
+        }
+        function hideMenu() {
+            $("#menuContent").fadeOut("fast");
+            $("body").unbind("mousedown", onBodyDown);
+        }
+        function onBodyDown(event) {
+            if (!(event.target.id == "menuBtn" || event.target.id == "citySel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+                hideMenu();
+            }
+        }
+
+        $(document).ready(function () {
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        });
+        //-->
+    </script>
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+    <style>
+        /*主页*/
+        .el_queryBoxMainPage {
+            min-width: 970px;
+            width: 100%;
+            display: block;
+        }
+
+        /*索引内容*/
+        .el_queryBox {
+            width: 103%;
+            height: 110px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        /*索搜行*/
+        .el_queryBoxrow {
+            margin: 10px;
+        }
+
+        .el_queryBox form {
+            margin-top: 6px;
+            min-width: 970px;
+        }
+
+        .el_queryButton {
+            position: absolute;
+            right: 50px;
+            bottom: 10px;
+        }
+
+        .form-control {
+            height: 25px;
+            font-size: 10px;
+            border-radius: 3px;
+            width: 350px;
+        }
+
+        /*标题*/
+        .el_mainHead {
+            width: 103%;
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            right: 20px;
+        }
+
+        /*主要部分*/
+        .el_Mainmain {
+            position: relative;
+            top: -10px;
+        }
+
+        .panel-body {
+            border: none;
+        }
+
+        /*按钮操作*/
+        .el_topButton {
+            height: 50px;
+            margin-top: 20px;
+        }
+
+        .el_delButton:hover {
+            cursor: pointer;
+        }
+
+        /*单选按钮*/
+        .el_radioBox {
+            margin-left: 10px;
+        }
+    </style>
+
+    <!--索引-->
+    <style>
+        /*搜索边框*/
+        .el_qlmQuery {
+            min-width: 150px;
+            width: 30%;
+            float: left;
+            margin: 10px;
+        }
+
+        /*span改变样式后的样子*/
+        .el_spans {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: normal;
+            line-height: 1;
+            color: #555;
+            text-align: center;
+            border-radius: 4px;
+            width: 1%;
+            white-space: nowrap;
+            vertical-align: middle;
+            display: table-cell;
+        }
+        /*下拉列表*/
+        .selectpicker{
+            padding:2px;
+            padding-left:5px;
+        }
+    </style>
+
+    <!--选择树-->
+    <style>
+        /*选择树*/
+        .el_seletTreeDepart{
+            width:300px;
+            height:40px;
+            position:relative;
+            display: inline-block;
+            right:4px;
+        }
+        .list{
+            height:25px;
+            line-height:25px;
+        }
+        /*三角标*/
+        .list img{
+            position:absolute;
+            right:-65px;
+            top:11px;
+
+        }
+        .zTreeDemoBackground{
+            width:300px;
+            position:relative;
+        }
+        /*输入框*/
+        #citySel{
+            margin-left:10px;
+            padding-left:20px;
+            height:25px;
+            font-size:12px;
+            width:230px;
+            border-radius:2px;
+            border:1px solid #ccc;
+            position:absolute;
+            top:0;
+        }
+        #menuContent{
+            width:100px;
+            position:absolute;
+            top:50px;
+            z-index:90;
+            display:none;
+            background-color:white;
+        }
+        /*树*/
+        ul.ztree {
+            width:250px;
+            background-color:white;
+            height:auto;
+        }
+        .ztree{
+            width:250px;
+            position:absolute;
+            display:block;
+            right:205%;
+            top:-123px;
+            background-color:white;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <!--菜单连接标题-->
+        <div class="panel-heading"><span>培训资料管理</span><span>>用户添加</span></div>
+        <div class="panel-body">
+
+            <!--内容1-->
+            <div class=" col-md-12">
+
+                <!--索引-->
+                <div class="row el_queryBox">
+                    <form action="">
+
+                        <div class="row el_queryBoxrow">
+
+                            <div class="col-md-3 el_qlmQuery">
+                                <div class="input-group" role="toolbar">
+                                    <span class="el_spans">单位名称：</span>
+                                    <input type="text" class="form-control" name=""/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 el_qlmQuery">
+                                <div class="input-group" role="toolbar">
+                                    <span class="el_spans">资料名称：</span>
+                                    <input type="text" class="form-control" name=""/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 el_qlmQuery">
+                                <div class="input-group" role="toolbar">
+                                    <span class="el_spans">资料知识点：</span>
+                                    <select class="selectpicker form-control" title="请选择">
+                                        <option>--请选择--</option>
+                                        <option>安全</option>
+                                        <option>法律</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 el_qlmQuery">
+                                <div class="input-group" role="toolbar">
+                                    <span class="el_spans">所属级别：</span>
+                                    <label class="el_radioBox"><input type="radio" name="leixing"> 一级</label>
+                                    <label class="el_radioBox"><input type="radio" name="leixing"> 二级</label>
+                                    <label class="el_radioBox"><input type="radio" name="leixing"> 三级</label>
+                                </div>
+                            </div>
+
+                            <!--部门选择下拉树-->
+                            <div class="col-md-3 el_qlmQuery">
+                                <div class=" el_modellist" role="toolbar">
+                                    <div class="el_seletTreeDepart">
+                                        <div class="zTreeDemoBackground">
+                                            <ul class="list">所属部门：
+                                                <input id="citySel" type="text" readonly value="选择所属部门"
+                                                       onclick="showMenu();"/>
+                                                <img src="../controls/selectDropTree/smallTriangle.png" width="7"/>
+                                            </ul>
+                                        </div>
+                                        <div id="menuContent" class="menuContent">
+                                            <ul id="treeDemo" class="ztree"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--提交查询按钮-->
+                        <button type="submit" class="btn btn-default el_queryButton">查询</button>
+                    </form>
+
+                </div>   <!--结束 查询表单提交-->
+
+                <!--显示内容-->
+                <h3 class="el_mainHead">培训资料信息</h3>
+                <div class="panel panel-default el_Mainmain">
+
+                    <!--按钮面板-->
+                    <div class="panel-body">
+
+                        <div class="panel panel-default">
+                            <div class="panel-body el_MainxiaoMain">
+
+                                <div class="el_topButton">
+                                    <!-- 按钮触发模态框1 -->
+                                    <div class="col-md-2">
+                                        <a href="addTrainFile.html">
+                                            <button class="btn btn-primary">
+                                                增加培训资料
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary" onclick="piliangdelcfm()">批量删除
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!--表格
+                            内容都提取到json里边
+                        -->
+                        <table class="table table-bordered">
+                            <thead>
+                            <th><input type="checkbox" id="el_checkQuanxuan"/></th>
+                            <th>资料名称</th>
+                            <th>资料级别</th>
+                            <th>资料类型</th>
+                            <th>文件大小</th>
+                            <th>浏览量</th>
+                            <th>所属部门</th>
+                            <th>上传人</th>
+                            <th>上传时间</th>
+                            <th>操作</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="checkbox" class="el_checks"/></td>
+                                <td>-阿斯顿发生</td>
+                                <td>1级</td>
+                                <td>视频</td>
+                                <td>20k</td>
+                                <td>20</td>
+                                <td>某某部门</td>
+                                <td>撒地方</td>
+                                <td>2017-12-20</td>
+                                <td>
+                                    <a href="modifyTrainFile.html">修改</a>&nbsp;
+                                    <a class="el_delButton" onClick="delcfm()">删除</a>
+                                    <a href="trainDateView.html" target="_blank">查看详情</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" class="el_checks"/></td>
+                                <td>-阿斯顿发生</td>
+                                <td>1级</td>
+                                <td>ppt</td>
+                                <td>20k</td>
+                                <td>某某部门</td>
+                                <td>20</td>
+                                <td>撒地方</td>
+                                <td>2017-12-20</td>
+                                <td>
+                                    <a href="modifyTrainFile.html">修改</a>&nbsp;
+                                    <a class="el_delButton" onClick="delcfm()">删除</a>
+                                    <a href="trainDateText.html" target="_blank">查看详情</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!--第一列，复选框基本事件-->
+                        <script>
+                            $("#el_checkQuanxuan").change(function () {
+                                if ($(this).prop("checked") == true) {
+                                    $(".el_checks").prop("checked", "true");
+                                } else {
+                                    $(".el_checks").removeAttr("checked");
+                                }
+                            })
+                        </script>
+
+                        <!--分页-->
+                        <div style="margin:20px 0;"></div>
+                        <div class="easyui-panel">
+                            <!--
+                            total 数字 当分页建立时设置记录的总数量 1
+                            pageSize 数字 每一页显示的数量 10
+                            pageNumber 数字 当分页建立时，显示的页数 1
+                            pageList 数组 用户可以修改每一页的大小，
+                            pageList属性定义了多少种大小可以改变. [10,20,30,50]
+                            loading 布尔 定义数据是否正在加载 false
+                            buttons 数组 定义自定义按钮，每个按钮包含两个属性：
+                            iconCls: 显示背景图像的CSS类
+                            handler: 当一个按钮被点击时的处理函数 null
+                            showPageList 布尔 定义是否显示页面列表 true
+                            showRefresh 布尔 定义是否显示刷新按钮 true
+                            beforePageText 字符串 在输入框组件前显示的标签 Page
+                            afterPageText 字符串 在输入框组件后显示的标签 of {pages}
+                            displayMsg 字符串 显示一个页面的信息。
+                            -->
+                            <div class="easyui-pagination" data-options="
+                            total:120,
+
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 模态框   信息删除确认 -->
+                <div class="modal fade" id="delcfmModel">
+                    <div class="modal-dialog">
+                        <div class="modal-content message_align">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                                <h4 class="modal-title">提示</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>您确认要删除该试卷吗？</p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="url"/>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <script>
+                    function delcfm() {
+                        $('#delcfmModel').modal();
+                    }
+                    function urlSubmit() {
+                        var url = $.trim($("#url").val());//获取会话中的隐藏属性URL
+                        window.location.href = url;
+                    }
+                </script>
+
+                <!-- 模态框   批量信息删除确认 -->
+                <div class="modal fade" id="delcfmModel2">
+                    <div class="modal-dialog">
+                        <div class="modal-content message_align">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                                <h4 class="modal-title">提示</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>您确认要删除该试卷吗？</p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="url2"/>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <a onclick="urlSubmit()" class="btn btn-success" data-dismiss="modal">确定</a>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <script>
+                    function piliangdelcfm() {
+                        //累计选择的个数，若大于1，才执行，否则提示
+                        var nums = 0;
+                        $.each($(".el_checks"), function (i, el_check) {
+                            if ($(this).prop("checked")) {
+                                nums++;
+                            }
+                        });
+                        if (nums > 1) {
+                            $('#delcfmModel2').modal();
+                        } else {
+                            alert("请至少选择两列，才能执行此操作！")
+                        }
+                    }
+                    function urlSubmit() {
+                        var url = $.trim($("#url2").val());//获取会话中的隐藏属性URL
+                        window.location.href = url;
+                    }
+                </script>
+
+                <!--分页-->
+                <script>
+                    /*
+                     当前页的的值
+                     * $_POST['page']
+                     * 每页多少条数据 , 默认10条
+                     * $_POST['rows']
+                     * 获取数据库总量
+                     * $result["total"]
+                     * 获取多少页：$result["total"]/$_POST['rows']
+                     * */
+                    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+                    $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+                    // ...
+                    $rs = mysql_query("select count(*) from item");
+                    $row = mysql_fetch_row($rs);
+                    $result["total"] = $row[0];
+
+                    $rs = mysql_query("select * from item limit $offset,$rows");
+
+                    $items = array();
+                    while ($row = mysql_fetch_object($rs)) {
+                        array_push($items, $row);
+                    }
+                    $result["rows"] = $items;
+
+                    echo
+                    json_encode($result);
+                </script>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

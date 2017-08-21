@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>自动生成试卷</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link href="../bs/css/bootstrap-select.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap-select.js"></script>
+
+    <style>
+        .checkbox {
+            width: 90%;
+            margin: 20px 0 10px 30px;
+        }
+
+        ul li {
+            list-style: none;
+            float: left;
+            margin: 20px;
+        }
+
+        ul {
+            clear: both;
+        }
+
+        .el_duoxuan {
+            margin-top: 10px;
+            margin-right: 30px;
+        }
+
+        .el_duoxuan:hover {
+            color: blue;
+        }
+
+        .el_danxuanH {
+            width: 130px;
+            height: 30px;
+            background-color: #EEE;
+            text-align: center;
+            line-height: 30px;
+            border-left: 1px solid #CCC;
+            border-top: 1px solid #CCC;
+        }
+
+        .panel-heading {
+            font-weight: 600;
+        }
+
+        /*添加试题量面板*/
+        .el_zongfen {
+            font-weight: 600;
+            margin-left: 20px;
+        }
+
+        /*最后的*/
+        .el_generateRow {
+            margin: 20px;
+        }
+
+        .el_bobt {
+            margin-left: 20px;
+        }
+
+        /*面板*/
+
+        .el_knowledgePointPanel {
+            width: 30%;
+            margin: 10px;
+            height: 200px;
+            float: left;
+        }
+
+        .el_knowledgePointPanel:nth-of-type(1),
+        .el_knowledgePointPanel:nth-of-type(4),
+        .el_knowledgePointPanel:nth-of-type(7),
+        .el_knowledgePointPanel:nth-of-type(10) {
+            width: 30%;
+            margin: 10px;
+            margin-left: 3%;
+            height: 200px;
+            float: left;
+        }
+
+        .el_knowledgePointPanel .el_section {
+            width: 100%;
+            position:relative;
+        }
+
+        .el_knoeledgePointul ul {
+            height: 30px;
+            width: 100%;
+            padding-left:10px;
+
+        }
+
+        .el_knoeledgePointul ul li {
+            height: 20px;
+            margin: 0;
+        }
+
+        .el_knoeledgePointul ul li input {
+            width: 30px;
+            margin-left: 20px;
+        }
+
+        /*总统计*/
+        .el_knowledgePointMainPanel {
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top:210px;
+        }
+
+        .el_knowledgePointMainPanel ul li span {
+            width: 50px;
+            margin-left: 30px;
+        }
+
+        /*最顶部的选项面板*/
+        .el_addSet{
+            position:fixed;
+            z-index:900;
+        }
+
+        #el_cancelButton{
+            position:absolute;
+            bottom:20px;
+            right:50px;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            $(".el_duoxuan").on("change","input",function () {
+                var res = $(this).prop("checked");
+                var knowledgePointTitle = $(this).parent().text();
+                if (res) {
+                    var obj = '<div class="panel panel-default el_knowledgePointPanel">' +
+                        '<div class="panel-heading">' + knowledgePointTitle + '</div>' +
+                        '<div class="el_section"><span class="el_zongfen">总分：</span>_____<div class="panel-body el_knoeledgePointul">' +
+                        '<form action="">' +
+                        '<ul><li>单选题</li><li><input type="text"/>道</li><li><input type="text"/>分数(每到题)</li></ul>' +
+                        '<ul><li>多选题</li><li><input type="text"/>道</li><li><input type="text"/>分数(每到题)</li></ul>' +
+                        '<ul><li>判断题</li><li><input type="text"/>道</li><li><input type="text"/>分数(每到题)</li></ul>' +
+                        '</form>' +
+                        '</div></div></div>';
+                    $("#el_MainPanel").append(obj);
+                } else {
+                    $(".el_knowledgePointPanel").children(".panel-heading").each(function () {
+                        if($(this).text() == knowledgePointTitle) {
+                            $(this).parent().remove();
+                        }
+                    })
+                }
+            });
+
+            /*重新加载页面，给第二块页面获取高度*/
+            $(window).resize(function () {
+                var aS_high = $(".el_addSet").css("height");
+                var aS_high2 = parseInt(aS_high.substr(0,3)) + 20;
+                $(".el_knowledgePointMainPanel").css("margin-top",aS_high2 + "px");
+            });
+
+            /*取消全选*/
+            $("#el_cancelButton").click(function () {
+                $(".el_duoxuan").children().removeAttr("checked");
+                $(".el_knowledgePointPanel").remove();
+            })
+        })
+
+    </script>
+
+</head>
+<body>
+
+<!--添加类型-->
+<div class="panel panel-default el_addSet">
+    <div class="panel-heading">试卷设置</div>
+    <div class="el_section">
+        <div class="panel-body">
+            <form action="">
+                <!--单选框-->
+                <div class="el_danxuanH">试题知识点：</div>
+                <div class="checkbox">
+                    <label class="el_duoxuan"><input type="checkbox">安全生产法律法规</label>
+                    <label class="el_duoxuan"><input type="checkbox">安全生产基础知识</label>
+                    <label class="el_duoxuan"><input type="checkbox">安全生产管理知识</label>
+                    <label class="el_duoxuan"><input type="checkbox">安全生产技术知识</label>
+                    <label class="el_duoxuan"><input type="checkbox">电力安全规程制度</label>
+                    <label class="el_duoxuan"><input type="checkbox">电力人身安全风险防控</label>
+                    <label class="el_duoxuan"><input type="checkbox">防止电力生产事故的二十五项重点要求</label>
+                    <label class="el_duoxuan"><input type="checkbox">职业健康类知识</label>
+                    <label class="el_duoxuan"><input type="checkbox">现场急救知识</label>
+                    <label class="el_duoxuan"><input type="checkbox">公共安全知识</label>
+                    <label class="el_duoxuan"><input type="checkbox">事故案例分析</label>
+                    <label class="el_duoxuan"><input type="checkbox">其他</label>
+                </div>
+            </form>
+            <input type="button" id="el_cancelButton" value="取消全选">
+        </div>
+    </div>
+</div>
+
+<!--主要内容-->
+<!--总统计-->
+<div class="row">
+    <div class="panel panel-default el_knowledgePointMainPanel">
+        <div class="panel-heading">统计</div>
+        <div class="el_section">
+            <span class="el_zongfen">总分：</span>_____
+            <div class="panel-body el_knoeledgePointul">
+                <form action="">
+                    <ul>
+                        <li>单选题</li>
+                        <li><span>_____</span>道</li>
+                        <li><span>_____</span>总分</li>
+                    </ul>
+                    <ul>
+                        <li>多选题</li>
+                        <li><span>_____</span>道</li>
+                        <li><span>_____</span>总分</li>
+                    </ul>
+                    <ul>
+                        <li>判断题</li>
+                        <li><span>_____</span>道</li>
+                        <li><span>_____</span>总分</li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--单种-->
+<div class="row" id="el_MainPanel">
+
+</div>
+
+
+<!--生成试卷-->
+<div class="row el_generateRow">
+    <div class="el_section">
+        <a href="indexExam.html">
+            <button type="submit" class="btn btn-primary el_bobt">生成试卷</button>
+        </a>
+    </div>
+</div>
+</body>
+</html>

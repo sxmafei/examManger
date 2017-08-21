@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>成绩管理</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+
+    <!--图表-->
+    <script src="../controls/echarts/echarts.min.js"></script>
+
+    <style>
+
+        /*索引内容*/
+        .el_queryBox {
+            width: 101%;
+            height: 100px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        /*索搜行*/
+        .el_queryBoxrow {
+            margin: 20px;
+        }
+
+        .el_queryBox form {
+            margin-top: 20px;
+            min-width: 970px;
+        }
+
+        .el_queryButton {
+            position: absolute;
+            right: 50px;
+            bottom: 10px;
+        }
+
+        .input-group-addon {
+            font-size: 12px;
+        }
+
+        .form-control {
+            font-size: 12px;
+        }
+
+        /*标题*/
+        .el_mainHead {
+            width: 103%;
+            text-align: center;
+            margin-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            right: 20px;
+        }
+
+        /*主要部分*/
+        .el_Mainmain {
+            position: relative;
+            top: -10px;
+        }
+
+        .panel-body {
+            border: none;
+        }
+
+        /*按钮操作*/
+        .el_topButton {
+            height: 50px;
+            margin-top: 20px;
+        }
+
+        .el_delButton:hover {
+            cursor: pointer;
+        }
+
+        /*第三块模块*/
+        .el_threePanel {
+            width: 90%;
+            min-width: 500px;
+            height: auto;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        .el_threePanelChart {
+            width: 500px;
+            margin-right: 30px;
+        }
+
+        .el_btnClose {
+            float: right;
+            right: 100px;
+        }
+
+        .el_threeScoreList li {
+            list-style: none;
+            float: left;
+            width: auto;
+            height: 20px;
+            margin: 10px;
+            font-size: 14px;
+        }
+
+        /*成绩设置级别*/
+        .el_setGrade{
+            border:1px solid #ccc;
+            padding:20px;
+            margin-bottom:20px;
+        }
+        .el_setGrade input{
+            width:30px;
+        }
+        .el_setGrade span{
+            width:160px;
+            height:20px;
+            margin:10px;
+        }
+        /*统计按钮*/
+        .el_btnStatic{
+            float: right;
+            right: 180px;
+            margin-right:20px;
+
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <!--菜单连接标题-->
+        <div class="panel-heading"><span>员工管理</span><span>>用户添加</span></div>
+
+        <div class="row">
+
+            <!--内容-->
+            <div class=" col-md-12">
+
+                <!--索引-->
+                <div class="row el_queryBox">
+                    <form action="">
+                        <div class="row el_queryBoxrow">
+
+                            <div class="col-md-3">
+                                <div class="input-group" role="toolbar">
+                                    <span class="input-group-addon">考试名称</span>
+                                    <input type="text" class="form-control" name=""/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group" role="toolbar">
+                                    <span class="input-group-addon" style="height:33px;margin-right:10px;">考试级别</span>
+                                    <label class="el_radioBox">
+                                        <input type="radio" name="leixing" checked class="">一级</label>
+                                    <label class="el_radioBox"><input type="radio" name="leixing"> 二级</label>
+                                    <label class="el_radioBox"><input type="radio" name="leixing"> 三级</label>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <!--提交查询按钮-->
+                        <button type="submit" class="btn btn-default el_queryButton">查询</button>
+                    </form>
+
+                </div><!--结束 查询表单提交-->
+
+                <!--显示内容-->
+                <h3 class="el_mainHead">成绩信息</h3>
+                <div class="panel panel-default el_Mainmain">
+
+                    <!--按钮面板-->
+                    <div class="panel-body">
+
+                        <div class="panel panel-default">
+                            <div class="panel-body el_MainxiaoMain">
+
+                                <div class="el_topButton">
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                            成绩导入
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!--表格
+                            内容都提取到json里边
+                        -->
+                        <table class="table table-bordered">
+                            <thead>
+                            <th>考试名称</th>
+                            <th>考试时间</th>
+                            <th>等级</th>
+                            <th>试卷状态</th>
+                            <th>参加考试部门</th>
+                            <th width="30%">描述</th>
+                            <th>操作</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>内啊手动阀手动阀容1</td>
+                                <td>2017-12-20</td>
+                                <td>1级</td>
+                                <td>已考</td>
+                                <td>电器化电器及电气部</td>
+                                <td>试卷主要是手动阀撒旦解放啦世界的分厘卡机说得来发</td>
+                                <td>
+                                    <a href="" data-toggle="modal" data-target="#el_scoreExport">导出成绩单</a>&nbsp;&nbsp;
+                                    <a onclick="addexam()">成绩详细信息</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!--第一列，复选框基本事件-->
+                        <script>
+                            $("#el_checkQuanxuan").change(function () {
+                                if ($(this).prop("checked") == true) {
+                                    $(".el_checks").prop("checked", "true");
+                                } else {
+                                    $(".el_checks").removeAttr("checked");
+                                }
+                            })
+                        </script>
+
+                        <!--分页-->
+                        <div style="margin:20px 0;"></div>
+                        <div class="easyui-panel">
+                            <!--
+                            total 数字 当分页建立时设置记录的总数量 1
+                            pageSize 数字 每一页显示的数量 10
+                            pageNumber 数字 当分页建立时，显示的页数 1
+                            pageList 数组 用户可以修改每一页的大小，
+                            pageList属性定义了多少种大小可以改变. [10,20,30,50]
+                            loading 布尔 定义数据是否正在加载 false
+                            buttons 数组 定义自定义按钮，每个按钮包含两个属性：
+                            iconCls: 显示背景图像的CSS类
+                            handler: 当一个按钮被点击时的处理函数 null
+                            showPageList 布尔 定义是否显示页面列表 true
+                            showRefresh 布尔 定义是否显示刷新按钮 true
+                            beforePageText 字符串 在输入框组件前显示的标签 Page
+                            afterPageText 字符串 在输入框组件后显示的标签 of {pages}
+                            displayMsg 字符串 显示一个页面的信息。
+                            -->
+                            <div class="easyui-pagination" data-options="
+                            total:120,
+
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 模态框 成绩录入-->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button><!--关闭符号-->
+                                <!--标题-->
+                                <h4 class="modal-title" id="myModalLabel">填写考试的基本信息</h4>
+                            </div>
+                            <form>
+
+                                <div class="modal-body">
+
+                                    <div class="input-group" role="toolbar">
+                                        <span class="input-group-addon">考试名称</span>
+                                        <select class="selectpicker  form-control" title="请选择">
+                                            <option>--请选择--</option>
+                                            <option>考试1</option>
+                                            <option>考试1</option>
+                                            <option>考试1</option>
+                                            <option>考试1</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-group" role="toolbar">
+                                        <span class="input-group-addon">考试时间</span>
+                                        <input type="date" class="form-control" name=""/>
+                                    </div>
+
+                                    <!--根据试卷等级类型
+                                来决定有没有部门和班的选择。-->
+
+                                    <div class="input-group" role="toolbar">
+                                        <span class="input-group-addon">上传成绩文件</span>
+                                        <input type="file" class="form-control" id="exampleInputEmail12" placeholder="">
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary">提交添加</button>
+                                </div>
+                            </form>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
+
+                <!-- 模态框 成绩导出-->
+                <div class="modal fade" id="el_scoreExport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button><!--关闭符号-->
+                                <!--标题-->
+                                <h4 class="modal-title" id="myModalLabel1">导出成绩单</h4>
+                            </div>
+                            <form>
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <span>考试名称：</span><span>阿斯蒂芬就类似的粉红色的</span>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary">确认导出</button>
+                                </div>
+                            </form>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
+
+                <!--分页-->
+                <script>
+                    /*
+                     当前页的的值
+                     * $_POST['page']
+                     * 每页多少条数据 , 默认10条
+                     * $_POST['rows']
+                     * 获取数据库总量
+                     * $result["total"]
+                     * 获取多少页：$result["total"]/$_POST['rows']
+                     * */
+                    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+                    $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+                    // ...
+                    $rs = mysql_query("select count(*) from item");
+                    $row = mysql_fetch_row($rs);
+                    $result["total"] = $row[0];
+
+                    $rs = mysql_query("select * from item limit $offset,$rows");
+
+                    $items = array();
+                    while ($row = mysql_fetch_object($rs)) {
+                        array_push($items, $row);
+                    }
+                    $result["rows"] = $items;
+
+                    echo
+                    json_encode($result);
+                </script>
+
+            </div>
+        </div>
+
+        <!--统计和试卷成绩单-->
+
+        <div class="row el_threePanel">
+            <!--操作按钮-->
+            <button type="button" class="btn btn-danger el_btnClose">关闭</button>
+            <button type="button" class="btn btn-info el_btnStatic" data-toggle="modal" data-target="#el_scoreStatistisModel">
+                成绩分析
+            </button>
+
+            <!--成绩单-->
+            <div class="col-md-12">
+                <ul class="el_threeScoreList">
+                    <li>考试名称:<span>asdfas考试</span></li>
+                    <li>考试级别:<span>1级</span></li>
+                    <li>考试时间:<span>201-12-1</span></li>
+                    <li>总分:<span>120</span></li>
+                    <li>及格分数:<span>72</span></li>
+                    <li>参考人数:<span>12</span></li>
+                    <li>及格人数:<span>11</span></li>
+                </ul>
+                <table class="table table-bordered">
+                    <thead>
+                    <th>员工姓名</th>
+                    <th>所属部门</th>
+                    <th>成绩</th>
+                    <th>是否通过</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>小明</td>
+                        <td>电器化电器及电气部</td>
+                        <td>90</td>
+                        <td>是</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 模态框 成绩统计-->
+            <div class="modal fade" id="el_scoreStatistisModel" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel" style="height:580px;"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button><!--关闭符号-->
+                            <!--标题-->
+                            <h4 class="modal-title" id="myModalLabel2">成绩统计</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="el_setGrade">
+                                <span>配置参数：</span><br/>
+                                <span>优： <input type="text" class="el_setGradeInput" name="" value="80"/>  ---
+                                    <input class="el_setGradeInput" type="text" name="" value="100"/> 分</span>
+                                <span>良： <input type="text" class="el_setGradeInput" name="" value="60"/>  ---
+                                    <input type="text" class="el_setGradeInput" name="" value="80"/> 分</span>
+                                <span>差： <input type="text" class="el_setGradeInput" name="" value="0"/>  ---
+                                    <input type="text" class="el_setGradeInput" name="" value="60"/> 分</span>
+                                <button class="el_setGradeTrue">确定</button>
+                            </div>
+
+                            <!--统计-->
+                            <div class="el_threePanelChart">
+                                <!--图表-->
+                                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                                <div id="main" style="width: 600px;height:400px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+
+        </div><!--结束第三块-->
+
+        <!--查看成绩详细信息-->
+        <script>
+            /*关闭按钮*/
+            $(".el_threePanel").hide();
+            function addexam() {
+                $(".el_threePanel").show();
+            }
+            $(".el_btnClose").click(function () {
+                $(".el_threePanel").hide();
+            })
+
+            $("#el_scoreStatistic").click(function () {
+
+            })
+        </script>
+    </div>
+</div>
+
+</body>
+
+<!--图表-->
+<script type="text/javascript">
+
+    /*成绩配置分值*/
+    var score = new Array(6);
+
+    <!--点击确定，each input 获取input 的value-->
+    $(".el_setGradeTrue").click(function () {
+        var i = 0;
+        $(".el_setGradeInput").each(function () {
+            score[i] = $(this).val();
+            //alert(score[i]);
+            i++;
+        })
+        Charts();
+    });
+
+    function Charts() {
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: [ '"'+ score[4]+'-'+score[5]+ '"', '"'+ score[2]+'-'+score[3]+ '"', '"'+ score[0]+'-'+score[1]+ '"']
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    selectedMode: 'single',
+                    radius: [0, '30%'],
+
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        {value: 1335, name: '差', selected: true},
+                        {value: 679, name: '良'},
+                        {value: 1548, name: '优'}
+                    ]
+                },
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: ['40%', '55%'],
+                    data: [
+                        {value: 335, name: '"'+ score[4]+'-'+score[5]+ '"'},
+                        {value: 335, name: '"'+ score[2]+'-'+score[3]+ '"'},
+                        {value: 335, name: '"'+ score[0]+'-'+score[1]+ '"'}
+                    ]
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+</script>
+</html>

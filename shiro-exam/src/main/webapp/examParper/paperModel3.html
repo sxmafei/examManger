@@ -1,0 +1,502 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>paper3</title>
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+
+    <style>
+        /*试卷名称*/
+        #el_examTitle {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /*类型大题标*/
+        .elquesTitle {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            background-color: rgb(245, 245, 245);
+            padding-left: 20px;
+            font-weight: 500;
+            font-size: 20px;
+        }
+
+        /*试题主要样式*/
+        .el_questionMain {
+            width: 90%;
+            height: auto;
+            margin: 10px auto;
+        }
+
+        /*试题标题*/
+        .el_questionTitle {
+            font-size: 17px;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        /*试题选项*/
+        .el_qusSelect {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+            padding-left: 30px;
+            font-size: 16px;
+        }
+
+        .el_qusSelect li {
+            list-style: none;
+            float: left;
+            margin: 5px 60px 5px 0;
+        }
+
+        .el_qusSelect li label {
+            font-weight: 500;
+        }
+
+        /*回到顶部*/
+        #el_returnTop {
+            width: 30px;
+            height: 90px;
+            text-align: center;
+            line-height: 15px;
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            padding: 3px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            display:none;
+        }
+
+        #el_returnTop img {
+            width: 23px;
+            position: absolute;
+            top: -5px;
+            right: 3px;
+        }
+
+        #el_returnTop:hover {
+            background-color: #ddd;
+            border-radius: 4px;
+        }
+
+        /*试卷信息*/
+        .el_parperInfo {
+            width: 80%;
+            height: 270px;
+            margin: 10px auto;
+            font-size: 14px;
+            border-top: 2px solid #eee;
+            border-bottom: 2px solid #eee;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .el_parperInfo table {
+            width: 100%;
+        }
+
+        .el_parperInfo table caption {
+            font-size: 20px;
+            width: 100%;
+            font-weight: 500;
+            margin: 5px;
+            letter-spacing: 5px;
+        }
+
+        .el_parperInfo table tr {
+            height: 35px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .el_parperInfo table tr td:first-child {
+            border-right: 1px solid #eee;
+            width: 150px;
+        }
+    </style>
+
+    <!--返回-->
+    <style>
+        .el_returnButton{
+            position:fixed;
+            right:30px;
+            top:30px;
+        }
+        .el_useButton{
+            position:fixed;
+            right:30px;
+            top:80px;
+            width:60px;
+        }
+        .el_returnButton a{
+            text-decoration: none;
+        }
+        .button {
+            display: inline-block;
+            position: relative;
+            color: #888;
+            text-shadow: 0 1px 0 rgba(255,255,255, 0.8);
+            text-decoration: none;
+            text-align: center;
+            padding: 6px 10px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: helvetica, arial, sans-serif;
+            border-radius: 4px;
+            border: 1px solid #bcbcbc;
+            -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            background-image: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(239,239,239,1) 60%,rgba(225,223,226,1) 100%);
+            background-image: -moz-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(239,239,239,1) 60%,rgba(225,223,226,1) 100%);
+            background-image: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(239,239,239,1) 60%,rgba(225,223,226,1) 100%);
+            background-image: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(239,239,239,1) 60%,rgba(225,223,226,1) 100%);
+            background-image: linear-gradient(top, rgba(255,255,255,1) 0%,rgba(239,239,239,1) 60%,rgba(225,223,226,1) 100%);
+        }
+
+        .button:hover {
+            color: #555;
+        }
+        .button:active,.button:active:after,.button:active:before {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        .button.back {
+            border-left: none;
+        }
+
+        .button.back:after {
+            content: '';
+            position: absolute;
+            height: 50%;
+            width: 15px;
+            border-left: 1px solid #bcbcbc;
+            background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            background-image: linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 1%, rgba(240, 240, 240, 1) 100%);
+            left: -5px;
+            top: 1px;
+            -webkit-transform: skew(-35deg, 0);
+            -moz-transform: skew(-35deg, 0);
+            -o-transform: skew(-35deg, 0);
+            -ms-transform: skew(-35deg, 0);
+            transform: skew(-35deg, 0);
+        }
+
+        .button.back:before {
+            content: '';
+            position: absolute;
+            height: 48%;
+            width: 15px;
+            border-left: 1px solid #bcbcbc;
+            bottom: 1px;
+            left: -5px;
+            -webkit-transform: skew(35deg, 0);
+            -moz-transform: skew(35deg, 0);
+            -o-transform: skew(35deg, 0);
+            -ms-transform: skew(35deg, 0);
+            transform: skew(35deg, 0);
+            background-image: -webkit-linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            background-image: -moz-linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            background-image: -o-linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            background-image: -ms-linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            background-image: linear-gradient(top, rgba(240, 240, 240, 1) 0%, rgba(239, 239, 239, 1) 10%, rgba(225, 223, 226, 1) 100%);
+            -webkit-box-shadow: -2px 1px 2px rgba(100, 100, 100, 0.1);
+            box-shadow: -2px 1px 2px rgba(100, 100, 100, 0.1);
+        }
+
+    </style>
+</head>
+
+<body id="body">
+
+<!--回到顶部-->
+<a href="#body">
+    <div id="el_returnTop">
+        <span>	&#9650; 回到顶部</span>
+    </div>
+</a>
+<script type="text/javascript">
+    $(function () {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                $('#el_returnTop').css('display', 'block');
+            }
+            else {
+                $('#el_returnTop').css('display', 'none');
+            }
+        });
+    });
+</script>
+
+<!--返回按钮-->
+<div class="el_returnButton">
+    <a class="button back" href="createExamParper.html">返 回</a>
+</div>
+<div class="el_useButton">
+    <a href="indexExam.html" class="btn btn-primary">使 用</a>
+</div>
+
+<!--试卷信息-->
+<div class="el_parperInfo">
+    <table>
+        <caption>试卷基本信息</caption>
+        <tr>
+            <td>试卷标题</td>
+            <td>电厂安全考试</td>
+        </tr>
+        <tr>
+            <td>出卷时间</td>
+            <td>2017年 11月 10日</td>
+        </tr>
+        <tr>
+            <td>创建人</td>
+            <td>小李</td>
+        </tr>
+        <tr>
+            <td>试卷分数</td>
+            <td>100</td>
+        </tr>
+        <tr>
+            <td>试卷级别</td>
+            <td>一级</td>
+        </tr>
+        <tr>
+            <td>试卷描述</td>
+            <td>该试卷是一份非常好的试卷</td>
+        </tr>
+    </table>
+</div>
+
+<!--主要内容-->
+<div class="container" style="margin-bottom:50px;">
+    <!--右侧事件-->
+
+    <!--考试标题-->
+    <h2 id="el_examTitle">电厂安全考试</h2>
+
+    <div>
+        <span>考试时间：</span><span>120 </span><span>分钟</span>
+    </div>
+
+    <!--单选题-->
+    <div class="row">
+        <!--题干-->
+        <div class="elquesTitle">
+            <span>一</span>、单选题(共<span>11</span>题；共<span>22</span>分)
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle">
+                <span class="nmb">1</span>. <span class="btwenzi">你dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员资历?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>0-3年dd有多久dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>4-10年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>11-dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员20年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>20年dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员   以上</span></label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle">
+                <span class="nmb">1</span>. <span class="btwenzi">你dd有多久的公务员资历?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>0-3年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>4-10年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>11-20年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>20年以上</span></label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle">
+                <span class="nmb">1</span>. <span class="btwenzi">你dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员资历?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>0-3年dd有多久dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>4-10年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>11-dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员20年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>20年dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员   以上</span></label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle">
+                <span class="nmb">1</span>. <span class="btwenzi">你dd有多久的公务员资历?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>0-3年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>4-10年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>11-20年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>20年以上</span></label>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!--多选题-->
+    <div class="row">
+        <!--题干-->
+        <div class="elquesTitle">
+            <span>一</span>、多选题(共<span>11</span>题；共<span>22</span>分)
+        </div>
+
+
+        <!--第一题-->
+        <div class="row el_questionMain">
+            <div class="el_questionTitle">
+                <span class="nmb">1</span>. <span class="btwenzi">对目前的工作哪方面不满意</span>【多选】?
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="" type="checkbox" value="">
+                        <span>任务多、压力大</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" value="">
+                        <span>人际关系难处理，环境难适应</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" value="">
+                        <span> 缺少认同和成就感</span></label>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!--判断题-->
+    <div class="row">
+        <!--题干-->
+        <div class="elquesTitle">
+            <span>一</span>、判断题(共<span>11</span>题；共<span>22</span>分）
+        </div>
+
+        <!--第一题-->
+        <div class="row el_questionMain">
+            <div class="el_questionTitle">
+                <span class="nmb">1</span>. <span class="btwenzi">对目前的工作哪方面不满意?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>正确</span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>错误</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle">
+                <span class="nmb">1</span>. <span class="btwenzi">对目前的工作哪方面不满意?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>正确</span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>错误</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

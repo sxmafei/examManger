@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.OnlineexamanswerinforMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Onlineexamanswerinfor" >
+    <id column="paperId" property="paperid" jdbcType="VARCHAR" />
+    <id column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <id column="questionId" property="questionid" jdbcType="VARCHAR" />
+    <result column="selectOption" property="selectoption" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="REAL" />
+    <result column="questionScore" property="questionscore" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    paperId, employeeId, questionId, selectOption, score, questionScore
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.mf.domain.OnlineexamanswerinforKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from onlineexamanswerinfor
+    where paperId = #{paperid,jdbcType=VARCHAR}
+      and employeeId = #{employeeid,jdbcType=VARCHAR}
+      and questionId = #{questionid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.mf.domain.OnlineexamanswerinforKey" >
+    delete from onlineexamanswerinfor
+    where paperId = #{paperid,jdbcType=VARCHAR}
+      and employeeId = #{employeeid,jdbcType=VARCHAR}
+      and questionId = #{questionid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Onlineexamanswerinfor" >
+    insert into onlineexamanswerinfor (paperId, employeeId, questionId, 
+      selectOption, score, questionScore
+      )
+    values (#{paperid,jdbcType=VARCHAR}, #{employeeid,jdbcType=VARCHAR}, #{questionid,jdbcType=VARCHAR}, 
+      #{selectoption,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, #{questionscore,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Onlineexamanswerinfor" >
+    insert into onlineexamanswerinfor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paperid != null" >
+        paperId,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="questionid != null" >
+        questionId,
+      </if>
+      <if test="selectoption != null" >
+        selectOption,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="questionscore != null" >
+        questionScore,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paperid != null" >
+        #{paperid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="questionid != null" >
+        #{questionid,jdbcType=VARCHAR},
+      </if>
+      <if test="selectoption != null" >
+        #{selectoption,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=REAL},
+      </if>
+      <if test="questionscore != null" >
+        #{questionscore,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Onlineexamanswerinfor" >
+    update onlineexamanswerinfor
+    <set >
+      <if test="selectoption != null" >
+        selectOption = #{selectoption,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=REAL},
+      </if>
+      <if test="questionscore != null" >
+        questionScore = #{questionscore,jdbcType=REAL},
+      </if>
+    </set>
+    where paperId = #{paperid,jdbcType=VARCHAR}
+      and employeeId = #{employeeid,jdbcType=VARCHAR}
+      and questionId = #{questionid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Onlineexamanswerinfor" >
+    update onlineexamanswerinfor
+    set selectOption = #{selectoption,jdbcType=VARCHAR},
+      score = #{score,jdbcType=REAL},
+      questionScore = #{questionscore,jdbcType=REAL}
+    where paperId = #{paperid,jdbcType=VARCHAR}
+      and employeeId = #{employeeid,jdbcType=VARCHAR}
+      and questionId = #{questionid,jdbcType=VARCHAR}
+  </update>
+</mapper>

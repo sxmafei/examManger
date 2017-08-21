@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.Employee_outMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Employee_out" >
+    <id column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="employeeNumber" property="employeenumber" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="idCode" property="idcode" jdbcType="CHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="duty" property="duty" jdbcType="VARCHAR" />
+    <result column="unitId" property="unitid" jdbcType="VARCHAR" />
+    <result column="projectId" property="projectid" jdbcType="VARCHAR" />
+    <result column="minusNum" property="minusnum" jdbcType="REAL" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="finger" property="finger" jdbcType="VARCHAR" />
+    <result column="trainStatus" property="trainstatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    employeeId, employeeNumber, name, idCode, sex, birthday, phone, photo, email, address, 
+    duty, unitId, projectId, minusNum, password, finger, trainStatus
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee_out
+    where employeeId = #{employeeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from employee_out
+    where employeeId = #{employeeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Employee_out" >
+    insert into employee_out (employeeId, employeeNumber, name, 
+      idCode, sex, birthday, phone, 
+      photo, email, address, 
+      duty, unitId, projectId, 
+      minusNum, password, finger, 
+      trainStatus)
+    values (#{employeeid,jdbcType=VARCHAR}, #{employeenumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{idcode,jdbcType=CHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{phone,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{duty,jdbcType=VARCHAR}, #{unitid,jdbcType=VARCHAR}, #{projectid,jdbcType=VARCHAR}, 
+      #{minusnum,jdbcType=REAL}, #{password,jdbcType=VARCHAR}, #{finger,jdbcType=VARCHAR}, 
+      #{trainstatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Employee_out" >
+    insert into employee_out
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="employeenumber != null" >
+        employeeNumber,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="idcode != null" >
+        idCode,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="duty != null" >
+        duty,
+      </if>
+      <if test="unitid != null" >
+        unitId,
+      </if>
+      <if test="projectid != null" >
+        projectId,
+      </if>
+      <if test="minusnum != null" >
+        minusNum,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="finger != null" >
+        finger,
+      </if>
+      <if test="trainstatus != null" >
+        trainStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="employeenumber != null" >
+        #{employeenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcode != null" >
+        #{idcode,jdbcType=CHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="unitid != null" >
+        #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="projectid != null" >
+        #{projectid,jdbcType=VARCHAR},
+      </if>
+      <if test="minusnum != null" >
+        #{minusnum,jdbcType=REAL},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="finger != null" >
+        #{finger,jdbcType=VARCHAR},
+      </if>
+      <if test="trainstatus != null" >
+        #{trainstatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Employee_out" >
+    update employee_out
+    <set >
+      <if test="employeenumber != null" >
+        employeeNumber = #{employeenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcode != null" >
+        idCode = #{idcode,jdbcType=CHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="unitid != null" >
+        unitId = #{unitid,jdbcType=VARCHAR},
+      </if>
+      <if test="projectid != null" >
+        projectId = #{projectid,jdbcType=VARCHAR},
+      </if>
+      <if test="minusnum != null" >
+        minusNum = #{minusnum,jdbcType=REAL},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="finger != null" >
+        finger = #{finger,jdbcType=VARCHAR},
+      </if>
+      <if test="trainstatus != null" >
+        trainStatus = #{trainstatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where employeeId = #{employeeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Employee_out" >
+    update employee_out
+    set employeeNumber = #{employeenumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      idCode = #{idcode,jdbcType=CHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      phone = #{phone,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR},
+      unitId = #{unitid,jdbcType=VARCHAR},
+      projectId = #{projectid,jdbcType=VARCHAR},
+      minusNum = #{minusnum,jdbcType=REAL},
+      password = #{password,jdbcType=VARCHAR},
+      finger = #{finger,jdbcType=VARCHAR},
+      trainStatus = #{trainstatus,jdbcType=INTEGER}
+    where employeeId = #{employeeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

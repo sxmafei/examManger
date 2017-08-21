@@ -1,0 +1,658 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../controls/easyTree/easyui.css">
+    <link rel="stylesheet" href="../controls/easyTree/demo.css"/>
+    <link rel="stylesheet" href="../controls/easyTree/icon.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+    <script type="text/javascript" src="js/public/jquery.validate.js"></script>
+
+
+    <!--树and 分页-->
+    <script type="text/javascript" src="../controls/easyTree/jquery.easyui.min.js"></script>
+
+
+    <title>系统字典管理</title>
+    <style type="text/css">
+        .ztree li span.button.add {
+            margin-left: 2px;
+            margin-right: -1px;
+            background-position: -144px 0;
+            vertical-align: top;
+            *vertical-align: middle
+        }
+
+             /*查询里边的搜索框*/
+         .form-control {
+             width: 20px;
+         }
+
+        /*分页按钮颜色*/
+        .l-btn-icon {
+            background-color: rgb(29, 150, 232);
+        }
+
+        /*输入框*/
+        .form-control{
+            width:100px;
+        }
+
+        /*为左边的树定义高度*/
+        .treetree{
+            height:500px;
+        }
+
+        .tabletable{
+            width:60%;
+        }
+    </style>
+</head>
+<body>
+
+
+<a href="javaScript:void(0)" id="sidebar_btn_show" class="">
+    <i class="glyphicon glyphicon-forward"></i>
+</a>
+<a href="javaScript:void(0)" id="sidebar_btn_hide">
+    <i class="glyphicon glyphicon-backward"></i>
+</a>
+
+<div class="html_middle">
+
+
+    <div>
+        <ol class="breadcrumb">
+            <li class="active">系统管理</li>
+            <li class="active">字典管理</li>
+        </ol>
+    </div>
+
+
+    <!--树indexTree2-->
+
+    <div class="col-xs-12 col-md-2 treetree">
+        <!--标题类，添加了一个颜色-->
+        <h4 class="bg-warning">部门</h4>
+        <ul class="easyui-tree">
+            <li>
+                <span>部门</span>
+                <ul>
+                    <li data-options="state:'closed'">
+                        <span>第一部门</span>
+                        <ul>
+                            <li>
+                                <span>Friend</span>
+                            </li>
+                            <li>
+                                <span>Wife</span>
+                            </li>
+                            <li>
+                                <span>Company</span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>第二部门</span>
+                        <ul>
+                            <li>Intel</li>
+                            <li>Java</li>
+                            <li>Microsoft Office</li>
+                            <li>Games</li>
+                        </ul>
+                    </li>
+                    <li>index.html</li>
+                    <li>about.html</li>
+                    <li>welcome.html</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+
+    <div>
+
+
+        <!--主题内容-->
+        <div class="floatL" style="width: 80%;">
+            <div class="search_bar">
+                <div class="input-group search_bar_input floatL">
+                    <span class="input-group-addon">字典名称</span>
+                    <input type="text" id="dic_name" class="form-control" placeholder="">
+                </div>
+                <div class="input-group search_bar_input floatL">
+                    <span class="input-group-addon">字典编号</span>
+                    <input type="text" id="dic_id" class="form-control" placeholder="" aria-describedby>
+                </div>
+
+                <button class="btn btn-primary search_bar_button floatR" id="condition_sub">查询<span
+                        class=" glyphicon glyphicon-search span_icon"></span></button>
+
+            </div>
+
+
+            <div class="table_box outside_box">
+
+                <div class="box_title word_center"><h3>字典管理</h3></div>
+                <div class="hr" style=""></div>
+                <div class="btn_box">
+                    <div>
+                        <!-- <button class="btn btn-primary floatL" id="">导出 <span class=" glyphicon glyphicon-print span_icon"></span></button> -->
+                        <button class="btn btn-primary floatR" id="autoRefreshTree" style="display:none">自动刷新树
+                        </button>
+                        <button class="btn btn-primary floatR" id="dictionary_delete">批量删除</button>
+                        <button class="btn btn-primary floatR modal_btn" id="dictionary_add" data-toggle="modal"
+                                data-target="#dictionary_add_modal">添加
+                        </button>
+                        <button type="button" class="hide" id="dictionary_change" data-toggle="modal"
+                                data-target="#dictionary_fix_modal">修 改
+                        </button>
+                        <input type="hidden" value="" id="bt_dictionaryId">
+                        <input type="hidden" value="" id="bt_dictionaryName">
+                        <input type="hidden" value="" id="bt_upDictionaryId">
+                        <input type="hidden" value="" id="bt_upDictionaryName">
+                        <input type="hidden" value="" id="table_row">
+                        <input type="hidden" value="" id="leaf"/>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <!--表格
+                       内容都提取到json里边
+                   -->
+                <table class="table table-bordered tabletable">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="all" name="all"/></th>
+                        <th>序号</th>
+                        <th>字典名称</th>
+                        <th>字典编号</th>
+                        <th class='hide'>上级字典编号</th>
+                        <th class='hide'>上级字典名称</th>
+                        <th>是否启用</th>
+                        <th>描述</th>
+                        <th class='hide'>排序号</th>
+                        <th class='hide'>标志位</th>
+                        <th class='hide'>英文名字</th>
+                        <th>数据类型</th>
+                        <th class='hide'>备注1</th>
+                        <th class='hide'>备注2</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tabody">
+                    <tr>
+                        <td><input type="checkbox"/></td>
+                        <td>101</td>
+                        <td>小屋</td>
+                        <td>科技部</td>
+                        <td>内容1</td>
+                        <td>内容1</td>
+                        <td>内容1</td>
+                        <td><a href="" data-toggle="modal" data-target="#myModal">修改</a>&nbsp;<a href="">删除</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--分页-->
+                <div style="margin:20px 0;"></div>
+                <div class="easyui-panel">
+                    <!--
+                    total 数字 当分页建立时设置记录的总数量 1
+                    pageSize 数字 每一页显示的数量 10
+                    pageNumber 数字 当分页建立时，显示的页数 1
+                    pageList 数组 用户可以修改每一页的大小，
+                    pageList属性定义了多少种大小可以改变. [10,20,30,50]
+                    loading 布尔 定义数据是否正在加载 false
+                    buttons 数组 定义自定义按钮，每个按钮包含两个属性：
+                    iconCls: 显示背景图像的CSS类
+                    handler: 当一个按钮被点击时的处理函数 null
+                    showPageList 布尔 定义是否显示页面列表 true
+                    showRefresh 布尔 定义是否显示刷新按钮 true
+                    beforePageText 字符串 在输入框组件前显示的标签 Page
+                    afterPageText 字符串 在输入框组件后显示的标签 of {pages}
+                    displayMsg 字符串 显示一个页面的信息。
+                    -->
+                    <div class="easyui-pagination" data-options="
+                            total:120,
+
+                            layout:['list','sep','first','prev','links','next','last','sep','refresh']
+                        "></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+</div>
+
+<!--addModal-->
+<div class="modal fade" id="dictionary_add_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header word_center my_modal_title">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">添加字典信息</h4>
+            </div>
+            <form name="form1" id="form1" action="addDictionaryAction.action" type="post">
+                <div class="modal-body" id="divFrame">
+                    <div class="register_modal_body">
+                        <div class="input_info_group">
+                            <div class="group_left">上级字典</div>
+                            <div class="group_right">
+                                <input type="text" id="dap_add_name" class="form-control" readonly="readonly" value=""/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">上级字典编号</div>
+                            <div class="group_right">
+                                <input type="text" id="dap_add_id" class="form-control" readonly="readonly" value=""/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典名称</div>
+                            <div class="group_right">
+                                <input type="text" id="dictionary_name" class="form-control" name="dictionary_name"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典编号</div>
+                            <div class="group_right">
+                                <input type="text" id="dictionary_id" readonly="readonly" class="form-control"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">是否启用</div>
+                            <div class="group_right">
+                                <input type="radio" name="dictionary_isUse" class="dictionary_isUse" checked="checked"
+                                       value="启用"/>
+                                <label class="sex_label">是</label>
+                                <input type="radio" name="dictionary_isUse" class="dictionary_isUse" value="禁用"/>
+                                <label class="sex_label">否</label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典描述</div>
+                            <div class="group_right">
+                                <input type="text" id="dictionary_description" class="form-control"
+                                       name="dictionary_description"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典排序号</div>
+                            <div class="group_right">
+                                <input type="text" id="dictionary_sortNo" class="form-control"
+                                       name="dictionary_sortNo"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典标志位</div>
+                            <div class="group_right">
+                                <input type="text" id="dictionary_flag" class="form-control" name="dictionary_flag"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典英文名字</div>
+                            <div class="group_right">
+                                <input type="text" id="dictionary_englishName" class="form-control"
+                                       name="dictionary_englishName"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典数据类型</div>
+                            <div class="group_right">
+                                <select class="form-control" id="dictionary_dataType">
+                                    <option value="字符型">字符型</option>
+                                    <option value="整型">整型</option>
+                                    <option value="双精度浮点型">双精度浮点型</option>
+                                    <option value="单精度浮点型">单精度浮点型</option>
+                                    <option value="布尔型">布尔型</option>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group censor_modal_textarea">
+                            <div class="group_left">备注1</div>
+                            <div class="group_right modal_textarea_h"><textarea class="form-control"
+                                                                                id="dictionary_remark1"></textarea>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group censor_modal_textarea">
+                            <div class="group_left">备注2</div>
+                            <div class="group_right modal_textarea_h"><textarea class="form-control"
+                                                                                id="dictionary_remark2"></textarea>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" style="display:none" class="btn btn-primary modal_btn submitToDB">
+                            提交数据到后台
+                        </button>
+                        <button type="reset" style="display:none" class="btn btn-primary modal_btn addFormReset">重置
+                        </button>
+                        <button type="submit" id="dictionary_add_save" class="btn btn-primary modal_btn">保存</button>
+                        <button type="button" class="btn btn-default modal_btn" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--dictionary_fix_modal-->
+<div class="modal fade" id="dictionary_fix_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header word_center my_modal_title">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改字典信息</h4>
+            </div>
+            <form id="updateForm" name="updateForm" action="">
+                <div class="modal-body">
+                    <div class="register_modal_body">
+                        <div class="input_info_group">
+                            <div class="group_left">上级字典</div>
+                            <div class="group_right">
+                                <input type="text" id="upDicName" class="form-control" readonly="readonly" value=""/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">上级字典编号</div>
+                            <div class="group_right">
+                                <input type="text" id="upDicId" class="form-control" readonly="readonly" value=""/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典名称</div>
+                            <div class="group_right">
+                                <input type="text" id="dict_name" name="dict_name" class="form-control"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典编号</div>
+                            <div class="group_right">
+                                <input type="text" id="dict_id" readonly="readonly" class="form-control"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">是否启用</div>
+                            <div class="group_right">
+                                <input type="radio" name="dic_isUse" class="dic_isUse" value="启用"/>
+                                <label class="sex_label">是</label>
+                                <input type="radio" name="dic_isUse" class="dic_isUse" value="禁用"/>
+                                <label class="sex_label">否</label>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典描述</div>
+                            <div class="group_right">
+                                <input type="text" id="dic_description" name="dic_description" class="form-control"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典排序号</div>
+                            <div class="group_right">
+                                <input type="text" id="dic_sortNo" name="dic_sortNo" class="form-control"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典标志位</div>
+                            <div class="group_right">
+                                <input type="text" id="dic_flag" name="dic_flag" class="form-control"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典英文名字</div>
+                            <div class="group_right">
+                                <input type="text" id="dic_englishName" name="dic_englishName" class="form-control"/>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group">
+                            <div class="group_left">字典数据类型</div>
+                            <div class="group_right">
+                                <select class="form-control" id="dic_dataType">
+                                    <option value="字符型">字符型</option>
+                                    <option value="整型">整型</option>
+                                    <option value="双精度浮点型">双精度浮点型</option>
+                                    <option value="单精度浮点型">单精度浮点型</option>
+                                    <option value="布尔型">布尔型</option>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group censor_modal_textarea">
+                            <div class="group_left">备注1</div>
+                            <div class="group_right modal_textarea_h"><textarea id="dic_remark1"
+                                                                                class="form-control"></textarea></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="input_info_group censor_modal_textarea">
+                            <div class="group_left">备注2</div>
+                            <div class="group_right modal_textarea_h"><textarea id="dic_remark2"
+                                                                                class="form-control"></textarea></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" style="display:none" class="btn btn-primary modal_btn updateFormReset">重置
+                        </button>
+                        <button type="button" style="display:none" class="btn btn-primary modal_btn updateToDB">
+                            提交数据到后台
+                        </button>
+                        <button type="submit" id="dictionary_update_save" class="btn btn-primary modal_btn">保存</button>
+                        <button type="button" class="btn btn-default modal_btn" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!----------------------------------------------------------------------------------->
+<!-- 这是新加入的部门管理模块 上面的改善版 -->
+<!--------------------------------------------------------------------------------------->
+<script>
+
+    /* validate */
+    $(function () {
+        $("#form1").validate({
+
+            rules: {
+                'dictionary_name': {required: true,}, //name
+                'dictionary_description': {required: true,}, //dictionary_description
+                'dictionary_sortNo': {required: true,}, //dictionary_sortNo
+                'dictionary_flag': {required: true,}, //dictionary_flag
+                //'dictionary_englishName':{required: true,}, //name
+            },
+            messages: {
+                'dictionary_name': {required: '不能为空',}, //name
+                'dictionary_description': {required: '不能为空',}, //dictionary_description
+                'dictionary_sortNo': {required: '不能为空',}, //dictionary_sortNo
+                'dictionary_flag': {required: '不能为空',}, //dictionary_flag
+                //'dictionary_englishName':{required: '不能为空',}, //name
+            },
+            errorClass: "error",
+            success: 'valid',
+            unhighlight: function (element, errorClass, validClass) { //验证通过
+                $(element).tooltip('destroy').removeClass(errorClass);
+            },
+            errorPlacement: function (label, element) {
+                $(element).tooltip('destroy');
+                /*必需*/
+                $(element).attr('title', $(label).text()).attr("data-placement", "right").tooltip('show');
+            },
+            submitHandler: function (form) {
+                $(".submitToDB").trigger("click");
+            }
+        });
+
+        $("#updateForm").validate({
+            rules: {
+                'dict_name': {required: true,}, //name
+                'dic_description': {required: true,}, //dic_description
+                'dic_sortNo': {required: true,}, //dic_sortNo
+                'dic_flag': {required: true,}, //dic_flag
+                //'dic_englishName':{required: true,}, //name
+            },
+            messages: {
+                'dict_name': {required: '不能为空',}, //name
+                'dic_description': {required: '不能为空',}, //dic_description
+                'dic_sortNo': {required: '不能为空',}, //dic_sortNo
+                'dic_flag': {required: '不能为空',}, //dic_flag
+                //'dic_englishName':{required: '不能为空',}, //name
+            },
+            errorClass: "error",
+            success: 'valid',
+            unhighlight: function (element, errorClass, validClass) { //验证通过
+                $(element).tooltip('destroy').removeClass(errorClass);
+            },
+            errorPlacement: function (label, element) {
+                $(element).tooltip('destroy');
+                /*必需*/
+                $(element).attr('title', $(label).text()).attr("data-placement", "right").tooltip('show');
+            },
+            submitHandler: function (form) {
+                $(".updateToDB").trigger("click");
+            }
+        });
+    });
+
+    var isAdd = false;		//全局变量，用于判断当前的操作是添加还是修改
+    var isChange = false;	//全局变量，用于判断当前的操作是添加还是修改
+    var alterRow;			//正在修改的表中的那一行的Id
+    /**
+     * 删除单条字典信息
+     */
+    function del_tr(id) {
+        if (confirm("确定删除该字典记录吗？")) {
+            var tr = document.getElementById("tr_" + id);     //得到触发删除按钮的那一行
+            var dictionaryIds = tr.cells[3].innerHTML;	//得到要删除的字典的编号
+
+            console.log("dictionaryIds: " + dictionaryIds);
+
+            //删除字典
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "<%=basePath%>deleteDictionaryAction.action",
+                data: {
+                    dictionaryOptionIds: dictionaryIds,
+                },
+                success: function () {
+                    $("#autoRefreshTree").trigger("click");
+                    tr.parentNode.removeChild(tr); //数据库删除了的话，表格中将同步删除
+                    alterNoOfTable(); 			   //修改删除之后的表的序号
+                    alert("删除成功");
+                },
+                error: function () {
+                    alert("删除失败");
+                }
+            });
+        }
+    }
+
+    /**
+     *修改字典数据
+     */
+    function alt_tr(id) {
+        isAdd = false;
+        isChange = true;        //设置当前的操作是修改
+        alterRow = "tr_" + id;  //修改的那一行的编号
+        var tr = document.getElementById(alterRow); //得到修改的那一行
+        setChangInfoModal(tr);						//在弹出框中显示要修改的字典的原始信息
+    }
+    /**
+     * 显示要修改的字典的原始信息
+     */
+    function setChangInfoModal(tr) {
+        //表的一列cells从0开始
+        $("#upDicId").val(tr.cells[4].innerHTML);
+        $("#upDicName").val(tr.cells[5].innerHTML);
+        //设置启用和禁用
+        if (tr.cells[6].innerHTML == "启用") {
+            $(".dic_isUse:first").attr("checked", true);
+        } else {
+            $(".dic_isUse:last").attr("checked", true);
+        }
+        //填充要修改的字典的信息
+        $("#dict_id").val(tr.cells[3].innerHTML);
+        $("#dict_name").val(tr.cells[2].innerHTML);
+        $("#dic_description").val(tr.cells[7].innerHTML);
+        $("#dic_sortNo").val(tr.cells[8].innerHTML);
+        $("#dic_flag").val(tr.cells[9].innerHTML);
+        $("#dic_englishName").val(tr.cells[10].innerHTML);
+        $("#dic_dataType").attr("value", tr.cells[11].innerHTML);
+        $("#dic_remark1").val(tr.cells[12].innerHTML);
+        $("#dic_remark2").val(tr.cells[13].innerHTML);
+
+    }
+    /**
+     *修改表显示的序号（注意：如果和复选框在同一列中的话，需要每个前面加上复选框）
+     */
+    function alterNoOfTable() {
+        //删除对应的行后，修改表的序号
+        var len = $("#dictionaryTable tr").length;
+        for (var i = 1; i < len; i++) {
+            $("#dictionaryTable tr:eq(" + i + ") td:eq(1)").html(i);
+        }
+    }
+</script>
+
+
+<!--分页-->
+<script>
+    /*
+     当前页的的值
+     * $_POST['page']
+     * 每页多少条数据 , 默认10条
+     * $_POST['rows']
+     * 获取数据库总量
+     * $result["total"]
+     * 获取多少页：$result["total"]/$_POST['rows']
+     * */
+    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+    $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+    // ...
+    $rs = mysql_query("select count(*) from item");
+    $row = mysql_fetch_row($rs);
+    $result["total"] = $row[0];
+
+    $rs = mysql_query("select * from item limit $offset,$rows");
+
+    $items = array();
+    while ($row = mysql_fetch_object($rs)) {
+        array_push($items, $row);
+    }
+    $result["rows"] = $items;
+
+    echo
+    json_encode($result);
+</script>
+
+</body>
+</html>

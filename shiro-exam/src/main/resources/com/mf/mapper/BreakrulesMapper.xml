@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mf.mapper.BreakrulesMapper" >
+  <resultMap id="BaseResultMap" type="com.mf.domain.Breakrules" >
+    <id column="breakId" property="breakid" jdbcType="INTEGER" />
+    <result column="employeeId" property="employeeid" jdbcType="VARCHAR" />
+    <result column="breakContent" property="breakcontent" jdbcType="VARCHAR" />
+    <result column="breakTime" property="breaktime" jdbcType="TIMESTAMP" />
+    <result column="minusNum" property="minusnum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    breakId, employeeId, breakContent, breakTime, minusNum
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from breakrules
+    where breakId = #{breakid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from breakrules
+    where breakId = #{breakid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mf.domain.Breakrules" >
+    insert into breakrules (breakId, employeeId, breakContent, 
+      breakTime, minusNum)
+    values (#{breakid,jdbcType=INTEGER}, #{employeeid,jdbcType=VARCHAR}, #{breakcontent,jdbcType=VARCHAR}, 
+      #{breaktime,jdbcType=TIMESTAMP}, #{minusnum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mf.domain.Breakrules" >
+    insert into breakrules
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="breakid != null" >
+        breakId,
+      </if>
+      <if test="employeeid != null" >
+        employeeId,
+      </if>
+      <if test="breakcontent != null" >
+        breakContent,
+      </if>
+      <if test="breaktime != null" >
+        breakTime,
+      </if>
+      <if test="minusnum != null" >
+        minusNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="breakid != null" >
+        #{breakid,jdbcType=INTEGER},
+      </if>
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="breakcontent != null" >
+        #{breakcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="breaktime != null" >
+        #{breaktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="minusnum != null" >
+        #{minusnum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mf.domain.Breakrules" >
+    update breakrules
+    <set >
+      <if test="employeeid != null" >
+        employeeId = #{employeeid,jdbcType=VARCHAR},
+      </if>
+      <if test="breakcontent != null" >
+        breakContent = #{breakcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="breaktime != null" >
+        breakTime = #{breaktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="minusnum != null" >
+        minusNum = #{minusnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where breakId = #{breakid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mf.domain.Breakrules" >
+    update breakrules
+    set employeeId = #{employeeid,jdbcType=VARCHAR},
+      breakContent = #{breakcontent,jdbcType=VARCHAR},
+      breakTime = #{breaktime,jdbcType=TIMESTAMP},
+      minusNum = #{minusnum,jdbcType=INTEGER}
+    where breakId = #{breakid,jdbcType=INTEGER}
+  </update>
+</mapper>

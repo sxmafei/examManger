@@ -1,0 +1,481 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>parper2</title>
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+
+    <style>
+        /*试卷名称*/
+        #el_examTitle {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /*类型大题标*/
+        .elquesTitle {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            background-color: rgb(245, 245, 245);
+            padding-left: 20px;
+            font-weight: 500;
+            font-size: 20px;
+        }
+
+        /*试题主要样式*/
+        .el_questionMain {
+            width: 90%;
+            height: auto;
+            margin: 10px auto;
+        }
+
+        /*试题标题*/
+        .el_questionTitle {
+            font-size: 17px;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        /*试题选项*/
+        .el_qusSelect {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+            padding-left: 30px;
+            font-size: 16px;
+        }
+
+        .el_qusSelect li {
+            list-style: none;
+            float: left;
+            margin: 5px 60px 5px 0;
+        }
+
+        .el_qusSelect li label {
+            font-weight: 500;
+        }
+
+        /*回到顶部*/
+        #el_returnTop {
+            width: 30px;
+            height: 90px;
+            text-align: center;
+            line-height: 15px;
+            position: fixed;
+            right: 20px;
+            bottom: 30px;
+            padding: 3px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+
+        #el_returnTop img {
+            width: 23px;
+            position: absolute;
+            top: -5px;
+            right: 3px;
+        }
+
+        #el_returnTop:hover {
+            background-color: #ddd;
+            border-radius: 4px;
+        }
+        #el_tip{
+            position:fixed;
+            right:0;
+            top:100px;
+            width:15%;
+            padding:10px;
+            border:2px solid rgb(250,126,40);
+            border-radius:5px;
+            color:black;
+            background-color:rgb(252,247,243);
+            padding-top:20px;
+            opacity:0.9;
+        }
+        .el_tipTime{
+            padding-left:5px;
+            margin-bottom:10px;
+            width:100%;
+            display:inline-block;
+            border-bottom:1px solid #ccc;
+        }
+        .el_tipTitle{
+            font-size:16px;
+        }
+        .el_tipUL{
+            padding:5px;
+            width:100%;
+            padding-left:15px;
+        }
+        .el_tipUL li{
+            list-style:none;
+            float:left;
+            width:20px;
+            height:20px;
+            text-align: center;
+            line-height:20px;
+            margin-right:2px;
+            margin-bottom:5px;
+            border:1px solid orangered;
+        }
+        .el_tipQuestion{
+            margin-top:10px;
+            clear:both;
+        }
+        /*交卷*/
+        .el_jiaojuanDiv{
+            position:fixed;
+            right:10px;
+            top:30px;
+        }
+    </style>
+
+</head>
+
+<body id="body">
+
+<!--回到顶部-->
+<a href="#body">
+    <div id="el_returnTop">
+        <span>	&#9650; 回到顶部</span>
+    </div>
+</a>
+<script type="text/javascript">
+    $(function () {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 200) {
+                $('#el_returnTop').css('display', 'block');
+            }
+            else {
+                $('#el_returnTop').css('display', 'none');
+            }
+        });
+    });
+</script>
+
+<!--保存交卷按钮-->
+<div class="el_jiaojuanDiv">
+    <a href=""><button class="btn btn-info">保存</button></a>
+    <a href="scoreInterface.html"><button id="el_examSubmit" class="btn btn-primary">交卷</button></a>
+</div>
+<!--交卷-->
+<script>
+    $("#el_examSubmit").click(function () {
+        var res = confirm("确认交卷吗？")
+    })
+</script>
+
+<!--右侧提示栏-->
+<div id="el_tip">
+    <div>
+        <span class="el_tipTime">考试时间：<span>120 </span><span>分钟</span></span>
+        <span class="el_tipTime">离考试结束时间还有：<br/><span>120 </span><span>分钟</span></span>
+    </div>
+
+    <!--单选题-->
+    <div class="el_tipQuestion">
+        <span class="el_tipTitle">单选题</span>
+        <ul class="el_tipUL el_danxuan">
+            <li class="el_tipLi1">1</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">3</li>
+            <li class="el_tipLi1">3</li>
+        </ul>
+    </div>
+
+    <!--多选题-->
+    <div class="el_tipQuestion">
+        <span class="el_tipTitle">多选题</span>
+        <ul class="el_tipUL el_duoxuan">
+            <li class="el_tipLi1">1</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">3</li>
+            <li class="el_tipLi1">3</li>
+            <li class="el_tipLi1">3</li>
+            <li class="el_tipLi1">3</li>
+            <li class="el_tipLi1">3</li>
+        </ul>
+    </div>
+
+    <!--判断题-->
+    <div class="el_tipQuestion">
+        <span class="el_tipTitle">判断题</span>
+        <ul class="el_tipUL el_panduan">
+            <li class="el_tipLi1">1</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">2</li>
+            <li class="el_tipLi1">3</li>
+            <li class="el_tipLi1">3</li>
+        </ul>
+    </div>
+</div>
+
+<!--主要内容-->
+<div class="container" style="margin-bottom:50px;">
+    <!--右侧事件-->
+
+    <!--考试标题-->
+    <h2 id="el_examTitle">电厂安全考试</h2>
+
+    <!--单选题-->
+    <div class="row">
+        <!--题干-->
+        <div class="elquesTitle">
+            <span>一</span>、单选题(共<span>11</span>题；共<span>22</span>分)
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle danxuanti">
+                <span class="nmb">1</span>. <span class="btwenzi">你dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员资历?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a1" type="radio" value="">
+                        <span>0-3年dd有多久dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a1" type="radio" value="">
+                        <span>4-10年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a1" type="radio" value="">
+                        <span>11-dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员20年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a1" type="radio" value="">
+                        <span>20年dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员   以上</span></label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle danxuanti">
+                <span class="nmb">2</span>. <span class="btwenzi">你dd有多久的公务员资历?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a2" type="radio" value="">
+                        <span>0-3年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a2" type="radio" value="">
+                        <span>4-10年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a2" type="radio" value="">
+                        <span>11-20年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a2" type="radio" value="">
+                        <span>20年以上</span></label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle danxuanti">
+                <span class="nmb">3</span>. <span class="btwenzi">你dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员资历?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>0-3年dd有多久dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>4-10年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>11-dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员20年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>20年dd有多久的公务员dd有多久的公务员dd有多久的公务员dd有多久的公务员   以上</span></label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle danxuanti">
+                <span class="nmb">4</span>. <span class="btwenzi">你dd有多久的公务员资历?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>0-3年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>4-10年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>11-20年</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>20年以上</span></label>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!--多选题-->
+    <div class="row">
+        <!--题干-->
+        <div class="elquesTitle">
+            <span>一</span>、多选题(共<span>11</span>题；共<span>22</span>分)
+        </div>
+
+        <!--第一题-->
+        <div class="row el_questionMain">
+            <div class="el_questionTitle duoxuanti">
+                <span class="nmb">1</span>. <span class="btwenzi">对目前的工作哪方面不满意</span>【多选】?
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="" type="checkbox" value="">
+                        <span>任务多、压力大</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" value="">
+                        <span>人际关系难处理，环境难适应</span></label>
+                </li>
+                <li>
+                    <label>
+                        <input name="" type="checkbox" value="">
+                        <span> 缺少认同和成就感</span></label>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!--判断题-->
+    <div class="row">
+        <!--题干-->
+        <div class="elquesTitle">
+            <span>一</span>、判断题(共<span>11</span>题；共<span>22</span>分）
+        </div>
+
+        <!--第一题-->
+        <div class="row el_questionMain">
+            <div class="el_questionTitle panduanti">
+                <span class="nmb">1</span>. <span class="btwenzi">对目前的工作哪方面不满意?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>正确</span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>错误</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row el_questionMain">
+            <div class="el_questionTitle panduan">
+                <span class="nmb">1</span>. <span class="btwenzi">对目前的工作哪方面不满意?</span>
+            </div>
+            <ul class="el_qusSelect">
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>正确</span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input name="a" type="radio" value="">
+                        <span>错误</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+<!--试题选完，右侧提示框上的题号，颜色发生变化-->
+<script>
+    $(".el_qusSelect").children().children().children("input").change(function () {
+        //判断是否选中
+        var res = $(this).prop("checked");
+
+        //获得题号
+        var questionNum = $(this).parents(".el_questionMain").children(".el_questionTitle").children(".nmb").text();
+        //获得题型
+        var questionClassName = $(this).parents(".el_questionMain").children(".el_questionTitle").prop("className");
+        var lastIndex = questionClassName.lastIndexOf(' ');
+        var lastClassName = questionClassName.substring(lastIndex + 1);
+
+        if(res) {
+            if(lastClassName=="danxuanti"){
+                //获取右侧对应的试题
+                var dan = $(".el_danxuan").children("li").eq(questionNum-1);
+                //给对应题号，添加橘色背景
+                dan.css("background-color","orangered");
+            } else if(lastClassName=="duoxuanti") {
+                //获取右侧对应的试题
+                var duo = $(".el_duoxuan").children("li").eq(questionNum-1);
+                //给对应题号，添加橘色背景
+                duo.css("background-color","orangered");
+            } else {
+            }
+        } else {
+            if(lastClassName=="danxuanti"){
+                //获取右侧对应的试题
+                var dan2 = $(".el_danxuan").children("li").eq(questionNum-1);
+                //给对应题号，添加橘色背景
+                dan2.css("background-color","none");
+            } else if(lastClassName=="duoxuanti") {
+                //获取右侧对应的试题
+                var duo2 = $(".el_duoxuan").children("li").eq(questionNum-1);
+                //给对应题号，添加橘色背景
+                duo2.css("background-color","");
+            } else {
+            }
+        }
+    })
+</script>
+</body>
+</html>

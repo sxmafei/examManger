@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="bs/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="controls/select2/select2.css"/>
+    <script type="text/javascript" src="controls/select2/select2.js"></script>
+</head>
+<body>
+<div id="body">
+    <table class="table table-bordered table-striped" width="800" border="none" cellspacing="0" cellpadding="0">
+        <tbody>
+        <tr>
+            <td align="right">多选标签：</td>
+            <td>
+                <select class="combox" id="sel_productTag" name="tagId" multiple>
+                    <optgroup label="子辈">
+                        <option value="kakaxi">卡卡西</option>
+                        <option value="mingren">鸣人</option>
+                        <option value="zuozhu">佐助</option>
+                        <option value="xiaoying">小樱</option>
+                    </optgroup>
+                    <optgroup label="父辈">
+                        <option value="bofengshuimen">波风水门</option>
+                        <option value="dashewan">大蛇丸</option>
+                        <option value="gangshou">纲手</option>
+                        <option value="自来也">自来也</option>
+                    </optgroup>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">单选标签：</td>
+            <td>
+                <select class="combox" id="sel_recommender" name="recommenderId">
+                    <option value="">请选择...</option>
+                    <optgroup label="子辈">
+                        <option value="kakaxi">卡卡西</option>
+                        <option value="mingren">鸣人</option>
+                        <option value="zuozhu">佐助</option>
+                        <option value="xiaoying">小樱</option>
+                    </optgroup>
+                    <optgroup label="父辈">
+                        <option value="bofengshuimen">波风水门</option>
+                        <option value="dashewan">大蛇丸</option>
+                        <option value="gangshou">纲手</option>
+                        <option value="自来也">自来也</option>
+                    </optgroup>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('#sel_productTag').select2({
+            placeholder: "请至少选择一个人名",
+            tags:true,
+            createTag:function (decorated, params) {
+                return null;
+            },
+            width:'406px'
+        });
+
+        function formatState (state) {
+            if (!state.id) { return state.text; }
+            var $state = $(
+                '<span>' + state.text + '</span>'
+            );
+            return $state;
+        };
+
+        $('#sel_recommender').select2({
+            placeholder: "请选择一个人名",
+            templateResult: formatState,
+            width:'256px'
+        });
+    });
+</script>
+</body>
+</html>

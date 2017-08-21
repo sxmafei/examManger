@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加培训资料管理</title>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="controls/selectDropTree/demo.css" type="text/css">
+    <link rel="stylesheet" href="controls/selectDropTree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <link rel="stylesheet" href="bs/css/bootstrap.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="bs/js/bootstrap.js"></script>
+
+    <!--编辑器-->
+    <script charset="utf-8" src="controls/kindEditor/kindeditor-all-min.js"></script>
+    <script charset="utf-8" src="controls/kindEditor/zh-CN.js"></script>
+    <script>
+        KindEditor.ready(function (K) {
+            var editor = K.create('#editor_id', {
+                resizeType: 1,
+                items: [
+                    'table', '|', 'fontsize', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', '|', 'image']
+            });
+
+            // 取得HTML内容
+            //var html = editor.html();
+
+            // 同步数据后可以直接取得textarea的value
+            editor.sync();
+            var html = $('#editor_id').val(); // jQuery
+            // 设置HTML内容
+            editor.html('HTML内容');
+        });
+    </script>
+
+</head>
+
+<body>
+
+<textarea id="editor_id" name="content" style="width:700px;height:300px;"></textarea>
+
+</body>
+</html>

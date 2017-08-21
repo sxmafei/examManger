@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>员工管理</title>
+
+    <link rel="stylesheet" href="../bs/css/bootstrap.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../bs/js/bootstrap.js"></script>
+
+
+    <!--日历-->
+    <link rel="stylesheet" href="../controls/calendar/pikaday.css">
+    <script src="../controls/calendar/pikaday.js"></script>
+
+    <!--上传图片二-->
+    <link rel="stylesheet" href="../controls/upImage/css/amazeui.min.css">
+    <link rel="stylesheet" href="../controls/upImage/css/amazeui.cropper.css">
+    <link rel="stylesheet" href="../controls/upImage/css/custom_up_img.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css"><!--用于小图标-->
+    <style type="text/css">
+        .up-img-cover {width: 100px;height: 100px;}
+        .up-img-cover img{width: 100%;}
+        .up-img-txt label{font-weight: 100;margin-top: 50px;}
+    </style>
+
+    <!--上传图片一 -->
+    <!--<script>
+        //图片上传预览    IE是用了滤镜。
+        function previewImage(file)
+        {
+            var MAXWIDTH  = 90;
+            var MAXHEIGHT = 90;
+            var div = document.getElementById('preview');
+            if (file.files && file.files[0])
+            {
+                div.innerHTML ='<img id=imghead onclick=$("#previewImg").click()>';
+                var img = document.getElementById('imghead');
+                img.onload = function(){
+                    var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                    img.width  =  rect.width;
+                    img.height =  rect.height;
+//                 img.style.marginLeft = rect.left+'px';
+                    img.style.marginTop = rect.top+'px';
+                }
+                var reader = new FileReader();
+                reader.onload = function(evt){img.src = evt.target.result;}
+                reader.readAsDataURL(file.files[0]);
+            }
+            else //兼容IE
+            {
+                var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+                file.select();
+                var src = document.selection.createRange().text;
+                div.innerHTML = '<img id=imghead>';
+                var img = document.getElementById('imghead');
+                img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+                div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+            }
+        }
+        function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+            var param = {top:0, left:0, width:width, height:height};
+            if( width>maxWidth || height>maxHeight ){
+                rateWidth = width / maxWidth;
+                rateHeight = height / maxHeight;
+
+                if( rateWidth > rateHeight ){
+                    param.width =  maxWidth;
+                    param.height = Math.round(height / rateWidth);
+                }else{
+                    param.width = Math.round(width / rateHeight);
+                    param.height = maxHeight;
+                }
+            }
+            param.left = Math.round((maxWidth - param.width) / 2);
+            param.top = Math.round((maxHeight - param.height) / 2);
+            return param;
+        }
+    </script>-->
+
+    <style>
+        /*所有内容*/
+        .input-group{
+            margin:20px;
+        }
+
+        .el_queryBox form {
+            margin-top: 20px;
+        }
+        .input-group-addon {
+            font-size: 12px;
+        }
+        .form-control {
+            font-size: 12px;
+        }
+        .panel-body {
+            border: none;
+        }
+        /*单选按钮*/
+        .el_radioBox {
+            margin-left: 10px;
+            text-decoration: none;
+            font-size:13px;
+        }
+
+        /*上传个人照片*/
+        .el_personPhoto{
+            margin-bottom:10px;
+            margin-left:100px;
+            border:2px solid #ccc;
+            padding:10px;
+            width:120px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">添加员工信息</h4>
+            </div>
+            <form action="outdepartEmpManage.html">
+                <div class="modal-body">
+
+                    <!--头像一-->
+                    <!--头像
+                    <div id="addCommodityIndex">
+                        &lt;!&ndash;input-group start&ndash;&gt;
+                        <div class="input-group row">
+                            <div class="col-sm-3">
+                                <label>上传个人照片</label>
+                            </div>
+                            <div class="col-sm-9 big-photo">
+                                <div id="preview">
+                                    <img id="imghead" border="0" src="../image/photo_icon.png" width="90" height="90" onclick="$('#previewImg').click();">
+                                </div>
+                                <input type="file" onchange="previewImage(this)" style="display: none;" id="previewImg">
+                                &lt;!&ndash;<input id="uploaderInput" class="uploader__input" style="display: none;" type="file" accept="" multiple="">&ndash;&gt;
+                            </div>
+                        </div>
+                        &lt;!&ndash;input-group end&ndash;&gt;
+                    </div>-->
+
+                    <!--头像二-->
+
+                    <span>上传个人照片</span>
+                    <div class="el_personPhoto">
+
+                        <div class="up-img-cover"  id="up-img-touch" >
+                            <img class="am-circle" alt="点击图片上传" src="../image/add_img.png" data-am-popover="{content: '点击上传', trigger: 'hover focus'}" >
+                        </div>
+
+                        <!--图片上传框-->
+                        <div class="am-modal am-modal-no-btn up-modal-frame" tabindex="-1" id="up-modal-frame">
+                            <div class="am-modal-dialog up-frame-parent up-frame-radius">
+                                <div class="am-modal-hd up-frame-header">
+                                    <label>修改头像</label>
+                                    <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                                </div>
+                                <div class="am-modal-bd  up-frame-body">
+                                    <div class="am-g am-fl">
+
+                                        <div class="am-form-group am-form-file">
+                                            <div class="am-fl">
+                                                <button type="button" class="am-btn am-btn-default am-btn-sm">
+                                                    <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+                                            </div>
+                                            <input type="file" class="up-img-file">
+                                        </div>
+                                    </div>
+
+                                    <div class="am-g am-fl">
+                                        <!--图片编辑区-->
+                                        <div class="up-pre-before up-frame-radius">
+                                            <img alt="" src="" class="up-img-show" id="up-img-show" >
+                                        </div>
+                                        <!--图片结果显示-->
+                                        <div class="up-pre-after up-frame-radius">
+                                        </div>
+                                    </div>
+                                    <!--操作控件-->
+                                    <div class="am-g am-fl">
+                                        <div class="up-control-btns">
+                                            <span class="am-icon-rotate-left"   id="up-btn-left" title="左转 "></span><!--左转-->
+                                            <span class="am-icon-rotate-right"  id="up-btn-right"></span><!--右转-->
+                                            <span class="am-icon-check up-btn-ok" url="/admin/user/upload.action"
+                                                  parameter="{width:'100',height:'100'}"><!--提交-->
+    				</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--加载框-->
+                        <div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="up-modal-loading">
+                            <div class="am-modal-dialog">
+                                <div class="am-modal-hd">正在上传...</div>
+                                <div class="am-modal-bd">
+                                    <span class="am-icon-spinner am-icon-spin"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--警告框-->
+                        <div class="am-modal am-modal-alert" tabindex="-1" id="up-modal-alert">
+                            <div class="am-modal-dialog">
+                                <div class="am-modal-hd">信息</div>
+                                <div class="am-modal-bd"  id="alert_content">
+                                    成功了
+                                </div>
+                                <div class="am-modal-footer">
+                                    <span class="am-modal-btn">确定</span>
+                                </div>
+                            </div>
+                        </div>
+                        <script src="../controls/upImage/js/amazeui.min.js" charset="utf-8"></script>
+                        <script src="../controls/upImage/js/cropper.min.js" charset="utf-8"></script>
+                        <script src="../controls/upImage/js/custom_up_img.js" charset="utf-8"></script>
+                    </div>
+
+                    <div class="input-group col-md-8" role="toolbar">
+                        <span class="input-group-addon">员工姓名</span>
+                        <input type="text" class="form-control" name=""/>
+                    </div>
+
+                    <div class="input-group col-md-8" role="toolbar">
+                        <span class="input-group-addon" style="height:33px;margin-right:10px;">
+                            性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</span>
+                        <div class="form-control">
+                            <label class="el_radioBox">
+                                <input type="radio" name="leixing" checked class="">男</label>
+                            <label class="el_radioBox">
+                                <input type="radio" name="leixing"> 女</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group col-md-8" role="toolbar">
+                        <span class="input-group-addon">出生日期</span>
+                        <input type="text" id="datepicker" class="form-control el_modelinput"/>
+                        <script type="text/javascript">
+                            var picker = new Pikaday(
+                                {
+                                    field: document.getElementById('datepicker'),
+                                    firstDay: 1,
+                                    minDate: new Date('1995-01-01'),
+                                    maxDate: new Date('2050-12-31'),
+                                    yearRange: [1995, 2050]
+                                });
+                        </script>
+                    </div>
+
+                    <div class="input-group col-md-8" role="toolbar">
+                        <span class="input-group-addon">联系方式</span>
+                        <input type="text" class="form-control" name=""/>
+                    </div>
+
+                    <div class="input-group col-md-8" role="toolbar">
+                        <span class="input-group-addon">身&nbsp;&nbsp;份&nbsp;证</span>
+                        <input type="text" class="form-control" name=""/>
+                    </div>
+
+                    <div class="input-group col-md-8" role="toolbar">
+                        <span class="input-group-addon">选择单位</span>
+                        <select class="selectpicker form-control" title="请选择">
+                            <option>--请选择--</option>
+                            <option>部门1</option>
+                            <option>部门1</option>
+                            <option>部门1</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group col-md-8" role="toolbar">
+                        <span class="input-group-addon" style="height:33px;margin-right:10px;">黑&nbsp;&nbsp;名&nbsp;单</span>
+                        <div class="form-control">
+                            <label class="el_radioBox">
+                            <input type="radio" name="el_backlist" checked class="">否</label>
+                        <label class="el_radioBox">
+                            <input type="radio" name="el_backlist"> 是</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group col-md-8" role="toolbar">
+                        <span class="input-group-addon">指&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纹</span>
+                        <input type="text" class="form-control" name="" placeholder="0"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" name="back" class="btn btn-default" value="返回" onclick="javascript:history.back(-1);"/>
+                    <button type="submit" class="btn btn-primary">完成添加</button>
+                </div>
+            </form>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+</body>
+</html>
