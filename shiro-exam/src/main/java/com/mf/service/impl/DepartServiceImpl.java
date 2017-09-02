@@ -40,6 +40,12 @@ public class DepartServiceImpl implements DepartService {
 		}
 		return departmentName;
 	}
+
+	@Override
+	public List<Department> getDepartmentTreeByDepartIdFromRole(List<String> departmentid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	  
 	
 

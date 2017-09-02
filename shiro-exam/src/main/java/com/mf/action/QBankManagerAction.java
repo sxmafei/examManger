@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Component;
@@ -56,6 +57,7 @@ public class QBankManagerAction extends ActionSupport {
 	
 	
 
+	@RequiresPermissions(value = { "questionbankmanager" })
 	@Override
 	public String execute() throws Exception {
 		

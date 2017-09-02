@@ -18,8 +18,7 @@ public interface DepartService {
 	 * @param departmentId
 	 * @return 部门实体
 	 */
-	public Department selectDepartbyId(String departmentId) ;
-	
+	public Department selectDepartbyId(String departmentId) ;	
 
 	/**
 	 * 根据部门id获取部门名字
@@ -27,4 +26,11 @@ public interface DepartService {
 	 * @return departmentName 部门名字
 	 */
 	public String selectDepartNameByDepartId(String  departmentId);
+	
+	/**
+	 * 根据角色的部门id集合查询部门树
+	 * @param departmentid
+	 * @return
+	 */
+	public List<Department> getDepartmentTreeByDepartIdFromRole(List<String> departmentid);
 }

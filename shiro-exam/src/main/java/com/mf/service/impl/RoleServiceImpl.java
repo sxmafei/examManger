@@ -213,5 +213,12 @@ public class RoleServiceImpl implements RoleService {
 		}
 	}
 
+	@Override
+	public List<String> getDepartmentIdByRoleType(List<String> roleType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

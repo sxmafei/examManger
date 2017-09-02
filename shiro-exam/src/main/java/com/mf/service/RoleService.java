@@ -123,5 +123,10 @@ public interface RoleService {
 	 */
 	public int getRoleCount(String departmentid);
 	
-	
+	/**
+	 * 根据角色类型的集合获得部门编号集合
+	 * @return
+	 */
+	public List<String> getDepartmentIdByRoleType(List<String> roleType);
+
 }
